@@ -21,7 +21,7 @@ import {
   RefreshCw,
   Volume2,
 } from 'lucide-react';
-import { detectLanguageScript, speakTextInNativeAccent } from '@/lib/i18n/indicEngine';
+import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
 import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 
@@ -41,8 +41,42 @@ export const RobotAssistant: React.FC = () => {
   const [selectedAgent, setSelectedAgentState] = useState<AgentType | null>(null);
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [listeningText, setListeningText] = useState('');
 
   const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
+
+  // Real-Time Web Speech Recognition Effect
+  React.useEffect(() => {
+    if (!isVoiceActive) return;
+
+    let recognition: any = null;
+
+    recognition = startSpeechRecognition(language, {
+      onResult: (transcript, isFinal) => {
+        setInput(transcript);
+        setListeningText(transcript);
+
+        if (isFinal && transcript.trim()) {
+          handleSendQuery(transcript);
+        }
+      },
+      onError: (err) => {
+        console.warn('Microphone or Speech Recognition Notice:', err);
+      },
+      onEnd: () => {
+        // Keep listening while voice active is true
+        if (useAppStore.getState().isVoiceActive) {
+          try { recognition?.start(); } catch (e) {}
+        }
+      },
+    });
+
+    return () => {
+      try {
+        recognition?.stop();
+      } catch (e) {}
+    };
+  }, [isVoiceActive, language, selectedAgent]);
 
   const handleSelectAgent = (agentId: AgentType) => {
     setSelectedAgentState(agentId);

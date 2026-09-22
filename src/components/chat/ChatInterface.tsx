@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Send, Mic, Bot, Sparkles, ShieldCheck } from 'lucide-react';
 import { AgentType } from '@/types';
-import { detectLanguageScript, speakTextInNativeAccent } from '@/lib/i18n/indicEngine';
+import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
 import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 
@@ -33,6 +33,36 @@ export const ChatInterface: React.FC = () => {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isProcessing]);
+
+  // Real-Time Web Speech Recognition Effect
+  useEffect(() => {
+    if (!isVoiceActive) return;
+
+    let recognition: any = null;
+
+    recognition = startSpeechRecognition(language, {
+      onResult: (transcript, isFinal) => {
+        setInput(transcript);
+        if (isFinal && transcript.trim()) {
+          handleSend(transcript);
+        }
+      },
+      onError: (err) => {
+        console.warn('Microphone or Speech Recognition Notice:', err);
+      },
+      onEnd: () => {
+        if (useAppStore.getState().isVoiceActive) {
+          try { recognition?.start(); } catch (e) {}
+        }
+      },
+    });
+
+    return () => {
+      try {
+        recognition?.stop();
+      } catch (e) {}
+    };
+  }, [isVoiceActive, language]);
 
   const handleSend = (textToSend?: string) => {
     const query = textToSend || input;

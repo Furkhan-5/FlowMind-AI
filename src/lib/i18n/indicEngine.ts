@@ -49,3 +49,67 @@ export function speakTextInNativeAccent(text: string, lang: LanguageCode): Promi
     window.speechSynthesis.speak(utterance);
   });
 }
+
+// Web Speech STT Recognition helper
+export interface SpeechRecognitionHandlers {
+  onResult: (transcript: string, isFinal: boolean) => void;
+  onError?: (error: any) => void;
+  onEnd?: () => void;
+}
+
+export function startSpeechRecognition(
+  lang: LanguageCode,
+  handlers: SpeechRecognitionHandlers
+): any {
+  if (typeof window === 'undefined') return null;
+
+  const SpeechRecognition =
+    (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.warn('Web Speech API is not supported in this browser environment.');
+    return null;
+  }
+
+  try {
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = VOICE_LANG_TAGS[lang] || 'en-US';
+
+    recognition.onresult = (event: any) => {
+      let finalTranscript = '';
+      let interimTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+
+      const text = finalTranscript || interimTranscript;
+      if (text) {
+        handlers.onResult(text, Boolean(finalTranscript));
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      console.warn('Speech recognition error:', event.error);
+      if (handlers.onError) handlers.onError(event);
+    };
+
+    recognition.onend = () => {
+      if (handlers.onEnd) handlers.onEnd();
+    };
+
+    recognition.start();
+    return recognition;
+  } catch (err) {
+    console.error('Failed to initialize Speech Recognition:', err);
+    if (handlers.onError) handlers.onError(err);
+    return null;
+  }
+}

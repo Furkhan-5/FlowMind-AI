@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FlowMind AI - Week-Wise Development Plan & Team Allocation</title>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.5;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  .header {
+    border-bottom: 3px solid #3b82f6;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+  }
+  .header h1 {
+    margin: 0 0 8px 0;
+    color: #0f172a;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+  }
+  h2 {
+    color: #1e3a8a;
+    font-size: 18px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+  }
+  h3 {
+    color: #0f172a;
+    font-size: 15px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px 0;
+    font-size: 13px;
+  }
+  th {
+    background-color: #f8fafc;
+    color: #334155;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  .team-card {
+    background: #f8fafc;
+    border-left: 4px solid #3b82f6;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 0 6px 6px 0;
+  }
+  .team-card h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #1e293b;
+  }
+  .team-card p {
+    margin: 0;
+    font-size: 12px;
+    color: #475569;
+  }
+  ul {
+    margin: 4px 0 10px 20px;
+    padding: 0;
+    font-size: 13px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  .milestone {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .footer {
+    margin-top: 30px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+  }
+  .page-break {
+    page-break-after: always;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="badge">FLOWMIND AI CAPSTONE PROJECT</span>
+  <h1>Week-Wise Development Plan & 4-Teammate Work Allocation</h1>
+  <p>Software Development Life Cycle (SDLC) Execution & Task Responsibility Breakdown</p>
+</div>
+
+<h2>1. Executive Summary & Team Domain Allocation</h2>
+<p>This plan defines the 8-week execution strategy for building <strong>FlowMind AI</strong>, focusing on delivering a layman-accessible <strong>Chatbot MVP by Week 3</strong>, followed by complete enterprise business modules, 15 AI agents, workflow automation, data studio, RAG knowledge base, and proactive operational monitoring.</p>
+
+<div class="team-card">
+  <h4>Teammate 1: AI & Multilingual Lead</h4>
+  <p><strong>Focus:</strong> LLM Orchestration, 15 Specialized AI Agents Mesh, Indic Script Speech/NLP Engine (EN, HI, TE, TA, KN, ML), Prompt Protection.</p>
+</div>
+<div class="team-card" style="border-left-color: #10b981;">
+  <h4>Teammate 2: Frontend & Layman UI/UX Lead</h4>
+  <p><strong>Focus:</strong> Next.js 14 App Router, Glassmorphic UI System, Layman Chatbot MVP, Agent Thought Streamer, Action Cards, Audio Waveforms.</p>
+</div>
+<div class="team-card" style="border-left-color: #f59e0b;">
+  <h4>Teammate 3: Workflow & Business Engine Lead</h4>
+  <p><strong>Focus:</strong> NL-to-DAG Workflow Builder, Execution DAG Runner, Business Suite (CRM, HR, Finance, Inventory, Support), Proactive Monitor.</p>
+</div>
+<div class="team-card" style="border-left-color: #8b5cf6;">
+  <h4>Teammate 4: Data, RAG & Security Infrastructure Lead</h4>
+  <p><strong>Focus:</strong> Interactive Data Studio (CSV/PDF Parser & Chart AI), Vector RAG Knowledge Base, DB Schemas, Auth, RBAC & Multi-Tenancy.</p>
+</div>
+
+<h2>2. 8-Week Master Project Roadmap</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Week</th>
+      <th>Phase Goal</th>
+      <th>Key Deliverable</th>
+      <th>Milestone Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Week 1</strong></td>
+      <td>SDLC Setup & Design System</td>
+      <td>Repo, Layout, Design Tokens, Database Schemas</td>
+      <td>Architecture Sign-off</td>
+    </tr>
+    <tr>
+      <td><strong>Week 2</strong></td>
+      <td>Multilingual & Chatbot Foundation</td>
+      <td>Indic Language Router, Chat UI, Voice Spectrum</td>
+      <td>Multi-script Text & Speech</td>
+    </tr>
+    <tr>
+      <td><strong>Week 3</strong></td>
+      <td>15-Agent Mesh & Approval Cards</td>
+      <td>Thought Stream Visualizer, Action Confirmation Cards</td>
+      <td><strong>Milestone 1: Chatbot MVP</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Week 4</strong></td>
+      <td>NL Workflow Automation Engine</td>
+      <td>Natural Language DAG Builder, Execution Runner</td>
+      <td>Zero-Code Workflows</td>
+    </tr>
+    <tr>
+      <td><strong>Week 5</strong></td>
+      <td>Business Operations Suite</td>
+      <td>CRM, HR, Finance, Inventory, Support Modules</td>
+      <td>Integrated Business Suite</td>
+    </tr>
+    <tr>
+      <td><strong>Week 6</strong></td>
+      <td>Data Studio & RAG Knowledge Base</td>
+      <td>CSV/PDF Auto-cleaner, Chart AI, Document Citation Q&A</td>
+      <td><strong>Milestone 2: Data & Knowledge Hub</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Week 7</strong></td>
+      <td>Proactive AI & Security Hardening</td>
+      <td>Proactive Anomaly Monitor, RBAC, Multi-tenancy</td>
+      <td>Security & Health Audit</td>
+    </tr>
+    <tr>
+      <td><strong>Week 8</strong></td>
+      <td>System Integration & Presentation</td>
+      <td>End-to-End Verification, Performance Tuning, Demo</td>
+      <td><strong>Final Production Sign-off</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2>3. Detailed Week-by-Week Development Breakdown</h2>
+
+<h3>Week 1: SDLC Architecture, Design System & Foundation Setup</h3>
+<span class="milestone">Goal: Technical architecture approved & design tokens created</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Setup LLM SDK connectors, define unified canonical business intent JSON schema, research Indic script tokenization.</li>
+  <li><strong>Teammate 2:</strong> Initialize Next.js 14 with TypeScript & Tailwind CSS, build layout frame (Sidebar, Topbar, Language Switcher), set up Glassmorphism token CSS.</li>
+  <li><strong>Teammate 3:</strong> Define Workflow DAG JSON schema, create mock data layer for enterprise entities (Leads, Invoices, Employees), design state machines.</li>
+  <li><strong>Teammate 4:</strong> Design PostgreSQL/SQLite ERD, setup authentication scaffolding (JWT, RBAC roles), configure repository environment & CI rules.</li>
+</ul>
+
+<h3>Week 2: Multilingual Engine & Layman Chatbot Foundation</h3>
+<span class="milestone">Goal: Interactive multi-language chat interface live</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Build Multilingual Router for English, Hindi, Telugu, Tamil, Kannada, and Malayalam; implement language auto-detection & TTS voice mapping.</li>
+  <li><strong>Teammate 2:</strong> Build Layman Chatbot page (`/chat`), implement interactive sample prompt chips in native scripts, create Audio Waveform spectrum visualizer.</li>
+  <li><strong>Teammate 3:</strong> Build intent extraction logic for core actions (Create Lead, Show Sales, Draft Invoice), set up real-time execution log structures.</li>
+  <li><strong>Teammate 4:</strong> Build Chat History & Session APIs, implement Multi-tenancy Organization isolation middleware, setup Redis conversation cache.</li>
+</ul>
+
+<h3>Week 3: 15-Agent Mesh Collaboration & Chatbot MVP Launch</h3>
+<span class="milestone" style="background-color: #eff6ff; color: #1d4ed8; border-color: #93c5fd;">MILESTONE 1: Layman Chatbot MVP Live</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Implement Master Agent Orchestrator across 15 specialized agents, write prompts for Sales, Finance, HR, and Analytics agents, add prompt injection filters.</li>
+  <li><strong>Teammate 2:</strong> Build Agent Thought Stream visualizer (shows live step progress pills), build Action Confirmation Cards with [Approve & Execute] / [Edit] / [Cancel] buttons.</li>
+  <li><strong>Teammate 3:</strong> Connect agent routing output directly to Action Cards, implement quick approval execution flow, create background notification toasts.</li>
+  <li><strong>Teammate 4:</strong> Build audit logging service for agent decisions and user approvals, optimize conversation memory window context.</li>
+</ul>
+
+<h3>Week 4: Natural Language Workflow Automation Engine</h3>
+<span class="milestone">Goal: Zero-code NL DAG builder and runner functional</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Prompt/train Workflow Planner Agent to convert plain text into runnable DAG JSON graphs with conditional logic.</li>
+  <li><strong>Teammate 2:</strong> Build Visual Workflow Page (`/workflows`), create interactive DAG node graph view, build Live Execution Runner console.</li>
+  <li><strong>Teammate 3:</strong> Develop Workflow DAG Runner Engine (executes node sequence, handles retries, webhook triggers, scheduled cron).</li>
+  <li><strong>Teammate 4:</strong> Implement persistent Workflow storage in DB, build background job runner / async task queue simulation, setup webhook listeners.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h3>Week 5: Integrated Business Operations Suite</h3>
+<span class="milestone">Goal: Operational suite (CRM, HR, Finance, Inventory, Support) functional</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Equip specialized domain agents with business tools, implement automated summarization for weekly sales, payroll, and support.</li>
+  <li><strong>Teammate 2:</strong> Build UI views for CRM, HR, Finance, Inventory, and Support modules (`/modules/*`) with interactive data tables and quick action drawers.</li>
+  <li><strong>Teammate 3:</strong> Implement core business logic (Lead stage progression, Payroll calculation, Invoice PDF generation, Stock alerts, Support tickets).</li>
+  <li><strong>Teammate 4:</strong> Optimize database query performance for business entities, implement CSV/JSON data export utilities, secure role-based access for HR & Finance.</li>
+</ul>
+
+<h3>Week 6: AI Data Studio & Enterprise RAG Knowledge Base</h3>
+<span class="milestone" style="background-color: #eff6ff; color: #1d4ed8; border-color: #93c5fd;">MILESTONE 2: Data Studio & RAG Knowledge Hub Live</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Implement Document RAG Agent (text chunking, vector embeddings, similarity search) and AI Data Analyst Agent (statistical summary & chart recommendations).</li>
+  <li><strong>Teammate 2:</strong> Build Interactive Data Studio (`/data-analyst`) with drag-and-drop uploader, Auto-Generated Chart Studio, and RAG Knowledge Hub (`/knowledge`) with citation links.</li>
+  <li><strong>Teammate 3:</strong> Build client-side CSV/PDF cleaning pipeline (missing value detection, type casting), implement AI Executive Report Generator (`/reports`).</li>
+  <li><strong>Teammate 4:</strong> Implement vector store simulation (pgvector compatible), build document storage API with metadata extraction, ensure multi-tenant document isolation.</li>
+</ul>
+
+<h3>Week 7: Proactive AI Monitor, Security (RBAC) & System Integration</h3>
+<span class="milestone">Goal: Proactive monitor live & security hardened</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Implement Proactive Insight AI Engine (scans for overdue invoices, declining sales, stock shortages), format alerts into natural language recommendations.</li>
+  <li><strong>Teammate 2:</strong> Build Proactive Insights Page (`/proactive`), 1-Click Action Alerts inside Chatbot MVP, and Enterprise Settings (`/settings`) with Role Switcher & API Key Manager.</li>
+  <li><strong>Teammate 3:</strong> Connect Proactive Monitor triggers to automated workflow suggestions, implement Third-Party Integrations simulation (Slack, Google, Stripe, WhatsApp).</li>
+  <li><strong>Teammate 4:</strong> Enforce Role-Based Access Control (RBAC) across all API routes, implement secret key encryption for API credentials, build audit log viewer.</li>
+</ul>
+
+<h3>Week 8: System Integration, Testing & Presentation</h3>
+<span class="milestone" style="background-color: #f0fdf4; color: #166534; border-color: #bbf7d0;">FINAL SIGN-OFF: Capstone Demo Ready</span>
+<ul>
+  <li><strong>Teammate 1:</strong> Conduct comprehensive multilingual conversational testing across Telugu, Hindi, Tamil, Kannada, Malayalam, and English.</li>
+  <li><strong>Teammate 2:</strong> Perform UX accessibility audit, ensure responsive mobile layout, add smooth micro-animations for page transitions.</li>
+  <li><strong>Teammate 3:</strong> Execute end-to-end scenario testing (NL Query -> Agent Mesh -> Workflow DAG -> Business Module -> Proactive Alert).</li>
+  <li><strong>Teammate 4:</strong> Run build verification (`npm run build`), generate documentation artifacts, package application for presentation.</li>
+</ul>
+
+<h2>4. Work Responsibility Summary Table</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Deliverable Module</th>
+      <th>Primary Lead</th>
+      <th>Secondary Support</th>
+      <th>Key Output Artifact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Layman Chatbot MVP</strong></td>
+      <td>Teammate 2 (UI/UX)</td>
+      <td>Teammate 1 (AI)</td>
+      <td>`ChatInterface.tsx`, `ThoughtStream.tsx`, `ActionCard.tsx`</td>
+    </tr>
+    <tr>
+      <td><strong>Multilingual Engine</strong></td>
+      <td>Teammate 1 (AI)</td>
+      <td>Teammate 2 (UI/UX)</td>
+      <td>`languageDetector.ts`, `VoiceSpectrum.tsx`, i18n Dictionary</td>
+    </tr>
+    <tr>
+      <td><strong>15-Agent Orchestrator</strong></td>
+      <td>Teammate 1 (AI)</td>
+      <td>Teammate 3 (Workflow)</td>
+      <td>`agentOrchestrator.ts`, Agent Mesh Visualizer</td>
+    </tr>
+    <tr>
+      <td><strong>NL Workflow Engine</strong></td>
+      <td>Teammate 3 (Workflow)</td>
+      <td>Teammate 1 (AI)</td>
+      <td>`workflowEngine.ts`, `WorkflowBuilder.tsx`, DAG Runner</td>
+    </tr>
+    <tr>
+      <td><strong>Business Operations Suite</strong></td>
+      <td>Teammate 3 (Workflow)</td>
+      <td>Teammate 4 (Infra)</td>
+      <td>CRM, HR, Finance, Inventory, Support Module pages</td>
+    </tr>
+    <tr>
+      <td><strong>Data Studio & Chart AI</strong></td>
+      <td>Teammate 4 (Infra)</td>
+      <td>Teammate 2 (UI/UX)</td>
+      <td>`dataAnalystEngine.ts`, `CSVParser.tsx`, Chart Studio</td>
+    </tr>
+    <tr>
+      <td><strong>RAG Knowledge Base</strong></td>
+      <td>Teammate 4 (Infra)</td>
+      <td>Teammate 1 (AI)</td>
+      <td>`ragEngine.ts`, Knowledge Hub with citation search</td>
+    </tr>
+    <tr>
+      <td><strong>Proactive Monitor & RBAC</strong></td>
+      <td>Teammate 4 (Infra)</td>
+      <td>Teammate 3 (Workflow)</td>
+      <td>Proactive alert generator & RBAC security middleware</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  FlowMind AI Capstone Project Documentation &bull; Generated for C:\Capstone
+</div>
+
+</body>
+</html>

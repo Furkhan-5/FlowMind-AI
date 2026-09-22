@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FlowMind AI - Developer Architecture & SDLC Specification Document</title>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.5;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  .header {
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+  }
+  .header h1 {
+    margin: 0 0 8px 0;
+    color: #0f172a;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    margin-bottom: 8px;
+  }
+  h2 {
+    color: #1e3a8a;
+    font-size: 18px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+  }
+  h3 {
+    color: #0f172a;
+    font-size: 15px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+  p {
+    font-size: 13px;
+    color: #334155;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px 0;
+    font-size: 13px;
+  }
+  th {
+    background-color: #f8fafc;
+    color: #334155;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  .diagram-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    color: #0f172a;
+    line-height: 1.4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .flow-step {
+    background: #ffffff;
+    border-left: 4px solid #3b82f6;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 0 6px 6px 0;
+  }
+  .flow-step h4 {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    color: #1e293b;
+  }
+  .flow-step p {
+    margin: 0;
+    font-size: 12px;
+    color: #475569;
+  }
+  ul {
+    margin: 4px 0 10px 20px;
+    padding: 0;
+    font-size: 13px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  .footer {
+    margin-top: 30px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+  }
+  .page-break {
+    page-break-after: always;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="badge">FLOWMIND AI ARCHITECTURE SPECIFICATION</span>
+  <h1>Developer Architecture & SDLC Documentation</h1>
+  <p>Multilingual AI Business Operating System & Layman Chatbot MVP Architecture</p>
+</div>
+
+<h2>1. Executive Summary & Vision Statement</h2>
+<p><strong>FlowMind AI</strong> is an enterprise-grade Multilingual AI Business Operating System. It unifies business operations (CRM, HR, Finance, Inventory, Support, Workflow Engine, Data Studio, RAG Base, Proactive Monitoring) behind an intuitive, layman-accessible <strong>AI Chatbot MVP</strong>.</p>
+
+<h2>2. SDLC Architecture & Quality Gates</h2>
+<table>
+  <thead>
+    <tr>
+      <th>SDLC Phase</th>
+      <th>Key Deliverable</th>
+      <th>Quality Gate & Acceptance Criteria</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Phase 1: Requirement Analysis</strong></td>
+      <td>Layman User Stories & Multilingual Taxonomy</td>
+      <td>UX Accessibility & Persona Signoff</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 2: System Architecture</strong></td>
+      <td>Multi-Agent Protocol, DB Schemas, DAG Planner</td>
+      <td>Response Latency &lt; 500ms</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 3: Core Chatbot MVP</strong></td>
+      <td>Chat UI, Indic Engine, Thought Stream, Action Cards</td>
+      <td>Unit Coverage &gt; 85%, Layman Clarity Test</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 4: Business Suite</strong></td>
+      <td>CRM, HR, Finance, Data Studio, RAG Hub</td>
+      <td>End-to-End Execution Verification</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 5: Security & RBAC</strong></td>
+      <td>Multi-tenancy, Sanitization, Audit Logs</td>
+      <td>Penetration Test & OWASP Compliance</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 6: Deployment & Ops</strong></td>
+      <td>Docker Packaging, CI/CD, Telemetry</td>
+      <td>99.9% Uptime SLA Target</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. High-Level Architecture Block Diagram</h2>
+<div class="diagram-box">
++-----------------------------------------------------------------------------------+
+|                           1. PRESENTATION LAYER (Next.js 14)                      |
+|  [ Chatbot MVP (Layman Mode) ] [ Voice Spectrum ] [ Dashboards ] [ Business Suite]|
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                        2. API GATEWAY & AUTHENTICATION LAYER                      |
+|      [ WebSocket / SSE Router ] [ REST API Gateway ] [ OAuth 2.0 / JWT & RBAC ]   |
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                    3. CONVERSATIONAL AI & ORCHESTRATION ENGINE                    |
+|  [ Multilingual Indic Engine ] [ Intent Parser ] [ Live Thought Stream Visualizer ] |
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                         4. 15 SPECIALIZED AI AGENT MESH                           |
+|   [ CEO ] [ Sales ] [ HR ] [ Finance ] [ Support ] [ Analytics ] [ Workflow ] etc. |
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                       5. BUSINESS SERVICES & EXECUTION ENGINES                    |
+| [ NL Workflow DAG Runner ] [ Data Studio & Cleaning ] [ Vector RAG ] [ Proactive Monitor ]|
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                         6. ENTERPRISE PERSISTENCE LAYER                           |
+|       [ PostgreSQL / SQLite ] [ Vector Store / pgvector ] [ Redis Memory Cache ]  |
++-----------------------------------------------------------------------------------+
+</div>
+
+<div class="page-break"></div>
+
+<h2>4. Layman Chatbot MVP Interaction Architecture</h2>
+<p>The Chatbot MVP is specifically designed so non-technical users can interact, observe agent collaboration, and approve actions with complete transparency.</p>
+
+<div class="flow-step">
+  <h4>1. Natural Language or Voice Input</h4>
+  <p>User speaks or types in native language (e.g. <em>"రేపు ఉదయం 10 గంటలకు సేల్స్ మీటింగ్ పెట్టు"</em> or <em>"Send welcome email to new leads & remind me in 2 days"</em>).</p>
+</div>
+<div class="flow-step">
+  <h4>2. Multilingual Intent & Speech Router</h4>
+  <p>Auto-detects language script (Telugu, Hindi, Tamil, Kannada, Malayalam, English) and maps user request to canonical business intent.</p>
+</div>
+<div class="flow-step">
+  <h4>3. Live "Thought Stream" Visualizer</h4>
+  <p>Renders real-time progress pills showing agent collaboration: <code>[Sales Agent: Found 3 Leads]</code> &rarr; <code>[Email Agent: Drafted Welcome Letter]</code> &rarr; <code>[Scheduler: Set Reminder]</code>.</p>
+</div>
+<div class="flow-step">
+  <h4>4. Interactive Action Confirmation Card</h4>
+  <p>Presents a clean card requesting explicit confirmation before taking action: <strong>[Approve & Execute]</strong>, <strong>[Modify]</strong>, <strong>[Cancel]</strong>.</p>
+</div>
+<div class="flow-step">
+  <h4>5. Execution & Natural Response</h4>
+  <p>Executes workflow step-by-step and responds with natural voice/text summary in user's native language.</p>
+</div>
+
+<h2>5. Multilingual Engine Architecture</h2>
+<p>Native script processing for 6 core languages with expandable translation dictionary:</p>
+<ul>
+  <li><strong>English</strong> (en) - Global Standard</li>
+  <li><strong>Hindi</strong> (hi - हिन्दी) - North / Central India</li>
+  <li><strong>Telugu</strong> (te - తెలుగు) - Andhra Pradesh / Telangana</li>
+  <li><strong>Tamil</strong> (ta - தமிழ்) - Tamil Nadu</li>
+  <li><strong>Kannada</strong> (kn - ಕನ್ನಡ) - Karnataka</li>
+  <li><strong>Malayalam</strong> (ml - മലയാളം) - Kerala</li>
+</ul>
+
+<div class="diagram-box">
+[ User Input (Text / Speech) ] ---> [ Language Detector ]
+                                          |
+        +---------------------------------+---------------------------------+
+        |                                 |                                 |
+        v                                 v                                 v
+[ Telugu Parser ]                 [ Hindi Parser ]                 [ English Parser ]
+        |                                 |                                 |
+        +---------------------------------+---------------------------------+
+                                          |
+                                          v
+                         [ Unified Canonical Business Intent ]
+                                          |
+                                          v
+                            [ Agent Mesh Execution ]
+                                          |
+                                          v
+                        [ Native Accent TTS & Text Response ]
+</div>
+
+<h2>6. 15-Specialized AI Agent Mesh</h2>
+<p>Specialized agents execute domain-specific tasks rather than relying on a single monolith model:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Agent Name</th>
+      <th>Domain Ownership</th>
+      <th>Key Tools & Capabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>CEO Agent</strong></td>
+      <td>Executive Governance</td>
+      <td>Strategic health summaries, company alignment, cross-agent oversight</td>
+    </tr>
+    <tr>
+      <td><strong>Sales Agent</strong></td>
+      <td>CRM & Lead Pipeline</td>
+      <td>Lead scoring, deal stage tracking, follow-up scheduling</td>
+    </tr>
+    <tr>
+      <td><strong>Marketing Agent</strong></td>
+      <td>Campaigns & Copywriting</td>
+      <td>Ad copy generator, campaign performance, email marketing</td>
+    </tr>
+    <tr>
+      <td><strong>Finance Agent</strong></td>
+      <td>Invoices & Payroll</td>
+      <td>Invoice generation, overdue payment alerts, tax calculation</td>
+    </tr>
+    <tr>
+      <td><strong>HR Agent</strong></td>
+      <td>Employee Management</td>
+      <td>Leave approval, payroll processing, employee onboarding</td>
+    </tr>
+    <tr>
+      <td><strong>Support Agent</strong></td>
+      <td>Customer Helpdesk</td>
+      <td>Ticket routing, SLA monitoring, resolution generator</td>
+    </tr>
+    <tr>
+      <td><strong>Workflow Planner</strong></td>
+      <td>Automation Engine</td>
+      <td>Natural language to DAG workflow parser, conditional builder</td>
+    </tr>
+    <tr>
+      <td><strong>Document RAG Agent</strong></td>
+      <td>Knowledge Base</td>
+      <td>Document chunking, vector similarity search, citation linking</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2>7. Database Entity-Relationship Model (ERD)</h2>
+<div class="diagram-box">
++--------------------------------+           +--------------------------------+
+|          ORGANIZATION          |           |              USER              |
++--------------------------------+           +--------------------------------+
+| id (PK)                        |<----------| id (PK)                        |
+| name                           | 1       N | organization_id (FK)           |
+| domain                         |           | name                           |
+| settings (JSON)                |           | email                          |
++--------------------------------+           | role (ADMIN|MANAGER|EMPLOYEE)  |
+               |                             | preferred_language (en|te|hi..) |
+               | 1                           +--------------------------------+
+               |                                             | 1
+               v N                                           v N
++--------------------------------+           +--------------------------------+
+|            WORKFLOW            |           |         AGENT_SESSION          |
++--------------------------------+           +--------------------------------+
+| id (PK)                        |           | id (PK)                        |
+| organization_id (FK)           |           | user_id (FK)                   |
+| name                           |           | active_agent                   |
+| natural_language_trigger       |           | created_at                     |
+| dag_nodes (JSON)               |           +--------------------------------+
+| active (BOOLEAN)               |                           | 1
++--------------------------------+                           v N
+                                             +--------------------------------+
+                                             |          CHAT_MESSAGE          |
+                                             +--------------------------------+
+                                             | id (PK)                        |
+                                             | session_id (FK)                |
+                                             | sender (USER|AGENT|SYSTEM)     |
+                                             | content (TEXT)                 |
+                                             | action_card (JSON)             |
+                                             | created_at                     |
+                                             +--------------------------------+
+</div>
+
+<h2>8. Security, RBAC & Enterprise Compliance</h2>
+<ul>
+  <li><strong>Multi-Tenant Data Isolation:</strong> Tenant ID scoped on every database query and cache key.</li>
+  <li><strong>Role-Based Access Control (RBAC):</strong> Three-tier permissions: <code>ADMIN</code> (full access), <code>MANAGER</code> (departmental access), <code>EMPLOYEE</code> (self-service & limited chat).</li>
+  <li><strong>Prompt Injection Protection:</strong> Dual-layer input sanitizer strips unauthorized system instructions and escapes raw user queries.</li>
+  <li><strong>Audit Logging:</strong> All workflow executions, agent decisions, and financial operations are written to immutable audit logs.</li>
+</ul>
+
+<div class="footer">
+  FlowMind AI &bull; Developer Architecture & SDLC Documentation &bull; Saved in C:\Capstone
+</div>
+
+</body>
+</html>

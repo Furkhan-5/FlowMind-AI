@@ -19,7 +19,11 @@ import {
   ShieldCheck,
   CheckCircle2,
   RefreshCw,
+  Volume2,
 } from 'lucide-react';
+import { detectLanguageScript, speakTextInNativeAccent } from '@/lib/i18n/indicEngine';
+import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
+import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 
 export const RobotAssistant: React.FC = () => {
   const {
@@ -59,75 +63,62 @@ export const RobotAssistant: React.FC = () => {
     const query = customText || input;
     if (!query.trim() || isProcessing || !selectedAgent) return;
 
+    const detectedLang = detectLanguageScript(query);
+    const parsedIntent = parseCanonicalBusinessIntent(query, detectedLang);
+
     addMessage({
       sender: 'USER',
       content: query,
-      language,
+      language: detectedLang,
     });
 
     setInput('');
     setIsProcessing(true);
 
     setTimeout(() => {
-      let thoughtSteps = [];
+      let thoughtSteps = [
+        { agent: selectedAgent, action: `Detected Script: ${detectedLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
+        { agent: parsedIntent.targetAgent, action: `Parsed parameters: ${JSON.stringify(parsedIntent.parameters)}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
+      ];
+
       let actionCardData = undefined;
-      let responseContent = '';
+      let responseContent = parsedIntent.summaryText;
 
-      const lower = query.toLowerCase();
-
-      if (selectedAgent === 'Sales') {
-        responseContent = `Sales Agent processed your lead query. I have updated the CRM pipeline and scheduled follow-ups.`;
-        thoughtSteps = [
-          { agent: 'Sales' as AgentType, action: 'Queried CRM leads database', timestamp: '21:15:01', status: 'DONE' as const },
-          { agent: 'Scheduler' as AgentType, action: 'Scheduled 48-hour lead follow-up reminder', timestamp: '21:15:02', status: 'DONE' as const },
-        ];
+      if (parsedIntent.action === 'SCHEDULE_SALES_MEETING') {
         actionCardData = {
           id: `ACT-${Date.now()}`,
-          title: 'Update CRM Lead Status & Send Proposal',
-          description: 'Sales Agent drafted proposal letter and updated deal stage to PROPOSAL.',
+          title: 'Schedule Sales Meeting & Update CRM',
+          description: 'Sales Agent parsed multi-script request and prepared calendar invite.',
           agent: 'Sales' as AgentType,
           module: 'Sales',
-          details: { client: 'Apex Tech Solutions', dealValue: '₹1,25,000', assigned: 'Sales Manager' },
+          details: parsedIntent.parameters,
           status: 'PENDING' as const,
-          confirmLabel: 'Approve & Send Proposal',
+          confirmLabel: 'Approve & Schedule Meeting',
         };
-      } else if (selectedAgent === 'Finance') {
-        responseContent = `Finance Agent verified invoice amounts and calculated 18% GST tax break-up. Invoice PDF is ready.`;
-        thoughtSteps = [
-          { agent: 'Finance' as AgentType, action: 'Calculated 18% GST & verified bank account codes', timestamp: '21:15:05', status: 'DONE' as const },
-          { agent: 'Document' as AgentType, action: 'Generated PDF invoice preview', timestamp: '21:15:06', status: 'DONE' as const },
-        ];
+      } else if (parsedIntent.action === 'GENERATE_CLIENT_INVOICE') {
         actionCardData = {
           id: `ACT-${Date.now()}`,
           title: 'Issue Official Invoice PDF (#INV-2026-990)',
-          description: 'Finance Agent verified tax codes and created client welcome invoice PDF.',
+          description: 'Finance Agent verified tax codes and generated PDF invoice preview.',
           agent: 'Finance' as AgentType,
           module: 'Finance',
-          details: { client: 'Hyderabad Pharma Ltd', amount: '₹3,40,000', tax: '₹61,200 (18% GST)' },
+          details: parsedIntent.parameters,
           status: 'PENDING' as const,
           confirmLabel: 'Approve & Dispatch Invoice',
         };
-      } else if (selectedAgent === 'HR') {
-        responseContent = `HR Agent processed employee leave approvals and verified monthly payroll slip logs.`;
-        thoughtSteps = [
-          { agent: 'HR' as AgentType, action: 'Checked employee leave balance', timestamp: '21:15:10', status: 'DONE' as const },
-          { agent: 'Security' as AgentType, action: 'Enforced HR data confidentiality rule', timestamp: '21:15:11', status: 'DONE' as const },
-        ];
-      } else {
-        responseContent = `${selectedAgent} Agent completed your query across system modules and logged state changes.`;
-        thoughtSteps = [
-          { agent: selectedAgent, action: `Executed ${selectedAgent} domain task`, timestamp: '21:15:15', status: 'DONE' as const },
-        ];
       }
 
       addMessage({
         sender: 'AGENT',
         activeAgent: selectedAgent,
         content: responseContent,
-        language,
+        language: detectedLang,
         thoughtStream: thoughtSteps,
         actionCard: actionCardData,
       });
+
+      // Native TTS speech synthesis if voice mode active or non-English script detected
+      speakTextInNativeAccent(responseContent, detectedLang);
 
       setIsProcessing(false);
     }, 1100);
@@ -288,6 +279,11 @@ export const RobotAssistant: React.FC = () => {
                     <span>Executing query with {selectedAgent} Agent...</span>
                   </div>
                 )}
+              </div>
+
+              {/* Voice Spectrum Canvas Visualizer */}
+              <div className="px-3 pt-2">
+                <VoiceSpectrum isActive={isVoiceActive} activeLanguage={language} />
               </div>
 
               {/* Agent Quick Prompts */}

@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Send, Mic, Bot, Sparkles, ShieldCheck } from 'lucide-react';
 import { AgentType } from '@/types';
+import { detectLanguageScript, speakTextInNativeAccent } from '@/lib/i18n/indicEngine';
+import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
+import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 
 export const ChatInterface: React.FC = () => {
   const {
@@ -35,78 +38,64 @@ export const ChatInterface: React.FC = () => {
     const query = textToSend || input;
     if (!query.trim() || isProcessing) return;
 
+    const detectedLang = detectLanguageScript(query);
+    const parsedIntent = parseCanonicalBusinessIntent(query, detectedLang);
+
     addMessage({
       sender: 'USER',
       content: query,
-      language,
+      language: detectedLang,
     });
 
     setInput('');
     setIsProcessing(true);
 
     setTimeout(() => {
-      let routedAgent: AgentType = 'Sales';
-      let thoughtSteps = [];
+      const routedAgent = parsedIntent.targetAgent;
+      setActiveAgent(routedAgent);
+
+      const thoughtSteps = [
+        { agent: routedAgent, action: `Indic Script Detected: ${detectedLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
+        { agent: 'Security' as AgentType, action: 'Sanitized input & applied RBAC policy filtering', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
+      ];
+
       let actionCardData = undefined;
-      let responseContent = '';
+      const responseContent = parsedIntent.summaryText;
 
-      const lower = query.toLowerCase();
-
-      if (lower.includes('sales') || lower.includes('రేపు') || lower.includes('मीटिंग') || lower.includes('meeting')) {
-        routedAgent = 'Sales';
-        setActiveAgent('Sales');
-        responseContent = `I have routed your request to the Sales & Scheduler Agents. Meeting is scheduled and CRM leads updated.`;
-        thoughtSteps = [
-          { agent: 'Sales' as AgentType, action: 'Parsed natural language intent', timestamp: '12:05:01', status: 'DONE' as const },
-          { agent: 'Scheduler' as AgentType, action: 'Checked calendar conflicts for tomorrow 10:00 AM', timestamp: '12:05:02', status: 'DONE' as const },
-          { agent: 'Email' as AgentType, action: 'Prepared calendar invitation email', timestamp: '12:05:03', status: 'DONE' as const },
-        ];
+      if (parsedIntent.action === 'SCHEDULE_SALES_MEETING') {
         actionCardData = {
           id: `ACT-${Date.now()}`,
-          title: 'Schedule Sales Team Meeting & Send Invitations',
-          description: 'Sales & Scheduler Agents parsed your request and drafted calendar invites for 4 attendees.',
+          title: 'Schedule Sales Meeting & Update CRM Pipeline',
+          description: 'Sales & Scheduler Agents parsed your multilingual request and prepared calendar invites.',
           agent: 'Sales' as AgentType,
           module: 'Sales',
-          details: { time: 'Tomorrow 10:00 AM IST', room: 'Virtual Meet Room 1', attendees: '4 Sales Managers' },
+          details: parsedIntent.parameters,
           status: 'PENDING' as const,
           confirmLabel: 'Approve & Schedule Meeting',
         };
-      } else if (lower.includes('invoice') || lower.includes('payroll') || lower.includes('payment') || lower.includes('ലാഭം')) {
-        routedAgent = 'Finance';
-        setActiveAgent('Finance');
-        responseContent = `Finance Agent generated invoice draft and calculated tax breakdown. Please review approval card below.`;
-        thoughtSteps = [
-          { agent: 'Finance' as AgentType, action: 'Queried invoice database & calculated GST (18%)', timestamp: '12:06:01', status: 'DONE' as const },
-          { agent: 'Document' as AgentType, action: 'Generated PDF preview for client invoice', timestamp: '12:06:02', status: 'DONE' as const },
-        ];
+      } else if (parsedIntent.action === 'GENERATE_CLIENT_INVOICE') {
         actionCardData = {
           id: `ACT-${Date.now()}`,
           title: 'Issue Invoice PDF (#INV-2026-909)',
-          description: 'Finance Agent verified tax codes and created client welcome invoice PDF.',
+          description: 'Finance Agent verified tax codes and generated PDF invoice preview.',
           agent: 'Finance' as AgentType,
           module: 'Finance',
-          details: { client: 'Apex Tech Solutions', amount: '₹1,25,000', tax: '₹22,500 (18% GST)' },
+          details: parsedIntent.parameters,
           status: 'PENDING' as const,
           confirmLabel: 'Approve & Issue Invoice',
         };
-      } else {
-        routedAgent = 'CEO';
-        setActiveAgent('CEO');
-        responseContent = `CEO Master Orchestrator processed your query across Analytics and Knowledge RAG agents. Here is your operational report.`;
-        thoughtSteps = [
-          { agent: 'Knowledge' as AgentType, action: 'Searched internal vector DB with HNSW index', timestamp: '12:07:01', status: 'DONE' as const },
-          { agent: 'Analytics' as AgentType, action: 'Calculated real-time KPI metrics', timestamp: '12:07:02', status: 'DONE' as const },
-        ];
       }
 
       addMessage({
         sender: 'AGENT',
         activeAgent: routedAgent,
         content: responseContent,
-        language,
+        language: detectedLang,
         thoughtStream: thoughtSteps,
         actionCard: actionCardData,
       });
+
+      speakTextInNativeAccent(responseContent, detectedLang);
 
       setIsProcessing(false);
     }, 1200);
@@ -175,6 +164,7 @@ export const ChatInterface: React.FC = () => {
 
       {/* Bottom Input Area */}
       <div className="p-4 border-t border-slate-200 bg-white space-y-2">
+        <VoiceSpectrum isActive={isVoiceActive} activeLanguage={language} />
         <PromptChips onSelectPrompt={(p) => handleSend(p)} />
 
         <div className="flex items-center gap-2">

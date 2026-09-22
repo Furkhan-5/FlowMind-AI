@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { ShieldAlert, CheckCircle2, XCircle, Edit3 } from 'lucide-react';
+import { AgentLogo } from '@/components/ui/AgentLogo';
 
 interface ActionCardProps {
   data: ActionCardData;
@@ -21,6 +22,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-800 pb-2">
         <div className="flex items-center gap-2">
+          <AgentLogo agentId={data.agent} size="xs" glow />
           <ShieldAlert className="w-4 h-4 text-amber-400" />
           <h4 className="text-xs font-bold text-slate-100">{data.title}</h4>
         </div>

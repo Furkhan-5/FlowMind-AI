@@ -2,6 +2,7 @@ import React from 'react';
 import { ThoughtStep } from '@/types';
 import { Loader2, CheckCircle2, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
+import { AgentLogo } from '@/components/ui/AgentLogo';
 
 interface ThoughtStreamProps {
   steps: ThoughtStep[];
@@ -26,6 +27,7 @@ export const ThoughtStream: React.FC<ThoughtStreamProps> = ({ steps }) => {
             className="flex items-center justify-between text-xs px-2.5 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800/60"
           >
             <div className="flex items-center gap-2">
+              <AgentLogo agentId={step.agent} size="xs" />
               <Badge variant="cyan" className="text-[10px] font-bold">
                 {step.agent} Agent
               </Badge>

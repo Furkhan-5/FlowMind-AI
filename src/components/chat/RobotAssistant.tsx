@@ -24,6 +24,7 @@ import {
 import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
 import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
+import { AgentLogo } from '@/components/ui/AgentLogo';
 
 export const RobotAssistant: React.FC = () => {
   const {
@@ -255,9 +256,7 @@ export const RobotAssistant: React.FC = () => {
                       className="p-3 rounded-2xl bg-white hover:bg-purple-50/80 border border-slate-200 hover:border-purple-300 text-left transition-all duration-200 shadow-sm flex flex-col justify-between group"
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <div className={`w-6 h-6 rounded-full ${agent.avatarColor} text-white flex items-center justify-center text-[10px] font-bold`}>
-                          {agent.id.substring(0, 2)}
-                        </div>
+                        <AgentLogo agentId={agent.id} size="sm" glow />
                         <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-600 transition-colors" />
                       </div>
                       <div>
@@ -274,10 +273,13 @@ export const RobotAssistant: React.FC = () => {
             <div className="flex-1 flex flex-col h-[520px] bg-bloom-bg">
               {/* Agent Title Bar */}
               <div className="px-4 py-2 bg-purple-50 border-b border-purple-200 flex items-center justify-between">
-                <span className="text-xs font-bold text-purple-900 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  Connected to: {getLocalizedAgentName(selectedAgent, language)}
-                </span>
+                <div className="flex items-center gap-2">
+                  <AgentLogo agentId={selectedAgent} size="xs" glow />
+                  <span className="text-xs font-bold text-purple-900 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                    Connected to: {getLocalizedAgentName(selectedAgent, language)}
+                  </span>
+                </div>
                 <Badge variant="purple" className="text-[9px]">
                   <ShieldCheck className="w-3 h-3" /> {user.role} SANITIZED
                 </Badge>
@@ -291,6 +293,9 @@ export const RobotAssistant: React.FC = () => {
                     className={`flex flex-col ${msg.sender === 'USER' ? 'items-end' : 'items-start'}`}
                   >
                     <div className="flex items-center gap-1.5 mb-1 px-1">
+                      {msg.sender !== 'USER' && (
+                        <AgentLogo agentId={msg.activeAgent || selectedAgent} size="xs" />
+                      )}
                       <span className="text-[10px] font-bold text-slate-500">
                         {msg.sender === 'USER' ? 'You' : `${msg.activeAgent || selectedAgent} Agent`}
                       </span>

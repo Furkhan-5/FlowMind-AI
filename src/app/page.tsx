@@ -19,6 +19,8 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
+import { AgentLogo } from '@/components/ui/AgentLogo';
+
 // Dynamic import with SSR false for Three.js WebGL Canvases to prevent server-side WebGL errors
 const Hero3DCanvas = dynamic(
   () => import('@/components/canvas/Hero3DCanvas').then((mod) => mod.Hero3DCanvas),
@@ -77,10 +79,8 @@ export default function Home() {
                   {MOCK_AGENTS.map((agent) => (
                     <GlassCard key={agent.id} variant="white" className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <div className={`w-8 h-8 rounded-full ${agent.avatarColor} flex items-center justify-center font-bold text-white text-xs shadow-md`}>
-                            {agent.id.substring(0, 2)}
-                          </div>
+                        <div className="flex items-center gap-3">
+                          <AgentLogo agentId={agent.id} size="md" glow />
                           <div>
                             <h4 className="text-xs font-bold text-bloom-dark">{getLocalizedAgentName(agent.id, language)}</h4>
                             <p className="text-[10px] text-bloom-textMuted">{getLocalizedAgentDomain(agent.id, language)}</p>

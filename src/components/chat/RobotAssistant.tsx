@@ -337,13 +337,30 @@ export const RobotAssistant: React.FC = () => {
                   ))}
                 </div>
 
+                {/* Voice Status Indicator Banner */}
+                {isVoiceActive && (
+                  <div className="flex items-center justify-between bg-red-50 text-red-700 px-3 py-1.5 rounded-xl border border-red-200 text-[10px]">
+                    <span className="font-bold flex items-center gap-1">
+                      <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
+                      Microphone Active – Listening to your speech...
+                    </span>
+                    <button
+                      onClick={() => handleSendQuery('రేపు 10 గంటలకు మీటింగ్ పెట్టండి')}
+                      className="bg-red-600 text-white px-2 py-0.5 rounded-full hover:bg-red-700 text-[9px] font-semibold transition-colors"
+                    >
+                      ⚡ Demo Speech Input
+                    </button>
+                  </div>
+                )}
+
                 {/* Input Controls */}
                 <div className="flex items-center gap-2 pt-1">
                   <button
                     onClick={() => setVoiceActive(!isVoiceActive)}
+                    title={isVoiceActive ? 'Stop Listening' : 'Start Voice Input'}
                     className={`p-2 rounded-full border transition-all ${
                       isVoiceActive
-                        ? 'bg-red-500 text-white border-red-500 animate-pulse'
+                        ? 'bg-red-500 text-white border-red-500 animate-pulse ring-2 ring-red-300'
                         : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
@@ -355,8 +372,16 @@ export const RobotAssistant: React.FC = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSendQuery()}
-                    placeholder={`Ask ${selectedAgent} Agent...`}
-                    className="flex-1 bg-slate-100 border border-slate-200 text-bloom-textDark text-xs rounded-full px-4 py-2 focus:outline-none focus:border-purple-500 transition-colors"
+                    placeholder={
+                      isVoiceActive
+                        ? '🎤 Listening... Speak now (words will appear here!)'
+                        : `Ask ${selectedAgent} Agent...`
+                    }
+                    className={`flex-1 text-bloom-textDark text-xs rounded-full px-4 py-2 focus:outline-none transition-colors ${
+                      isVoiceActive
+                        ? 'bg-red-50/60 border-red-300 focus:border-red-500 font-medium placeholder-red-400'
+                        : 'bg-slate-100 border-slate-200 focus:border-purple-500'
+                    }`}
                   />
 
                   <Button

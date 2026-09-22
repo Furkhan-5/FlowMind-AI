@@ -195,14 +195,31 @@ export const ChatInterface: React.FC = () => {
       {/* Bottom Input Area */}
       <div className="p-4 border-t border-slate-200 bg-white space-y-2">
         <VoiceSpectrum isActive={isVoiceActive} activeLanguage={language} />
+
+        {isVoiceActive && (
+          <div className="flex items-center justify-between bg-red-50 text-red-700 px-3.5 py-2 rounded-xl border border-red-200 text-xs">
+            <span className="font-bold flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping" />
+              Live Voice Microphone Active – Speak into your mic to type automatically!
+            </span>
+            <button
+              onClick={() => handleSend('రేపు 10 గంటలకు మీటింగ్ పెట్టండి')}
+              className="bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 text-xs font-bold transition-colors"
+            >
+              ⚡ Speech Demo Test
+            </button>
+          </div>
+        )}
+
         <PromptChips onSelectPrompt={(p) => handleSend(p)} />
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setVoiceActive(!isVoiceActive)}
+            title={isVoiceActive ? 'Stop Listening' : 'Start Voice Input'}
             className={`p-2.5 rounded-full border transition-all ${
               isVoiceActive
-                ? 'bg-red-500 text-white border-red-500 animate-pulse'
+                ? 'bg-red-500 text-white border-red-500 animate-pulse ring-2 ring-red-300'
                 : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -214,8 +231,16 @@ export const ChatInterface: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder={t.chatPlaceholder}
-            className="flex-1 bg-slate-100 border border-slate-200 text-bloom-textDark text-xs rounded-full px-5 py-3 focus:outline-none focus:border-purple-500 transition-colors"
+            placeholder={
+              isVoiceActive
+                ? '🎤 Listening... Speak now (spoken words will type here!)'
+                : t.chatPlaceholder
+            }
+            className={`flex-1 text-bloom-textDark text-xs rounded-full px-5 py-3 focus:outline-none transition-colors ${
+              isVoiceActive
+                ? 'bg-red-50/60 border-red-300 focus:border-red-500 font-medium placeholder-red-400'
+                : 'bg-slate-100 border-slate-200 focus:border-purple-500'
+            }`}
           />
 
           <Button

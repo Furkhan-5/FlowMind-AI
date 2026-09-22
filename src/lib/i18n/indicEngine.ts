@@ -71,33 +71,40 @@ export function startSpeechRecognition(
     return null;
   }
 
+  // Request browser microphone permission if supported
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .catch((err) => console.warn('Microphone permission status:', err));
+  }
+
   try {
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = VOICE_LANG_TAGS[lang] || 'en-US';
+    
+    // Default to browser language or requested Indic voice tag
+    const preferredLang = VOICE_LANG_TAGS[lang] || navigator.language || 'en-US';
+    recognition.lang = preferredLang;
 
     recognition.onresult = (event: any) => {
-      let finalTranscript = '';
-      let interimTranscript = '';
+      let fullTranscript = '';
+      let isFinalResult = false;
 
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript;
+      for (let i = 0; i < event.results.length; i++) {
+        fullTranscript += event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          finalTranscript += transcript;
-        } else {
-          interimTranscript += transcript;
+          isFinalResult = true;
         }
       }
 
-      const text = finalTranscript || interimTranscript;
-      if (text) {
-        handlers.onResult(text, Boolean(finalTranscript));
+      if (fullTranscript.trim()) {
+        handlers.onResult(fullTranscript.trim(), isFinalResult);
       }
     };
 
     recognition.onerror = (event: any) => {
-      console.warn('Speech recognition error:', event.error);
+      console.warn('Speech recognition notice:', event.error);
       if (handlers.onError) handlers.onError(event);
     };
 
@@ -108,7 +115,7 @@ export function startSpeechRecognition(
     recognition.start();
     return recognition;
   } catch (err) {
-    console.error('Failed to initialize Speech Recognition:', err);
+    console.error('Failed to start Speech Recognition:', err);
     if (handlers.onError) handlers.onError(err);
     return null;
   }

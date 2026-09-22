@@ -10,6 +10,7 @@ import {
   ActionCardData,
 } from '@/types';
 import { MOCK_AGENTS, MOCK_LEADS, MOCK_INVOICES, MOCK_WORKFLOWS, MOCK_ALERTS } from '@/lib/mockData';
+import { UI_TRANSLATIONS } from '@/lib/i18n/translations';
 
 interface AppState {
   // Auth & Org
@@ -67,7 +68,21 @@ export const useAppStore = create<AppState>((set, get) => ({
     })),
 
   language: 'en',
-  setLanguage: (language) => set({ language }),
+  setLanguage: (lang) => {
+    const t = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS.en;
+    set((state) => ({
+      language: lang,
+      messages: state.messages.map((m) => {
+        if (m.id === 'MSG-01') {
+          return { ...m, content: t.welcomeSystemMsg || m.content, language: lang };
+        }
+        if (m.id === 'MSG-02') {
+          return { ...m, content: t.welcomeCeoMsg || m.content, language: lang };
+        }
+        return m;
+      }),
+    }));
+  },
 
   isDarkMode: true,
   toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),

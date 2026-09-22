@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAppStore } from '@/lib/store/useAppStore';
-import { SUPPORTED_LANGUAGES } from '@/lib/i18n/translations';
+import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from '@/lib/i18n/translations';
 import { LanguageCode, UserRole } from '@/types';
-import { Mic, ChevronDown, Bot } from 'lucide-react';
+import { Mic, ChevronDown } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const {
@@ -16,13 +16,15 @@ export const Navbar: React.FC = () => {
     setVoiceActive,
   } = useAppStore();
 
+  const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
+
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'agents', label: '15 Agents' },
-    { id: 'workflows', label: 'Workflows' },
-    { id: 'data-analyst', label: 'Data Studio' },
-    { id: 'knowledge', label: 'Knowledge Hub' },
-    { id: 'crm', label: 'Business Suite' },
+    { id: 'dashboard', label: t.dashboard },
+    { id: 'agents', label: t.activeAgents },
+    { id: 'workflows', label: t.workflows },
+    { id: 'data-analyst', label: t.dataStudio },
+    { id: 'knowledge', label: t.knowledgeBase },
+    { id: 'crm', label: t.crmLeads },
   ];
 
   return (

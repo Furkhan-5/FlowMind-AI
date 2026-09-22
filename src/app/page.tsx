@@ -3,6 +3,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useAppStore } from '@/lib/store/useAppStore';
+import { UI_TRANSLATIONS, getLocalizedAgentName, getLocalizedAgentDomain } from '@/lib/i18n/translations';
 import { Navbar } from '@/components/layout/Navbar';
 import { RobotAssistant } from '@/components/chat/RobotAssistant';
 import { ChatInterface } from '@/components/chat/ChatInterface';
@@ -44,7 +45,8 @@ const AgentMesh3D = dynamic(
 );
 
 export default function Home() {
-  const { activeModule, setActiveModule } = useAppStore();
+  const { activeModule, setActiveModule, language } = useAppStore();
+  const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
 
   const renderModuleModal = () => {
     if (activeModule === 'dashboard') return null;
@@ -55,13 +57,13 @@ export default function Home() {
           <div className="p-4 bg-white border-b border-slate-200 flex items-center justify-between">
             <span className="text-xs font-bold text-bloom-dark uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-purple-600 animate-ping" />
-              FlowMind AI Active Workspace ({activeModule.toUpperCase()})
+              {t.activeWorkspace} ({activeModule.toUpperCase()})
             </span>
             <button
               onClick={() => setActiveModule('dashboard')}
               className="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full transition-colors"
             >
-              ← Back to Overview
+              {t.backToOverview}
             </button>
           </div>
 
@@ -80,8 +82,8 @@ export default function Home() {
                             {agent.id.substring(0, 2)}
                           </div>
                           <div>
-                            <h4 className="text-xs font-bold text-bloom-dark">{agent.name}</h4>
-                            <p className="text-[10px] text-bloom-textMuted">{agent.roleTitle}</p>
+                            <h4 className="text-xs font-bold text-bloom-dark">{getLocalizedAgentName(agent.id, language)}</h4>
+                            <p className="text-[10px] text-bloom-textMuted">{getLocalizedAgentDomain(agent.id, language)}</p>
                           </div>
                         </div>
                         <Badge variant={agent.status === 'ACTIVE' ? 'success' : 'default'}>
@@ -106,12 +108,12 @@ export default function Home() {
                     <div>
                       <h3 className="text-sm font-bold text-bloom-dark flex items-center gap-2">
                         <GitFork className="w-4 h-4 text-purple-600" />
-                        Natural Language AI Workflow Automation Engine
+                        {t.workflowEngineTitle}
                       </h3>
-                      <p className="text-xs text-bloom-textMuted">Zero-code DAG compiler converting plain text requests into runnable step graphs.</p>
+                      <p className="text-xs text-bloom-textMuted">{t.workflowEngineDesc}</p>
                     </div>
                     <Button size="sm" variant="dark" icon={<Sparkles className="w-3.5 h-3.5" />}>
-                      + Build Workflow from Prompt
+                      {t.buildWorkflowBtn}
                     </Button>
                   </div>
 
@@ -120,8 +122,8 @@ export default function Home() {
                       <div className="flex items-center justify-between">
                         <h4 className="text-xs font-bold text-bloom-dark">{wf.name}</h4>
                         <div className="flex items-center gap-2">
-                          <Badge variant="success">Success Rate: {wf.successRate}%</Badge>
-                          <span className="text-[10px] text-slate-400">Last run: {wf.lastRun}</span>
+                          <Badge variant="success">{t.successRate}: {wf.successRate}%</Badge>
+                          <span className="text-[10px] text-slate-400">{t.lastRun}: {wf.lastRun}</span>
                         </div>
                       </div>
                       <p className="text-xs text-purple-900 font-medium bg-purple-100/60 p-3 rounded-xl border border-purple-200/60">
@@ -151,27 +153,27 @@ export default function Home() {
                     <div>
                       <h3 className="text-sm font-bold text-bloom-dark flex items-center gap-2">
                         <FileSpreadsheet className="w-4 h-4 text-purple-600" />
-                        AI Data Studio & CSV/PDF Cleaner
+                        {t.dataStudioTitle}
                       </h3>
-                      <p className="text-xs text-bloom-textMuted">Drag-and-drop dataset auto-cleaning, missing value imputation, and chart recommendations.</p>
+                      <p className="text-xs text-bloom-textMuted">{t.dataStudioDesc}</p>
                     </div>
                     <Button size="sm" variant="outline">
-                      Upload CSV / PDF
+                      {t.uploadCsvPdf}
                     </Button>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-2">
-                      <h4 className="text-xs font-bold text-purple-950">Schema Auto-Discovery</h4>
-                      <p className="text-[11px] text-purple-700">Detected 12 columns, 1,420 records. 0.4% missing values auto-repaired.</p>
+                      <h4 className="text-xs font-bold text-purple-950">{t.schemaAutoDiscovery}</h4>
+                      <p className="text-[11px] text-purple-700">{t.schemaDesc}</p>
                     </div>
                     <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-2">
-                      <h4 className="text-xs font-bold text-purple-950">Z-Score Outlier Cleaned</h4>
-                      <p className="text-[11px] text-purple-700">Filtered 3 anomalous pricing spikes (Z &gt; 2.58).</p>
+                      <h4 className="text-xs font-bold text-purple-950">{t.zScoreCleaned}</h4>
+                      <p className="text-[11px] text-purple-700">{t.zScoreDesc}</p>
                     </div>
                     <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-2">
-                      <h4 className="text-xs font-bold text-purple-950">Recommended Chart</h4>
-                      <p className="text-[11px] text-purple-700">Monthly Revenue vs Automation Savings (Area Chart).</p>
+                      <h4 className="text-xs font-bold text-purple-950">{t.recommendedChart}</h4>
+                      <p className="text-[11px] text-purple-700">{t.recommendedChartDesc}</p>
                     </div>
                   </div>
                 </GlassCard>
@@ -181,16 +183,16 @@ export default function Home() {
             {activeModule === 'crm' && (
               <div className="p-6 space-y-6">
                 <GlassCard variant="white" className="space-y-4">
-                  <h3 className="text-sm font-bold text-bloom-dark">CRM & Lead Pipeline</h3>
+                  <h3 className="text-sm font-bold text-bloom-dark">{t.crmLeads}</h3>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs">
                       <thead className="bg-slate-50 text-slate-500 border-b border-slate-200">
                         <tr>
-                          <th className="p-3">Lead ID</th>
-                          <th className="p-3">Name</th>
-                          <th className="p-3">Company</th>
-                          <th className="p-3">Value</th>
-                          <th className="p-3">Status</th>
+                          <th className="p-3">{t.leadId}</th>
+                          <th className="p-3">{t.name}</th>
+                          <th className="p-3">{t.company}</th>
+                          <th className="p-3">{t.value}</th>
+                          <th className="p-3">{t.status}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -227,10 +229,10 @@ export default function Home() {
               +
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold text-bloom-dark tracking-tight leading-tight">
-              Where Business Grows
+              {t.heroTitle}
             </h1>
             <p className="text-xs sm:text-sm text-bloom-textMuted max-w-xl mx-auto leading-relaxed">
-              A programmable, utility-driven AI Business Operating System designed for native multi-script workflow automation and seamless enterprise integration.
+              {t.heroSubtitle}
             </p>
             <div className="pt-2">
               <Button
@@ -239,7 +241,7 @@ export default function Home() {
                 onClick={() => setActiveModule('agents')}
                 icon={<ArrowRight className="w-4 h-4" />}
               >
-                Explore 15 AI Agents
+                {t.exploreAgents}
               </Button>
             </div>
           </div>
@@ -253,18 +255,18 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-3 max-w-md">
               <h2 className="text-2xl sm:text-4xl font-extrabold text-bloom-dark tracking-tight">
-                What is FlowMind AI?
+                {t.whatIsFlowMind}
               </h2>
               <Button
                 variant="dark"
                 size="sm"
                 onClick={() => setActiveModule('agents')}
               >
-                Explore now
+                {t.exploreNow}
               </Button>
             </div>
             <p className="text-xs sm:text-sm text-bloom-textMuted max-w-md leading-relaxed font-medium">
-              FlowMind AI is a yield-bearing business operating system that helps your operational capital grow while maintaining multi-language, multi-agent stability.
+              {t.flowmindDesc}
             </p>
           </div>
 
@@ -272,41 +274,41 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <GlassCard variant="lavender" className="md:col-span-6 flex flex-col justify-between min-h-[220px]">
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-bloom-dark">Intelligence that grows</h3>
+                <h3 className="text-lg font-bold text-bloom-dark">{t.intelligenceTitle}</h3>
                 <p className="text-xs text-slate-600 max-w-xs leading-relaxed">
-                  Earn passive productivity as your stable business workflows are deployed into high-performing AI agent protocols.
+                  {t.intelligenceDesc}
                 </p>
               </div>
               <div className="flex items-center gap-2 pt-4">
-                <Badge variant="purple">15 Agents Active</Badge>
-                <Badge variant="default">Indic Scripts Enabled</Badge>
+                <Badge variant="purple">{t.agentsActiveTag}</Badge>
+                <Badge variant="default">{t.indicScriptsTag}</Badge>
               </div>
             </GlassCard>
 
             <GlassCard variant="dark" className="md:col-span-3 flex flex-col justify-between min-h-[220px]">
               <div className="space-y-2">
-                <h3 className="text-base font-bold text-white">Always active, always stable</h3>
+                <h3 className="text-base font-bold text-white">{t.alwaysActiveTitle}</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Stay fully automated with 15 specialized domain agents—no lockups or delays.
+                  {t.alwaysActiveDesc}
                 </p>
               </div>
               <div className="pt-4">
                 <span className="text-[10px] text-purple-300 font-semibold uppercase tracking-wider">
-                  99.9% Autonomous Uptime
+                  {t.uptimeTag}
                 </span>
               </div>
             </GlassCard>
 
             <GlassCard variant="dark" className="md:col-span-3 flex flex-col justify-between min-h-[220px]">
               <div className="space-y-2">
-                <h3 className="text-base font-bold text-white">100% hands-free</h3>
+                <h3 className="text-base font-bold text-white">{t.handsFreeTitle}</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  No need to manage strategies manually. FlowMind AI works in the background for you.
+                  {t.handsFreeDesc}
                 </p>
               </div>
               <div className="pt-4">
                 <span className="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider">
-                  Proactive Anomaly Scanner
+                  {t.anomalyTag}
                 </span>
               </div>
             </GlassCard>
@@ -317,7 +319,7 @@ export default function Home() {
         <section className="py-4 border-y border-slate-200/80">
           <div className="flex flex-wrap items-center justify-between gap-6 text-xs font-semibold text-slate-400">
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              Backed by enterprise integrations:
+              {t.backedBy}
             </span>
             <span className="hover:text-slate-700 transition-colors">Google Workspace</span>
             <span className="hover:text-slate-700 transition-colors">Slack</span>
@@ -333,27 +335,27 @@ export default function Home() {
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-5 space-y-4">
             <span className="text-[11px] font-bold text-purple-600 uppercase tracking-wider">
-              FlowMind in Action
+              {t.useCasesLabel}
             </span>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-bloom-dark tracking-tight">
-              Use cases
+              {t.useCasesTitle}
             </h2>
             <p className="text-xs sm:text-sm text-bloom-textMuted leading-relaxed">
-              FlowMind offers a variety of use cases for startups, enterprises, and non-technical managers seeking secure and automated AI integrations.
+              {t.useCasesDesc}
             </p>
           </div>
 
           <GlassCard variant="white" className="md:col-span-7 space-y-6">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-bloom-dark">Business</h3>
+              <h3 className="text-xl font-bold text-bloom-dark">{t.businessTitle}</h3>
               <p className="text-xs text-bloom-textMuted max-w-lg leading-relaxed">
-                Boost user engagement by offering FlowMind AI, a secure fiat-backed operating system allowing your customers to automate operations effortlessly on your platform.
+                {t.businessDesc}
               </p>
               <button
                 onClick={() => setActiveModule('agents')}
                 className="inline-flex items-center gap-2 text-xs font-bold text-purple-700 hover:text-purple-900 pt-2 transition-colors"
               >
-                <span>→ Learn more</span>
+                <span>{t.learnMore}</span>
               </button>
             </div>
 

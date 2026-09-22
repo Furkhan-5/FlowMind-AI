@@ -15,14 +15,14 @@ export const PromptChips: React.FC<PromptChipsProps> = ({ onSelectPrompt }) => {
     t.todaySales,
     t.scheduleMeeting,
     t.createInvoice,
-    "Generate monthly payroll report for HR",
-    "Analyze low stock inventory and alert manager",
+    t.payrollReport || "Generate monthly payroll report for HR",
+    t.inventoryAlert || "Analyze low stock inventory and alert manager",
   ];
 
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 custom-scrollbar">
       <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1 shrink-0">
-        <Sparkles className="w-3 h-3" /> Quick Prompts:
+        <Sparkles className="w-3 h-3" /> {t.quickPrompts || "Quick Prompts:"}
       </span>
       {prompts.map((prompt, idx) => (
         <button

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAppStore } from '@/lib/store/useAppStore';
-import { UI_TRANSLATIONS } from '@/lib/i18n/translations';
+import { UI_TRANSLATIONS, getLocalizedAgentName, getLocalizedAgentDomain } from '@/lib/i18n/translations';
 import { AgentType, ChatMessage } from '@/types';
 import { MOCK_AGENTS } from '@/lib/mockData';
 import { ThoughtStream } from '@/components/chat/ThoughtStream';
@@ -82,8 +82,9 @@ export const RobotAssistant: React.FC = () => {
     setSelectedAgentState(agentId);
     setActiveAgent(agentId);
 
-    const agentObj = MOCK_AGENTS.find((a) => a.id === agentId);
-    const welcomeMsg = `Hi! I am connecting you to the **${agentObj?.name || agentId}**. ${agentObj?.description || ''} What query or workflow would you like to execute today?`;
+    const agentName = getLocalizedAgentName(agentId, language);
+    const template = t.connectingAgent || "Hi! I am connecting you to the {agentName}. What query or workflow would you like to execute today?";
+    const welcomeMsg = template.replace('{agentName}', agentName);
 
     addMessage({
       sender: 'AGENT',
@@ -98,12 +99,13 @@ export const RobotAssistant: React.FC = () => {
     if (!query.trim() || isProcessing || !selectedAgent) return;
 
     const detectedLang = detectLanguageScript(query);
-    const parsedIntent = parseCanonicalBusinessIntent(query, detectedLang);
+    const targetLang = detectedLang !== 'en' ? detectedLang : language;
+    const parsedIntent = parseCanonicalBusinessIntent(query, targetLang);
 
     addMessage({
       sender: 'USER',
       content: query,
-      language: detectedLang,
+      language: targetLang,
     });
 
     setInput('');
@@ -111,7 +113,7 @@ export const RobotAssistant: React.FC = () => {
 
     setTimeout(() => {
       let thoughtSteps = [
-        { agent: selectedAgent, action: `Detected Script: ${detectedLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
+        { agent: selectedAgent, action: `Target Language: ${targetLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
         { agent: parsedIntent.targetAgent, action: `Parsed parameters: ${JSON.stringify(parsedIntent.parameters)}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
       ];
 
@@ -122,12 +124,12 @@ export const RobotAssistant: React.FC = () => {
         actionCardData = {
           id: `ACT-${Date.now()}`,
           title: 'Schedule Sales Meeting & Update CRM',
-          description: 'Sales Agent parsed multi-script request and prepared calendar invite.',
+          description: 'Sales Agent parsed request and prepared calendar invite.',
           agent: 'Sales' as AgentType,
           module: 'Sales',
           details: parsedIntent.parameters,
           status: 'PENDING' as const,
-          confirmLabel: 'Approve & Schedule Meeting',
+          confirmLabel: t.approveButton || 'Approve & Execute',
         };
       } else if (parsedIntent.action === 'GENERATE_CLIENT_INVOICE') {
         actionCardData = {
@@ -138,7 +140,7 @@ export const RobotAssistant: React.FC = () => {
           module: 'Finance',
           details: parsedIntent.parameters,
           status: 'PENDING' as const,
-          confirmLabel: 'Approve & Dispatch Invoice',
+          confirmLabel: t.approveButton || 'Approve & Execute',
         };
       }
 
@@ -146,13 +148,13 @@ export const RobotAssistant: React.FC = () => {
         sender: 'AGENT',
         activeAgent: selectedAgent,
         content: responseContent,
-        language: detectedLang,
+        language: targetLang,
         thoughtStream: thoughtSteps,
         actionCard: actionCardData,
       });
 
-      // Native TTS speech synthesis if voice mode active or non-English script detected
-      speakTextInNativeAccent(responseContent, detectedLang);
+      // Native TTS speech synthesis
+      speakTextInNativeAccent(responseContent, targetLang);
 
       setIsProcessing(false);
     }, 1100);
@@ -187,8 +189,8 @@ export const RobotAssistant: React.FC = () => {
             <Bot className="w-5 h-5" />
           </div>
           <div className="text-left">
-            <p className="text-xs font-extrabold tracking-tight">AI Robot Assistant</p>
-            <p className="text-[10px] text-purple-300 font-medium">Select Agent & Chat</p>
+            <p className="text-xs font-extrabold tracking-tight">{t.robotPillTitle || "AI Robot Assistant"}</p>
+            <p className="text-[10px] text-purple-300 font-medium">{t.robotPillSubtitle || "Select Agent & Chat"}</p>
           </div>
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-slate-950 animate-ping" />
         </button>
@@ -204,8 +206,8 @@ export const RobotAssistant: React.FC = () => {
                 <Bot className="w-5 h-5 text-purple-300" />
               </div>
               <div>
-                <h3 className="text-xs font-extrabold tracking-tight">FlowMind Robot Assistant</h3>
-                <p className="text-[10px] text-purple-300">Select 1 of 15 Agents to Interact</p>
+                <h3 className="text-xs font-extrabold tracking-tight">{t.assistantTitle || "FlowMind Robot Assistant"}</h3>
+                <p className="text-[10px] text-purple-300">{t.selectAgentPrompt || "Select 1 of 15 Agents to Interact"}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -215,7 +217,7 @@ export const RobotAssistant: React.FC = () => {
                   className="text-[10px] bg-purple-900/60 hover:bg-purple-800 text-purple-200 px-2.5 py-1 rounded-full border border-purple-700/50 flex items-center gap-1"
                   title="Switch Agent"
                 >
-                  <RefreshCw className="w-3 h-3" /> Switch Agent
+                  <RefreshCw className="w-3 h-3" /> {t.switchAgent || "Switch Agent"}
                 </button>
               )}
               <button
@@ -233,17 +235,17 @@ export const RobotAssistant: React.FC = () => {
               {/* Robot Greeting Speech Bubble */}
               <div className="p-4 rounded-2xl bg-white border border-purple-200 shadow-sm space-y-2 relative">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-bloom-dark">🤖 Robot Assistant:</span>
+                  <span className="text-sm font-bold text-bloom-dark">🤖 {t.appName}:</span>
                 </div>
                 <p className="text-xs text-slate-700 leading-relaxed">
-                  "Hi! 👋 Welcome to FlowMind AI. Please select which specialized domain agent you would like to interact with today:"
+                  "{t.robotGreeting || "Hi! 👋 Welcome to FlowMind AI. Please select which specialized domain agent you would like to interact with today:"}"
                 </p>
               </div>
 
               {/* 15 Agents Picker Grid */}
               <div className="space-y-2">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
-                  15 Specialized Domain Agents:
+                  {t.selectAgentPrompt || "15 Specialized Domain Agents:"}
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   {MOCK_AGENTS.map((agent) => (
@@ -259,8 +261,8 @@ export const RobotAssistant: React.FC = () => {
                         <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-600 transition-colors" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-bloom-dark group-hover:text-purple-900">{agent.name}</h4>
-                        <p className="text-[10px] text-slate-500 truncate">{agent.domain}</p>
+                        <h4 className="text-xs font-bold text-bloom-dark group-hover:text-purple-900">{getLocalizedAgentName(agent.id, language)}</h4>
+                        <p className="text-[10px] text-slate-500 truncate">{getLocalizedAgentDomain(agent.id, language)}</p>
                       </div>
                     </button>
                   ))}
@@ -274,7 +276,7 @@ export const RobotAssistant: React.FC = () => {
               <div className="px-4 py-2 bg-purple-50 border-b border-purple-200 flex items-center justify-between">
                 <span className="text-xs font-bold text-purple-900 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  Connected to: {selectedAgent} Agent
+                  Connected to: {getLocalizedAgentName(selectedAgent, language)}
                 </span>
                 <Badge variant="purple" className="text-[9px]">
                   <ShieldCheck className="w-3 h-3" /> {user.role} SANITIZED
@@ -342,10 +344,10 @@ export const RobotAssistant: React.FC = () => {
                   <div className="flex items-center justify-between bg-red-50 text-red-700 px-3 py-1.5 rounded-xl border border-red-200 text-[10px]">
                     <span className="font-bold flex items-center gap-1">
                       <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-                      Microphone Active – Listening to your speech...
+                      {t.listening || "Microphone Active – Listening to your speech..."}
                     </span>
                     <button
-                      onClick={() => handleSendQuery('రేపు 10 గంటలకు మీటింగ్ పెట్టండి')}
+                      onClick={() => handleSendQuery(t.scheduleMeeting)}
                       className="bg-red-600 text-white px-2 py-0.5 rounded-full hover:bg-red-700 text-[9px] font-semibold transition-colors"
                     >
                       ⚡ Demo Speech Input
@@ -374,8 +376,8 @@ export const RobotAssistant: React.FC = () => {
                     onKeyDown={(e) => e.key === 'Enter' && handleSendQuery()}
                     placeholder={
                       isVoiceActive
-                        ? '🎤 Listening... Speak now (words will appear here!)'
-                        : `Ask ${selectedAgent} Agent...`
+                        ? `🎤 ${t.listening || 'Listening...'}`
+                        : t.typeMessage || `Ask ${selectedAgent} Agent...`
                     }
                     className={`flex-1 text-bloom-textDark text-xs rounded-full px-4 py-2 focus:outline-none transition-colors ${
                       isVoiceActive

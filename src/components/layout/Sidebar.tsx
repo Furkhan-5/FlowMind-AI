@@ -34,21 +34,21 @@ export const Sidebar: React.FC = () => {
   const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
 
   const mainNavItems = [
-    { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
-    { id: 'chat', label: 'Layman Chatbot MVP', icon: MessageSquare, badge: 'Core MVP' },
-    { id: 'agents', label: '15-Agent Control Mesh', icon: Bot, count: 15 },
+    { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
+    { id: 'chat', label: t.laymanMvp, icon: MessageSquare, badge: 'Core MVP' },
+    { id: 'agents', label: t.activeAgents, icon: Bot, count: 15 },
     { id: 'workflows', label: t.workflows, icon: GitFork },
     { id: 'data-analyst', label: t.dataStudio, icon: FileSpreadsheet },
     { id: 'knowledge', label: t.knowledgeBase, icon: BookOpen },
-    { id: 'proactive', label: 'Proactive AI Monitor', icon: Bell, count: 2 },
+    { id: 'proactive', label: t.proactiveMonitor, icon: Bell, count: 2 },
   ];
 
   const businessSuiteItems = [
-    { id: 'crm', label: 'CRM & Leads', icon: Users },
-    { id: 'finance', label: 'Finance & Invoicing', icon: DollarSign },
-    { id: 'hr', label: 'HR & Employees', icon: Briefcase },
-    { id: 'inventory', label: 'Inventory & Stock', icon: Package },
-    { id: 'support', label: 'Customer Support', icon: Headphones },
+    { id: 'crm', label: t.crmAndLeads, icon: Users },
+    { id: 'finance', label: t.financeInvoicing, icon: DollarSign },
+    { id: 'hr', label: t.hrEmployees, icon: Briefcase },
+    { id: 'inventory', label: t.inventoryStock, icon: Package },
+    { id: 'support', label: t.customerSupport, icon: Headphones },
   ];
 
   return (
@@ -61,7 +61,7 @@ export const Sidebar: React.FC = () => {
           </div>
           <div>
             <h1 className="font-bold text-slate-100 text-sm tracking-wide">{t.appName}</h1>
-            <p className="text-[10px] text-blue-400 font-medium">Multilingual Business OS</p>
+            <p className="text-[10px] text-blue-400 font-medium">{t.subTitle}</p>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ export const Sidebar: React.FC = () => {
       {/* Language Selector */}
       <div className="px-4 py-3 border-b border-slate-800/60 bg-slate-900/40">
         <label className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block mb-1.5">
-          Native Language
+          {t.nativeLanguage}
         </label>
         <div className="relative">
           <select
@@ -92,7 +92,7 @@ export const Sidebar: React.FC = () => {
         {/* Core AI Platform */}
         <div>
           <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-            AI Platform Core
+            {t.aiPlatformCore}
           </p>
           <div className="space-y-1">
             {mainNavItems.map((item) => {
@@ -132,7 +132,7 @@ export const Sidebar: React.FC = () => {
         {/* Business Suite */}
         <div>
           <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-            Business Suite
+            {t.businessSuite}
           </p>
           <div className="space-y-1">
             {businessSuiteItems.map((item) => {
@@ -165,7 +165,7 @@ export const Sidebar: React.FC = () => {
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span className="text-[11px] font-medium text-slate-300">RBAC Role</span>
+            <span className="text-[11px] font-medium text-slate-300">{t.rbacRole}</span>
           </div>
           <select
             value={user.role}

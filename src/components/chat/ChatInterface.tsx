@@ -69,12 +69,13 @@ export const ChatInterface: React.FC = () => {
     if (!query.trim() || isProcessing) return;
 
     const detectedLang = detectLanguageScript(query);
-    const parsedIntent = parseCanonicalBusinessIntent(query, detectedLang);
+    const targetLang = detectedLang !== 'en' ? detectedLang : language;
+    const parsedIntent = parseCanonicalBusinessIntent(query, targetLang);
 
     addMessage({
       sender: 'USER',
       content: query,
-      language: detectedLang,
+      language: targetLang,
     });
 
     setInput('');
@@ -85,7 +86,7 @@ export const ChatInterface: React.FC = () => {
       setActiveAgent(routedAgent);
 
       const thoughtSteps = [
-        { agent: routedAgent, action: `Indic Script Detected: ${detectedLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
+        { agent: routedAgent, action: `Target Language: ${targetLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
         { agent: 'Security' as AgentType, action: 'Sanitized input & applied RBAC policy filtering', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
       ];
 
@@ -96,12 +97,12 @@ export const ChatInterface: React.FC = () => {
         actionCardData = {
           id: `ACT-${Date.now()}`,
           title: 'Schedule Sales Meeting & Update CRM Pipeline',
-          description: 'Sales & Scheduler Agents parsed your multilingual request and prepared calendar invites.',
+          description: 'Sales & Scheduler Agents parsed your request and prepared calendar invites.',
           agent: 'Sales' as AgentType,
           module: 'Sales',
           details: parsedIntent.parameters,
           status: 'PENDING' as const,
-          confirmLabel: 'Approve & Schedule Meeting',
+          confirmLabel: t.approveButton || 'Approve & Execute',
         };
       } else if (parsedIntent.action === 'GENERATE_CLIENT_INVOICE') {
         actionCardData = {
@@ -112,7 +113,7 @@ export const ChatInterface: React.FC = () => {
           module: 'Finance',
           details: parsedIntent.parameters,
           status: 'PENDING' as const,
-          confirmLabel: 'Approve & Issue Invoice',
+          confirmLabel: t.approveButton || 'Approve & Execute',
         };
       }
 
@@ -120,12 +121,12 @@ export const ChatInterface: React.FC = () => {
         sender: 'AGENT',
         activeAgent: routedAgent,
         content: responseContent,
-        language: detectedLang,
+        language: targetLang,
         thoughtStream: thoughtSteps,
         actionCard: actionCardData,
       });
 
-      speakTextInNativeAccent(responseContent, detectedLang);
+      speakTextInNativeAccent(responseContent, targetLang);
 
       setIsProcessing(false);
     }, 1200);

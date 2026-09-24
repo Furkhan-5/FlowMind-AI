@@ -20,16 +20,15 @@ import {
 } from 'lucide-react';
 
 import { AgentLogo } from '@/components/ui/AgentLogo';
-import { FlowMindBrainBulbLogo } from '@/components/ui/FlowMindBrainBulbLogo';
 
 // Dynamic import with SSR false for Three.js WebGL Canvases to prevent server-side WebGL errors
-const BrainBulb3DCanvas = dynamic(
-  () => import('@/components/canvas/BrainBulb3DCanvas').then((mod) => mod.BrainBulb3DCanvas),
+const Hero3DCanvas = dynamic(
+  () => import('@/components/canvas/Hero3DCanvas').then((mod) => mod.Hero3DCanvas),
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-80 sm:h-[420px] rounded-[32px] bg-slate-900 border border-amber-500/30 animate-pulse flex items-center justify-center text-xs font-bold text-amber-400">
-        Loading 3D Brain-Bulb Logo & Hands Canvas...
+      <div className="w-full h-72 sm:h-96 rounded-3xl bg-purple-100/40 border border-purple-200/50 animate-pulse flex items-center justify-center text-xs font-bold text-purple-600">
+        Loading 3D Canvas...
       </div>
     ),
   }
@@ -224,10 +223,10 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 space-y-12 pb-24">
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-white via-amber-50/20 to-white border border-slate-200/80 rounded-[32px] p-6 sm:p-10 shadow-bloom space-y-8 relative overflow-hidden">
+        <section className="bg-white border border-slate-200/80 rounded-[32px] p-6 sm:p-10 shadow-bloom space-y-8 relative overflow-hidden">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <div className="inline-flex items-center justify-center p-2 rounded-full bg-amber-50 border border-amber-200 shadow-sm">
-              <FlowMindBrainBulbLogo size="md" glow />
+            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-bloom-dark font-bold text-sm shadow-sm">
+              +
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold text-bloom-dark tracking-tight leading-tight">
               {t.heroTitle}
@@ -247,8 +246,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 3D Brain-in-Lightbulb Logo cupped between Porcelain Hands (360° Interactive Rotation) */}
-          <BrainBulb3DCanvas />
+          {/* 3D Botanical Banner dynamically loaded client-side */}
+          <Hero3DCanvas />
         </section>
 
         {/* Feature Section */}

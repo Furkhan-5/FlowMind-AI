@@ -3,7 +3,6 @@ import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from '@/lib/i18n/translations';
 import { LanguageCode, UserRole } from '@/types';
 import { Mic, ChevronDown } from 'lucide-react';
-import { FlowMindBrainBulbLogo } from '@/components/ui/FlowMindBrainBulbLogo';
 
 export const Navbar: React.FC = () => {
   const {
@@ -34,12 +33,12 @@ export const Navbar: React.FC = () => {
         {/* Brand Logo */}
         <button
           onClick={() => setActiveModule('dashboard')}
-          className="flex items-center gap-2.5 font-bold text-bloom-dark text-base tracking-tight hover:opacity-90 transition-opacity group"
+          className="flex items-center gap-2 font-bold text-bloom-dark text-base tracking-tight hover:opacity-80 transition-opacity"
         >
-          <FlowMindBrainBulbLogo size="md" glow />
-          <span className="font-extrabold bg-gradient-to-r from-amber-600 via-purple-900 to-slate-900 bg-clip-text text-transparent">
-            FlowMind AI
+          <span className="w-6 h-6 rounded-full bg-bloom-dark text-white flex items-center justify-center text-xs font-black">
+            +
           </span>
+          <span>FlowMind AI</span>
         </button>
 
         {/* Center Nav Links (Chatbot MVP link removed from Navbar) */}

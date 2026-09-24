@@ -2,7 +2,6 @@ import React from 'react';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from '@/lib/i18n/translations';
 import { LanguageCode, UserRole } from '@/types';
-import { FlowMindBrainBulbLogo } from '@/components/ui/FlowMindBrainBulbLogo';
 import {
   LayoutDashboard,
   MessageSquare,
@@ -57,10 +56,12 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <div className="p-4 border-b border-slate-800/80 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <FlowMindBrainBulbLogo size="md" glow />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-lg font-bold shadow-lg shadow-blue-500/30 text-white">
+            {organization.logo}
+          </div>
           <div>
             <h1 className="font-bold text-slate-100 text-sm tracking-wide">{t.appName}</h1>
-            <p className="text-[10px] text-amber-400 font-medium">{t.subTitle}</p>
+            <p className="text-[10px] text-blue-400 font-medium">{t.subTitle}</p>
           </div>
         </div>
       </div>

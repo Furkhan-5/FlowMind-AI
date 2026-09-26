@@ -5,15 +5,16 @@ import { ActionCardData } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useAppStore } from '@/lib/store/useAppStore';
-import { ShieldAlert, CheckCircle2, XCircle, Edit3, Save, X } from 'lucide-react';
+import { ShieldAlert, CheckCircle2, XCircle, Edit3, Save, X, Download, FileText } from 'lucide-react';
 import { AgentLogo } from '@/components/ui/AgentLogo';
+import { downloadInvoiceFile, openInvoicePreview } from '@/lib/utils/invoiceGenerator';
 
 interface ActionCardProps {
   data: ActionCardData;
 }
 
 export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
-  const { approveActionCard, editActionCard, cancelActionCard } = useAppStore();
+  const { approveActionCard, editActionCard, cancelActionCard, addToast } = useAppStore();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Record<string, any>>({ ...data.details });
@@ -21,6 +22,37 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
   const isApproved = data.status === 'APPROVED';
   const isCancelled = data.status === 'CANCELLED';
   const isEdited = data.status === 'EDITED';
+
+  const isInvoiceCard =
+    data.agent === 'Finance' ||
+    data.module === 'Finance' ||
+    data.title.toLowerCase().includes('invoice');
+
+  const getInvoiceParams = () => {
+    return {
+      invoiceNumber: data.details.invoiceNumber || `INV-2026-${data.id.slice(-4)}`,
+      clientName: data.details.client || data.details.clientName || 'Valued Client',
+      amount: data.details.amount || '₹50,000',
+      tax: data.details.tax || '₹9,000 (18% GST)',
+      service: data.details.service || data.description || 'Enterprise Consulting & AI Services',
+      status: data.status,
+    };
+  };
+
+  const handleDownloadInvoice = () => {
+    const params = getInvoiceParams();
+    downloadInvoiceFile(params);
+    addToast({
+      type: 'success',
+      title: 'Invoice Downloaded',
+      message: `Tax invoice ${params.invoiceNumber} has been downloaded to your system.`,
+    });
+  };
+
+  const handlePreviewInvoice = () => {
+    const params = getInvoiceParams();
+    openInvoicePreview(params);
+  };
 
   const handleSaveEdit = () => {
     editActionCard(data.id, editForm);
@@ -118,43 +150,90 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
 
       {/* Control Buttons (Approve & Execute, Edit, Cancel) */}
       {!isApproved && !isCancelled && !isEditing && (
-        <div className="flex items-center gap-2 pt-1">
-          <Button
-            size="sm"
-            variant="dark"
-            className="flex-1 text-xs bg-emerald-600 hover:bg-emerald-500 border-emerald-400/30 text-white font-bold"
-            onClick={() => approveActionCard(data.id)}
-            icon={<CheckCircle2 className="w-3.5 h-3.5" />}
-          >
-            {data.confirmLabel || 'Approve & Execute'}
-          </Button>
+        <div className="flex flex-col gap-2 pt-1">
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="dark"
+              className="flex-1 text-xs bg-emerald-600 hover:bg-emerald-500 border-emerald-400/30 text-white font-bold"
+              onClick={() => approveActionCard(data.id)}
+              icon={<CheckCircle2 className="w-3.5 h-3.5" />}
+            >
+              {data.confirmLabel || 'Approve & Execute'}
+            </Button>
 
-          <Button
-            size="sm"
-            variant="outline"
-            className="text-xs text-purple-300 border-purple-500/40 hover:bg-purple-900/40"
-            onClick={() => setIsEditing(true)}
-            icon={<Edit3 className="w-3.5 h-3.5" />}
-          >
-            Edit
-          </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="text-xs text-purple-300 border-purple-500/40 hover:bg-purple-900/40"
+              onClick={() => setIsEditing(true)}
+              icon={<Edit3 className="w-3.5 h-3.5" />}
+            >
+              Edit
+            </Button>
 
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-xs text-slate-400 hover:text-red-300 hover:bg-red-950/40"
-            onClick={() => cancelActionCard(data.id)}
-            icon={<XCircle className="w-3.5 h-3.5" />}
-          >
-            Cancel
-          </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-xs text-slate-400 hover:text-red-300 hover:bg-red-950/40"
+              onClick={() => cancelActionCard(data.id)}
+              icon={<XCircle className="w-3.5 h-3.5" />}
+            >
+              Cancel
+            </Button>
+          </div>
+
+          {/* Quick Invoice Actions for Finance Cards prior to approval */}
+          {isInvoiceCard && (
+            <div className="flex items-center gap-2 pt-1 border-t border-slate-800/80">
+              <Button
+                size="sm"
+                variant="outline"
+                className="flex-1 text-[11px] bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700"
+                onClick={handlePreviewInvoice}
+                icon={<FileText className="w-3 h-3 text-purple-400" />}
+              >
+                Preview Draft Invoice
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="flex-1 text-[11px] bg-purple-950/60 hover:bg-purple-900 text-purple-200 border-purple-700/50 font-medium"
+                onClick={handleDownloadInvoice}
+                icon={<Download className="w-3 h-3 text-purple-300" />}
+              >
+                Download Invoice
+              </Button>
+            </div>
+          )}
         </div>
       )}
 
       {/* Execution Result State Banners */}
       {isApproved && (
-        <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-400 flex items-center justify-center gap-1.5 font-medium">
-          <CheckCircle2 className="w-4 h-4 shrink-0" /> Action approved and executed by {data.agent} Agent. Audit log entry recorded.
+        <div className="space-y-2">
+          <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-400 flex items-center justify-between gap-1.5 font-medium">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+              <span>Action approved and executed by {data.agent} Agent. Audit log entry recorded.</span>
+            </div>
+          </div>
+          {isInvoiceCard && (
+            <div className="p-2.5 rounded-xl bg-purple-950/80 border border-purple-500/40 flex items-center justify-between text-xs text-purple-200">
+              <span className="font-semibold flex items-center gap-1.5">
+                <FileText className="w-4 h-4 text-purple-400" /> GST Tax Invoice is Ready for Distribution
+              </span>
+              <Button
+                size="sm"
+                variant="dark"
+                className="bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white shadow-lg flex items-center gap-1"
+                onClick={handleDownloadInvoice}
+                icon={<Download className="w-3.5 h-3.5" />}
+              >
+                Download Invoice PDF / HTML
+              </Button>
+            </div>
+          )}
         </div>
       )}
 
@@ -166,3 +245,4 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
     </div>
   );
 };
+

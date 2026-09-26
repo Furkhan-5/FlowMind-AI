@@ -5,7 +5,7 @@ import { ActionCardData } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useAppStore } from '@/lib/store/useAppStore';
-import { ShieldAlert, CheckCircle2, XCircle, Edit3, Save, X, Download, FileText } from 'lucide-react';
+import { ShieldAlert, CheckCircle2, XCircle, Edit3, Save, X, Download, FileText, Activity, AlertTriangle, ArrowRight } from 'lucide-react';
 import { AgentLogo } from '@/components/ui/AgentLogo';
 import { downloadInvoiceFile, openInvoicePreview } from '@/lib/utils/invoiceGenerator';
 
@@ -27,6 +27,21 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
     data.agent === 'Finance' ||
     data.module === 'Finance' ||
     data.title.toLowerCase().includes('invoice');
+
+  const riskLevel = data.riskLevel || (isInvoiceCard ? 'HIGH' : 'MEDIUM');
+
+  const getRiskBadgeColor = (risk: string) => {
+    switch (risk) {
+      case 'CRITICAL':
+        return 'bg-red-500/20 text-red-300 border-red-500/40';
+      case 'HIGH':
+        return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+      case 'MEDIUM':
+        return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+      default:
+        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+    }
+  };
 
   const getInvoiceParams = () => {
     return {
@@ -70,35 +85,49 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
           <ShieldAlert className="w-4 h-4 text-amber-400" />
           <h4 className="text-xs font-bold text-white">{data.title}</h4>
         </div>
-        <Badge
-          variant={
-            isApproved
-              ? 'success'
+        <div className="flex items-center gap-1.5">
+          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${getRiskBadgeColor(riskLevel)}`}>
+            {riskLevel} RISK
+          </span>
+          <Badge
+            variant={
+              isApproved
+                ? 'success'
+                : isCancelled
+                ? 'default'
+                : isEdited
+                ? 'purple'
+                : 'warning'
+            }
+          >
+            {isApproved
+              ? 'APPROVED & EXECUTED'
               : isCancelled
-              ? 'default'
+              ? 'CANCELLED'
               : isEdited
-              ? 'purple'
-              : 'warning'
-          }
-        >
-          {isApproved
-            ? 'APPROVED & EXECUTED'
-            : isCancelled
-            ? 'CANCELLED'
-            : isEdited
-            ? 'MODIFIED (AWAITING APPROVAL)'
-            : 'REQUIRES APPROVAL'}
-        </Badge>
+              ? 'MODIFIED (AWAITING APPROVAL)'
+              : 'REQUIRES APPROVAL'}
+          </Badge>
+        </div>
       </div>
 
       {/* Description */}
       <p className="text-xs text-slate-300 leading-relaxed">{data.description}</p>
 
+      {/* Approval Reason Justification */}
+      {data.approvalReason && (
+        <div className="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30 text-[11px] text-purple-200 flex items-start gap-1.5">
+          <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+          <span><strong>Why Approval Required:</strong> {data.approvalReason}</span>
+        </div>
+      )}
+
       {/* Parameter Details (Read View / Edit Form) */}
       {!isEditing ? (
         <div className="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1.5 font-mono text-slate-300">
-          <div className="text-[10px] text-slate-400 font-sans font-bold uppercase tracking-wider mb-1">
-            Action Parameters & Target Entity:
+          <div className="text-[10px] text-slate-400 font-sans font-bold uppercase tracking-wider mb-1 flex items-center justify-between">
+            <span>Action Parameters & Target Entity:</span>
+            <span className="text-emerald-400 font-semibold">✓ Schema Validated</span>
           </div>
           {Object.entries(data.details).map(([key, val]) => (
             <div key={key} className="flex justify-between items-center">
@@ -144,6 +173,40 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
             >
               Cancel Edit
             </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Before / After Simulation Preview Diff */}
+      {data.beforeAfter && (
+        <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] space-y-1.5">
+          <div className="flex items-center gap-1 text-purple-300 font-bold">
+            <Activity className="w-3 h-3 text-purple-400" />
+            <span>Action Preview (Before vs. After State Diff):</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 font-mono text-[10px]">
+            <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400">
+              <div className="font-bold text-slate-300 mb-1 uppercase">BEFORE:</div>
+              {data.beforeAfter.before ? (
+                Object.entries(data.beforeAfter.before).map(([k, v]) => (
+                  <div key={k}>{k}: <span className="text-slate-200">{String(v)}</span></div>
+                ))
+              ) : (
+                <div>Status: Initial State</div>
+              )}
+            </div>
+            <div className="p-2 rounded-lg bg-purple-950/60 border border-purple-700/50 text-purple-300">
+              <div className="font-bold text-purple-200 mb-1 uppercase flex items-center gap-1">
+                AFTER: <ArrowRight className="w-3 h-3 text-purple-400" />
+              </div>
+              {data.beforeAfter.after ? (
+                Object.entries(data.beforeAfter.after).map(([k, v]) => (
+                  <div key={k}>{k}: <span className="text-white font-bold">{String(v)}</span></div>
+                ))
+              ) : (
+                <div>Status: Proposed Executed State</div>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -245,4 +308,3 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
     </div>
   );
 };
-

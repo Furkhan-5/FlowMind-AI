@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { UI_TRANSLATIONS } from '@/lib/i18n/translations';
-import { ThoughtStream } from '@/components/chat/ThoughtStream';
-import { ActionCard } from '@/components/chat/ActionCard';
+import { UniversalResponseRenderer } from '@/components/chat/UniversalResponseRenderer';
 import { PromptChips } from '@/components/chat/PromptChips';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { Send, Mic, Bot, Sparkles, ShieldCheck } from 'lucide-react';
-import { AgentType } from '@/types';
+import { Send, Mic, Sparkles, ShieldCheck } from 'lucide-react';
 import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
 import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
@@ -98,6 +96,11 @@ export const ChatInterface: React.FC = () => {
         language: targetLang,
         thoughtStream: result.thoughtStream,
         actionCard: result.actionCard,
+        suggestedActions: result.suggestedActions,
+        artifacts: result.artifacts,
+        handoff: result.handoff,
+        confidenceLevel: result.universalResponse?.intent.confidenceLevel || 'HIGH',
+        riskLevel: result.universalResponse?.risk.level || 'LOW',
       });
 
       if (result.securityBlocked) {
@@ -138,12 +141,12 @@ export const ChatInterface: React.FC = () => {
             <h3 className="text-xs font-bold text-bloom-dark flex items-center gap-2">
               Active Routing Agent: <span className="text-purple-700 font-extrabold">{activeAgent} Agent</span>
             </h3>
-            <p className="text-[10px] text-bloom-textMuted">Layman Mode Active &bull; Transparent Thought Stream & Action Cards</p>
+            <p className="text-[10px] text-bloom-textMuted">Universal Agent Intelligence Mesh &bull; Governance & Handoff Active</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="purple" className="text-[10px]">
-            <ShieldCheck className="w-3 h-3" /> {user.role} SANITIZED
+            <ShieldCheck className="w-3 h-3" /> UNIVERSAL GOVERNANCE ACTIVE
           </Badge>
         </div>
       </div>
@@ -151,39 +154,17 @@ export const ChatInterface: React.FC = () => {
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 custom-scrollbar">
         {messages.map((msg) => (
-          <div
+          <UniversalResponseRenderer
             key={msg.id}
-            className={`flex flex-col ${msg.sender === 'USER' ? 'items-end' : 'items-start'}`}
-          >
-            <div className="flex items-center gap-2 mb-1 px-1">
-              {msg.sender !== 'USER' && (
-                <AgentLogo agentId={msg.activeAgent || activeAgent} size="xs" />
-              )}
-              <span className="text-[10px] font-bold text-slate-500">
-                {msg.sender === 'USER' ? `${user.name} (You)` : `${msg.activeAgent || 'AI'} Agent`}
-              </span>
-              <span className="text-[10px] text-slate-400">{msg.timestamp}</span>
-            </div>
-
-            <div
-              className={`max-w-2xl rounded-2xl px-4 py-3 text-xs leading-relaxed border shadow-sm ${
-                msg.sender === 'USER'
-                  ? 'bg-bloom-dark text-white border-bloom-darkCard rounded-br-none'
-                  : 'bg-white text-bloom-textDark border-slate-200 rounded-bl-none'
-              }`}
-            >
-              <p>{msg.content}</p>
-
-              {msg.thoughtStream && <ThoughtStream steps={msg.thoughtStream} />}
-              {msg.actionCard && <ActionCard data={msg.actionCard} />}
-            </div>
-          </div>
+            message={msg}
+            onSendSuggestedAction={(sugQuery) => handleSend(sugQuery)}
+          />
         ))}
 
         {isProcessing && (
           <div className="flex items-center gap-2 text-xs text-purple-700 bg-purple-50 p-3 rounded-2xl border border-purple-200 w-fit animate-pulse">
             <Sparkles className="w-4 h-4 animate-spin text-purple-600" />
-            <span>Master Orchestrator routing query across 15 specialized agents...</span>
+            <span>Universal Agent Mesh analyzing request, checking risk, and executing governance pipeline...</span>
           </div>
         )}
 

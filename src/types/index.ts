@@ -63,6 +63,16 @@ export interface ThoughtStep {
   status: 'PENDING' | 'RUNNING' | 'DONE';
 }
 
+import {
+  RiskLevel,
+  ConfidenceLevel,
+  ValidationStatus,
+  SuggestedAction,
+  ArtifactRef,
+  AgentHandoff,
+  ActionSimulationResult,
+} from './universalAgent';
+
 export interface ActionCardData {
   id: string;
   title: string;
@@ -72,6 +82,17 @@ export interface ActionCardData {
   details: Record<string, any>;
   status: 'PENDING' | 'APPROVED' | 'EDITED' | 'CANCELLED';
   confirmLabel?: string;
+  riskLevel?: RiskLevel;
+  approvalReason?: string;
+  validationStatus?: ValidationStatus;
+  beforeAfter?: {
+    entity: string;
+    before?: Record<string, any>;
+    after?: Record<string, any>;
+  };
+  simulation?: ActionSimulationResult;
+  suggestedActions?: SuggestedAction[];
+  artifacts?: ArtifactRef[];
 }
 
 export interface ChatMessage {
@@ -83,6 +104,12 @@ export interface ChatMessage {
   language: LanguageCode;
   thoughtStream?: ThoughtStep[];
   actionCard?: ActionCardData;
+  suggestedActions?: SuggestedAction[];
+  artifacts?: ArtifactRef[];
+  handoff?: AgentHandoff | null;
+  confidenceLevel?: ConfidenceLevel;
+  riskLevel?: RiskLevel;
+  validationStatus?: ValidationStatus;
   timestamp: string;
 }
 
@@ -164,3 +191,5 @@ export interface ProactiveAlert {
 }
 
 export * from './agentEvents';
+export * from './universalAgent';
+

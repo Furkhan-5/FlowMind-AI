@@ -8,9 +8,11 @@ import {
   Workflow,
   ProactiveAlert,
   ActionCardData,
+  ToastNotification,
 } from '@/types';
 import { MOCK_AGENTS, MOCK_LEADS, MOCK_INVOICES, MOCK_WORKFLOWS, MOCK_ALERTS } from '@/lib/mockData';
 import { UI_TRANSLATIONS } from '@/lib/i18n/translations';
+import { auditLogger } from '@/lib/security/auditLogger';
 
 interface AppState {
   // Auth & Org
@@ -36,8 +38,15 @@ interface AppState {
   isVoiceActive: boolean;
   setVoiceActive: (active: boolean) => void;
 
-  // Action Confirmation Card Approvals
+  // Action Confirmation Card LifeCycle (Approve, Edit, Cancel)
   approveActionCard: (cardId: string) => void;
+  editActionCard: (cardId: string, updatedDetails: Record<string, any>) => void;
+  cancelActionCard: (cardId: string) => void;
+
+  // Toasts & Notifications
+  toasts: ToastNotification[];
+  addToast: (toast: Omit<ToastNotification, 'id' | 'timestamp'>) => void;
+  removeToast: (id: string) => void;
 
   // Workflows & Proactive Alerts
   workflows: Workflow[];
@@ -126,12 +135,31 @@ export const useAppStore = create<AppState>((set, get) => ({
   isVoiceActive: false,
   setVoiceActive: (isVoiceActive) => set({ isVoiceActive }),
 
+  // 1. APPROVE & EXECUTE
   approveActionCard: (cardId) => {
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let cardAgent: AgentType = 'CEO';
+    let cardTitle = 'Action Card';
+    let cardDetails: Record<string, any> = {};
+
     set((state) => ({
       messages: state.messages.map((msg) => {
         if (msg.actionCard && msg.actionCard.id === cardId) {
+          cardAgent = msg.actionCard.agent;
+          cardTitle = msg.actionCard.title;
+          cardDetails = msg.actionCard.details;
+
+          const updatedSteps = msg.thoughtStream ? [...msg.thoughtStream] : [];
+          updatedSteps.push({
+            agent: cardAgent,
+            action: 'Action approved by user & executed successfully',
+            timestamp: timeStr,
+            status: 'DONE',
+          });
+
           return {
             ...msg,
+            thoughtStream: updatedSteps,
             actionCard: { ...msg.actionCard, status: 'APPROVED' },
           };
         }
@@ -147,7 +175,137 @@ export const useAppStore = create<AppState>((set, get) => ({
         return alert;
       }),
     }));
+
+    // Record Audit Event
+    auditLogger.logAuditEvent({
+      userId: get().user.id,
+      organizationId: get().user.organizationId,
+      requestId: `REQ-APP-${cardId}`,
+      agentId: cardAgent,
+      actionType: cardTitle,
+      parameters: cardDetails,
+      approvalStatus: 'APPROVED',
+      executionStatus: 'EXECUTED',
+    });
+
+    // Add Toast Notification
+    get().addToast({
+      title: 'Action Approved & Executed',
+      message: `${cardTitle} has been executed by ${cardAgent} Agent.`,
+      type: 'success',
+    });
   },
+
+  // 2. EDIT ACTION PARAMETERS
+  editActionCard: (cardId, updatedDetails) => {
+    let cardAgent: AgentType = 'CEO';
+    let cardTitle = 'Action Card';
+
+    set((state) => ({
+      messages: state.messages.map((msg) => {
+        if (msg.actionCard && msg.actionCard.id === cardId) {
+          cardAgent = msg.actionCard.agent;
+          cardTitle = msg.actionCard.title;
+          return {
+            ...msg,
+            actionCard: {
+              ...msg.actionCard,
+              details: { ...msg.actionCard.details, ...updatedDetails },
+              status: 'EDITED',
+            },
+          };
+        }
+        return msg;
+      }),
+    }));
+
+    // Record Audit Event
+    auditLogger.logAuditEvent({
+      userId: get().user.id,
+      organizationId: get().user.organizationId,
+      requestId: `REQ-EDIT-${cardId}`,
+      agentId: cardAgent,
+      actionType: `EDIT_${cardTitle}`,
+      parameters: updatedDetails,
+      approvalStatus: 'EDITED',
+      executionStatus: 'PENDING',
+    });
+
+    // Add Toast Notification
+    get().addToast({
+      title: 'Action Parameters Modified',
+      message: `Updated parameters for ${cardTitle}. Awaiting approval before execution.`,
+      type: 'info',
+    });
+  },
+
+  // 3. CANCEL ACTION
+  cancelActionCard: (cardId) => {
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let cardAgent: AgentType = 'CEO';
+    let cardTitle = 'Action Card';
+
+    set((state) => ({
+      messages: state.messages.map((msg) => {
+        if (msg.actionCard && msg.actionCard.id === cardId) {
+          cardAgent = msg.actionCard.agent;
+          cardTitle = msg.actionCard.title;
+
+          const updatedSteps = msg.thoughtStream ? [...msg.thoughtStream] : [];
+          updatedSteps.push({
+            agent: cardAgent,
+            action: 'Action cancelled by user',
+            timestamp: timeStr,
+            status: 'DONE',
+          });
+
+          return {
+            ...msg,
+            thoughtStream: updatedSteps,
+            actionCard: { ...msg.actionCard, status: 'CANCELLED' },
+          };
+        }
+        return msg;
+      }),
+    }));
+
+    // Record Audit Event
+    auditLogger.logAuditEvent({
+      userId: get().user.id,
+      organizationId: get().user.organizationId,
+      requestId: `REQ-CANCEL-${cardId}`,
+      agentId: cardAgent,
+      actionType: `CANCEL_${cardTitle}`,
+      parameters: {},
+      approvalStatus: 'CANCELLED',
+      executionStatus: 'PENDING',
+    });
+
+    // Add Toast Notification
+    get().addToast({
+      title: 'Action Cancelled',
+      message: `${cardTitle} was cancelled. No changes executed.`,
+      type: 'warning',
+    });
+  },
+
+  // Toast Notifications State
+  toasts: [],
+  addToast: (toastData) => {
+    const id = `TOAST-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const newToast: ToastNotification = {
+      ...toastData,
+      id,
+      timestamp: timeStr,
+      duration: toastData.duration || 4500,
+    };
+    set((state) => ({ toasts: [...state.toasts, newToast] }));
+  },
+  removeToast: (id) =>
+    set((state) => ({
+      toasts: state.toasts.filter((t) => t.id !== id),
+    })),
 
   workflows: MOCK_WORKFLOWS,
   alerts: MOCK_ALERTS,

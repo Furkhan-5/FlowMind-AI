@@ -162,3 +162,5 @@ export interface ProactiveAlert {
   timestamp: string;
   recommendedAction: ActionCardData;
 }
+
+export * from './agentEvents';

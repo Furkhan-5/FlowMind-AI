@@ -22,7 +22,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
-import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
+import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 import { AgentLogo } from '@/components/ui/AgentLogo';
 
@@ -36,6 +36,7 @@ export const RobotAssistant: React.FC = () => {
     isVoiceActive,
     setVoiceActive,
     user,
+    addToast,
   } = useAppStore();
 
   const [isOpen, setIsOpen] = useState(true);
@@ -95,13 +96,12 @@ export const RobotAssistant: React.FC = () => {
     });
   };
 
-  const handleSendQuery = (customText?: string) => {
+  const handleSendQuery = async (customText?: string) => {
     const query = customText || input;
     if (!query.trim() || isProcessing || !selectedAgent) return;
 
     const detectedLang = detectLanguageScript(query);
     const targetLang = detectedLang !== 'en' ? detectedLang : language;
-    const parsedIntent = parseCanonicalBusinessIntent(query, targetLang);
 
     addMessage({
       sender: 'USER',
@@ -112,53 +112,49 @@ export const RobotAssistant: React.FC = () => {
     setInput('');
     setIsProcessing(true);
 
-    setTimeout(() => {
-      let thoughtSteps = [
-        { agent: selectedAgent, action: `Target Language: ${targetLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
-        { agent: parsedIntent.targetAgent, action: `Parsed parameters: ${JSON.stringify(parsedIntent.parameters)}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
-      ];
-
-      let actionCardData = undefined;
-      let responseContent = parsedIntent.summaryText;
-
-      if (parsedIntent.action === 'SCHEDULE_SALES_MEETING') {
-        actionCardData = {
-          id: `ACT-${Date.now()}`,
-          title: 'Schedule Sales Meeting & Update CRM',
-          description: 'Sales Agent parsed request and prepared calendar invite.',
-          agent: 'Sales' as AgentType,
-          module: 'Sales',
-          details: parsedIntent.parameters,
-          status: 'PENDING' as const,
-          confirmLabel: t.approveButton || 'Approve & Execute',
-        };
-      } else if (parsedIntent.action === 'GENERATE_CLIENT_INVOICE') {
-        actionCardData = {
-          id: `ACT-${Date.now()}`,
-          title: 'Issue Official Invoice PDF (#INV-2026-990)',
-          description: 'Finance Agent verified tax codes and generated PDF invoice preview.',
-          agent: 'Finance' as AgentType,
-          module: 'Finance',
-          details: parsedIntent.parameters,
-          status: 'PENDING' as const,
-          confirmLabel: t.approveButton || 'Approve & Execute',
-        };
-      }
+    try {
+      const result = await agentOrchestrator.processRequest(query, {
+        user,
+        language: targetLang,
+        selectedAgentOverride: selectedAgent,
+        messageHistory: messages,
+      });
 
       addMessage({
         sender: 'AGENT',
         activeAgent: selectedAgent,
-        content: responseContent,
+        content: result.responseText,
         language: targetLang,
-        thoughtStream: thoughtSteps,
-        actionCard: actionCardData,
+        thoughtStream: result.thoughtStream,
+        actionCard: result.actionCard,
       });
 
-      // Native TTS speech synthesis
-      speakTextInNativeAccent(responseContent, targetLang);
+      if (result.securityBlocked) {
+        addToast({
+          title: 'Security Alert',
+          message: 'Prompt injection attempt blocked by Security Agent.',
+          type: 'error',
+        });
+      } else if (result.actionCard) {
+        addToast({
+          title: 'Action Card Prepared',
+          message: `${result.targetAgent} Agent prepared ${result.actionCard.title}. Awaiting approval.`,
+          type: 'info',
+        });
+      }
 
+      speakTextInNativeAccent(result.responseText, targetLang);
+    } catch (err: any) {
+      console.error('Robot Assistant Orchestration error:', err);
+      addMessage({
+        sender: 'AGENT',
+        activeAgent: selectedAgent,
+        content: 'An error occurred while executing the query.',
+        language: targetLang,
+      });
+    } finally {
       setIsProcessing(false);
-    }, 1100);
+    }
   };
 
   const getAgentPrompts = (agent: AgentType) => {

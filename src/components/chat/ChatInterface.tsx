@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Send, Mic, Bot, Sparkles, ShieldCheck } from 'lucide-react';
 import { AgentType } from '@/types';
 import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
-import { parseCanonicalBusinessIntent } from '@/lib/ai/intentParser';
+import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 import { AgentLogo } from '@/components/ui/AgentLogo';
 
@@ -23,6 +23,7 @@ export const ChatInterface: React.FC = () => {
     isVoiceActive,
     setVoiceActive,
     user,
+    addToast,
   } = useAppStore();
 
   const [input, setInput] = useState('');
@@ -65,13 +66,12 @@ export const ChatInterface: React.FC = () => {
     };
   }, [isVoiceActive, language]);
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = textToSend || input;
     if (!query.trim() || isProcessing) return;
 
     const detectedLang = detectLanguageScript(query);
     const targetLang = detectedLang !== 'en' ? detectedLang : language;
-    const parsedIntent = parseCanonicalBusinessIntent(query, targetLang);
 
     addMessage({
       sender: 'USER',
@@ -82,55 +82,50 @@ export const ChatInterface: React.FC = () => {
     setInput('');
     setIsProcessing(true);
 
-    setTimeout(() => {
-      const routedAgent = parsedIntent.targetAgent;
-      setActiveAgent(routedAgent);
+    try {
+      const result = await agentOrchestrator.processRequest(query, {
+        user,
+        language: targetLang,
+        messageHistory: messages,
+      });
 
-      const thoughtSteps = [
-        { agent: routedAgent, action: `Target Language: ${targetLang.toUpperCase()} | Intent: ${parsedIntent.action}`, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
-        { agent: 'Security' as AgentType, action: 'Sanitized input & applied RBAC policy filtering', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'DONE' as const },
-      ];
-
-      let actionCardData = undefined;
-      const responseContent = parsedIntent.summaryText;
-
-      if (parsedIntent.action === 'SCHEDULE_SALES_MEETING') {
-        actionCardData = {
-          id: `ACT-${Date.now()}`,
-          title: 'Schedule Sales Meeting & Update CRM Pipeline',
-          description: 'Sales & Scheduler Agents parsed your request and prepared calendar invites.',
-          agent: 'Sales' as AgentType,
-          module: 'Sales',
-          details: parsedIntent.parameters,
-          status: 'PENDING' as const,
-          confirmLabel: t.approveButton || 'Approve & Execute',
-        };
-      } else if (parsedIntent.action === 'GENERATE_CLIENT_INVOICE') {
-        actionCardData = {
-          id: `ACT-${Date.now()}`,
-          title: 'Issue Invoice PDF (#INV-2026-909)',
-          description: 'Finance Agent verified tax codes and generated PDF invoice preview.',
-          agent: 'Finance' as AgentType,
-          module: 'Finance',
-          details: parsedIntent.parameters,
-          status: 'PENDING' as const,
-          confirmLabel: t.approveButton || 'Approve & Execute',
-        };
-      }
+      setActiveAgent(result.targetAgent);
 
       addMessage({
         sender: 'AGENT',
-        activeAgent: routedAgent,
-        content: responseContent,
+        activeAgent: result.targetAgent,
+        content: result.responseText,
         language: targetLang,
-        thoughtStream: thoughtSteps,
-        actionCard: actionCardData,
+        thoughtStream: result.thoughtStream,
+        actionCard: result.actionCard,
       });
 
-      speakTextInNativeAccent(responseContent, targetLang);
+      if (result.securityBlocked) {
+        addToast({
+          title: 'Security Alert',
+          message: 'Prompt injection attempt blocked by Security Agent.',
+          type: 'error',
+        });
+      } else if (result.actionCard) {
+        addToast({
+          title: 'Action Card Prepared',
+          message: `${result.targetAgent} Agent prepared ${result.actionCard.title}. Awaiting approval.`,
+          type: 'info',
+        });
+      }
 
+      speakTextInNativeAccent(result.responseText, targetLang);
+    } catch (err: any) {
+      console.error('Orchestration error:', err);
+      addMessage({
+        sender: 'AGENT',
+        activeAgent: 'Security',
+        content: 'An error occurred while processing your request.',
+        language: targetLang,
+      });
+    } finally {
       setIsProcessing(false);
-    }, 1200);
+    }
   };
 
   return (

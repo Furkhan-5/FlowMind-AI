@@ -192,4 +192,6 @@ export interface ProactiveAlert {
 
 export * from './agentEvents';
 export * from './universalAgent';
+export * from './workflowDSL';
+
 

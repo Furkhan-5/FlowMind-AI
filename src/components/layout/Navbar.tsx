@@ -46,7 +46,13 @@ export const Navbar: React.FC = () => {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => setActiveModule(item.id)}
+              onClick={() => {
+                if (item.id === 'workflows') {
+                  window.location.href = '/workflows';
+                } else {
+                  setActiveModule(item.id);
+                }
+              }}
               className={`text-xs font-medium transition-all ${
                 activeModule === item.id
                   ? 'text-bloom-dark font-bold underline underline-offset-8 decoration-2 decoration-bloom-accent'

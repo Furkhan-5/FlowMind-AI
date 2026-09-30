@@ -4,7 +4,7 @@ import {
   WorkflowEdgeDSL,
 } from '@/types/workflowDSL';
 import { dagValidator } from './dagValidator';
-import { User } from '@/types';
+import { User, AgentType } from '@/types';
 
 export interface PlannerResult {
   success: boolean;
@@ -39,18 +39,18 @@ export class WorkflowPlannerAgentService {
     let triggerName = 'Manual Trigger';
     let triggerType: 'manual' | 'webhook' | 'schedule' | 'event' = 'manual';
 
-    if (textLower.includes('lead') || textLower.includes('prospect')) {
+    if (textLower.includes('every day') || textLower.includes('daily') || textLower.includes('schedule') || textLower.includes('cron') || textLower.includes('at 9 am')) {
+      triggerName = 'Daily Scheduled Trigger (9:00 AM)';
+      triggerType = 'schedule';
+    } else if (textLower.includes('webhook') || textLower.includes('api call')) {
+      triggerName = 'Inbound Webhook Trigger';
+      triggerType = 'webhook';
+    } else if (textLower.includes('lead') || textLower.includes('prospect')) {
       triggerName = 'New Lead Event Trigger';
       triggerType = 'event';
     } else if (textLower.includes('invoice') || textLower.includes('bill')) {
       triggerName = 'Invoice Created Trigger';
       triggerType = 'event';
-    } else if (textLower.includes('every day') || textLower.includes('daily') || textLower.includes('schedule') || textLower.includes('cron')) {
-      triggerName = 'Daily Scheduled Trigger';
-      triggerType = 'schedule';
-    } else if (textLower.includes('webhook') || textLower.includes('api call')) {
-      triggerName = 'Inbound Webhook Trigger';
-      triggerType = 'webhook';
     }
 
     const triggerNode: WorkflowNodeDSL = {
@@ -58,7 +58,7 @@ export class WorkflowPlannerAgentService {
       type: 'TRIGGER',
       name: triggerName,
       config: {
-        eventType: triggerType === 'event' ? 'LEAD_CREATED' : 'MANUAL_RUN',
+        eventType: triggerType === 'event' ? (textLower.includes('invoice') ? 'INVOICE_CREATED' : 'LEAD_CREATED') : 'MANUAL_RUN',
         cronExpression: triggerType === 'schedule' ? '0 9 * * *' : undefined,
         webhookUrl: triggerType === 'webhook' ? `/api/workflows/webhook/${workflowId}` : undefined,
       },
@@ -67,8 +67,13 @@ export class WorkflowPlannerAgentService {
 
     let lastNodeId = triggerNode.id;
 
-    // 3. Conditional Logic Detection
-    const hasCondition = textLower.includes('if') || textLower.includes('greater than') || textLower.includes('above') || textLower.includes('>') || textLower.includes('value');
+    // 3. Conditional Logic Detection (Using regex \bif\b to prevent matching 'notify')
+    const hasCondition =
+      /\bif\b/i.test(userInstruction) ||
+      textLower.includes('greater than') ||
+      textLower.includes('above') ||
+      textLower.includes('>') ||
+      (textLower.includes('value') && textLower.includes('100'));
 
     if (hasCondition) {
       // Create Condition Node
@@ -179,21 +184,43 @@ export class WorkflowPlannerAgentService {
       edges.push({ id: `edge_${trueInvoiceNode.id}_to_${endNode.id}`, source: trueInvoiceNode.id, target: endNode.id });
       edges.push({ id: `edge_${falseActionNode.id}_to_${endNode.id}`, source: falseActionNode.id, target: endNode.id });
     } else {
-      // Simple Linear Sequence
+      // Linear Sequence customized based on prompt intent
+      let action1Name = 'Finance Agent Invoice Summaries';
+      let agentId: AgentType = 'Finance';
+      let action1Type = 'GENERATE_SUMMARY';
+
+      if (textLower.includes('lead') || textLower.includes('sales')) {
+        action1Name = 'Sales Agent Lead Processing';
+        agentId = 'Sales';
+        action1Type = 'CREATE_LEAD';
+      } else if (textLower.includes('hr') || textLower.includes('employee')) {
+        action1Name = 'HR Agent Record Synchronization';
+        agentId = 'HR';
+        action1Type = 'SYNC_EMPLOYEES';
+      }
+
       const actionNode1: WorkflowNodeDSL = {
         id: 'node_act_1',
         type: 'AGENT',
-        name: 'Sales Agent Lead Processing',
-        agentId: 'Sales',
-        actionType: 'CREATE_LEAD',
-        config: { client: '{{trigger.company}}' },
+        name: action1Name,
+        agentId: agentId,
+        actionType: action1Type,
+        config: { scope: 'DAILY_SUMMARY', timestamp: '{{trigger.timestamp}}' },
       };
+
+      const recipientText = textLower.includes('hr') && textLower.includes('finance')
+        ? 'HR & Finance Teams'
+        : textLower.includes('hr')
+        ? 'HR Team'
+        : textLower.includes('finance')
+        ? 'Finance Team'
+        : 'Operations Team';
 
       const actionNode2: WorkflowNodeDSL = {
         id: 'node_act_2',
         type: 'NOTIFICATION',
-        name: 'Dispatch Toast Notification',
-        config: { message: 'Workflow task executed successfully' },
+        name: `Notify ${recipientText}`,
+        config: { message: `Daily invoice summary generated and dispatched to ${recipientText}` },
       };
 
       const endNode: WorkflowNodeDSL = {
@@ -210,11 +237,23 @@ export class WorkflowPlannerAgentService {
       edges.push({ id: `edge_act2_to_end`, source: actionNode2.id, target: endNode.id });
     }
 
+    // Name generation based on prompt intent
+    let workflowName = 'Custom Enterprise Automation Workflow';
+    if (textLower.includes('hr') || textLower.includes('employee') || textLower.includes('onboarding')) {
+      workflowName = 'HR Onboarding & Synchronization Workflow';
+    } else if (textLower.includes('lead') || textLower.includes('sales')) {
+      workflowName = 'Automated Lead Qualification & Invoicing DAG';
+    } else if (textLower.includes('invoice') || textLower.includes('finance') || textLower.includes('billing')) {
+      workflowName = 'Finance Billing & Invoice Summary Workflow';
+    } else if (textLower.includes('webhook') || textLower.includes('api')) {
+      workflowName = 'Inbound Webhook API Automation';
+    }
+
     // Assemble Workflow Definition
     const workflow: WorkflowDefinition = {
       id: workflowId,
       organizationId: user.organizationId || 'ORG-01',
-      name: textLower.includes('lead') ? 'Automated Lead Qualification & Invoicing DAG' : 'Custom Enterprise Automation Workflow',
+      name: workflowName,
       description: `Generated from natural language prompt: "${userInstruction}"`,
       version: 1,
       status: 'VALIDATED',

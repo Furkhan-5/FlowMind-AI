@@ -38,10 +38,23 @@ export function speakTextInNativeAccent(text: string, lang: LanguageCode): Promi
 
     window.speechSynthesis.cancel(); // stop any ongoing speech
 
+    const targetTag = VOICE_LANG_TAGS[lang] || 'en-US';
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = VOICE_LANG_TAGS[lang] || 'en-US';
+    utterance.lang = targetTag;
     utterance.rate = 0.95; // comfortable speaking rate
     utterance.pitch = 1.0;
+
+    // Dynamically match browser voice engines
+    const voices = window.speechSynthesis.getVoices();
+    if (voices && voices.length > 0) {
+      const exactMatch = voices.find(v => v.lang === targetTag || v.lang.startsWith(lang));
+      const indianMatch = voices.find(v => v.lang.includes('IN') || v.lang.includes('hi') || v.lang.includes('te') || v.lang.includes('ta'));
+      if (exactMatch) {
+        utterance.voice = exactMatch;
+      } else if (indianMatch) {
+        utterance.voice = indianMatch;
+      }
+    }
 
     utterance.onend = () => resolve(true);
     utterance.onerror = () => resolve(false);

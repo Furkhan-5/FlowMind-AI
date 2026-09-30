@@ -55,10 +55,30 @@ export const VisualDAGGraph: React.FC<VisualDAGGraphProps> = ({
         {workflow.nodes.map((node, index) => {
           const isSelected = selectedNodeId === node.id;
           const isCondition = node.type === 'CONDITION';
-          const outgoingEdges = workflow.edges.filter((e) => e.source === node.id);
+          
+          // Check if any incoming edge has a conditional branch label
+          const incomingEdge = workflow.edges.find((e) => e.target === node.id);
+          const branchLabel = incomingEdge?.condition?.label;
 
           return (
             <React.Fragment key={node.id}>
+              {/* Branch Badge Label if incoming from a Condition node */}
+              {branchLabel && (
+                <div className="my-1 flex items-center gap-1.5">
+                  <div className="h-3 w-0.5 bg-purple-500/50" />
+                  <span
+                    className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border shadow-sm ${
+                      branchLabel === 'TRUE'
+                        ? 'bg-emerald-950 text-emerald-300 border-emerald-800/60'
+                        : 'bg-red-950 text-red-300 border-red-800/60'
+                    }`}
+                  >
+                    {branchLabel === 'TRUE' ? '✓ TRUE Branch' : '❌ FALSE Branch'}
+                  </span>
+                  <div className="h-3 w-0.5 bg-purple-500/50" />
+                </div>
+              )}
+
               {/* Node Card */}
               <div
                 onClick={() => onSelectNode && onSelectNode(node)}
@@ -67,6 +87,10 @@ export const VisualDAGGraph: React.FC<VisualDAGGraphProps> = ({
                     ? 'bg-purple-950/90 border-purple-500 shadow-purple-500/20 ring-2 ring-purple-500'
                     : isCondition
                     ? 'bg-slate-900 border-purple-500/40 hover:border-purple-400'
+                    : branchLabel === 'TRUE'
+                    ? 'bg-slate-900/95 border-emerald-800/40 hover:border-emerald-500'
+                    : branchLabel === 'FALSE'
+                    ? 'bg-slate-900/95 border-red-800/40 hover:border-red-500'
                     : 'bg-slate-900/90 border-slate-800 hover:border-slate-700'
                 }`}
               >
@@ -100,7 +124,7 @@ export const VisualDAGGraph: React.FC<VisualDAGGraphProps> = ({
               </div>
 
               {/* Edge Connection Arrow Indicator */}
-              {index < workflow.nodes.length - 1 && (
+              {index < workflow.nodes.length - 1 && !branchLabel && (
                 <div className="flex flex-col items-center text-purple-400 my-1">
                   <div className="h-4 w-0.5 bg-purple-500/50" />
                   <ArrowDown className="w-4 h-4 text-purple-400 animate-bounce" />

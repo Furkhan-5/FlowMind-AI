@@ -98,7 +98,7 @@ export const RobotAssistant: React.FC = () => {
 
   const handleSendQuery = async (customText?: string) => {
     const query = customText || input;
-    if (!query.trim() || isProcessing || !selectedAgent) return;
+    if (!query.trim() || isProcessing) return;
 
     const detectedLang = detectLanguageScript(query);
     const targetLang = detectedLang !== 'en' ? detectedLang : language;
@@ -116,13 +116,16 @@ export const RobotAssistant: React.FC = () => {
       const result = await agentOrchestrator.processRequest(query, {
         user,
         language: targetLang,
-        selectedAgentOverride: selectedAgent,
+        selectedAgentOverride: (!selectedAgent || selectedAgent === 'CEO') ? null : selectedAgent,
         messageHistory: messages,
       });
 
+      setSelectedAgentState(result.targetAgent);
+      setActiveAgent(result.targetAgent);
+
       addMessage({
         sender: 'AGENT',
-        activeAgent: selectedAgent,
+        activeAgent: result.targetAgent,
         content: result.responseText,
         language: targetLang,
         thoughtStream: result.thoughtStream,
@@ -148,7 +151,7 @@ export const RobotAssistant: React.FC = () => {
       console.error('Robot Assistant Orchestration error:', err);
       addMessage({
         sender: 'AGENT',
-        activeAgent: selectedAgent,
+        activeAgent: selectedAgent || 'CEO',
         content: 'An error occurred while executing the query.',
         language: targetLang,
       });

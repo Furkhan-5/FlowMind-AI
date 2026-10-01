@@ -36,30 +36,68 @@ export function speakTextInNativeAccent(text: string, lang: LanguageCode): Promi
       return;
     }
 
-    window.speechSynthesis.cancel(); // stop any ongoing speech
+    try {
+      window.speechSynthesis.cancel(); // stop any ongoing speech
 
-    const targetTag = VOICE_LANG_TAGS[lang] || 'en-US';
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = targetTag;
-    utterance.rate = 0.95; // comfortable speaking rate
-    utterance.pitch = 1.0;
+      const targetTag = VOICE_LANG_TAGS[lang] || 'en-US';
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.95; // comfortable speaking rate
+      utterance.pitch = 1.0;
 
-    // Dynamically match browser voice engines
-    const voices = window.speechSynthesis.getVoices();
-    if (voices && voices.length > 0) {
-      const exactMatch = voices.find(v => v.lang === targetTag || v.lang.startsWith(lang));
-      const indianMatch = voices.find(v => v.lang.includes('IN') || v.lang.includes('hi') || v.lang.includes('te') || v.lang.includes('ta'));
-      if (exactMatch) {
-        utterance.voice = exactMatch;
-      } else if (indianMatch) {
-        utterance.voice = indianMatch;
+      const performSpeech = () => {
+        const voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length > 0) {
+          const exactMatch = voices.find((v) => v.lang === targetTag || v.lang.startsWith(lang));
+          const indianMatch = voices.find((v) => v.lang.includes('IN') || v.lang.includes('hi') || v.lang.includes('te') || v.lang.includes('ta') || v.lang.includes('kn') || v.lang.includes('ml'));
+          const defaultMatch = voices.find((v) => v.default || v.lang.startsWith('en'));
+
+          if (exactMatch) {
+            utterance.voice = exactMatch;
+            utterance.lang = targetTag;
+          } else if (indianMatch) {
+            utterance.voice = indianMatch;
+            utterance.lang = indianMatch.lang;
+          } else if (defaultMatch) {
+            utterance.voice = defaultMatch;
+            utterance.lang = defaultMatch.lang;
+          } else {
+            utterance.voice = voices[0];
+            utterance.lang = voices[0].lang;
+          }
+        } else {
+          utterance.lang = targetTag;
+        }
+
+        utterance.onend = () => resolve(true);
+        utterance.onerror = (err) => {
+          console.warn('Speech synthesis notice:', err);
+          resolve(false);
+        };
+
+        window.speechSynthesis.speak(utterance);
+      };
+
+      if (window.speechSynthesis.getVoices().length === 0) {
+        let hasSpoken = false;
+        window.speechSynthesis.onvoiceschanged = () => {
+          if (!hasSpoken) {
+            hasSpoken = true;
+            performSpeech();
+          }
+        };
+        setTimeout(() => {
+          if (!hasSpoken) {
+            hasSpoken = true;
+            performSpeech();
+          }
+        }, 150);
+      } else {
+        performSpeech();
       }
+    } catch (e) {
+      console.warn('Speech synthesis exception:', e);
+      resolve(false);
     }
-
-    utterance.onend = () => resolve(true);
-    utterance.onerror = () => resolve(false);
-
-    window.speechSynthesis.speak(utterance);
   });
 }
 

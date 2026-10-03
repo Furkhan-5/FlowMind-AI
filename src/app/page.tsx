@@ -46,8 +46,15 @@ const AgentMesh3D = dynamic(
   }
 );
 
+import LoginPage from '@/app/login/page';
+
 export default function Home() {
-  const { activeModule, setActiveModule, language } = useAppStore();
+  const { activeModule, setActiveModule, language, isAuthenticated, isAuthChecking } = useAppStore();
+
+  if (!isAuthChecking && !isAuthenticated) {
+    return <LoginPage />;
+  }
+
   const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
 
   const renderModuleModal = () => {

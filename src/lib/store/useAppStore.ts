@@ -17,8 +17,16 @@ import { auditLogger } from '@/lib/security/auditLogger';
 interface AppState {
   // Auth & Org
   user: User;
+  isAuthenticated: boolean;
+  isAuthChecking: boolean;
   organization: Organization;
   setRole: (role: User['role']) => void;
+  setUser: (user: User) => void;
+  setIsAuthenticated: (auth: boolean) => void;
+  checkAuth: () => Promise<boolean>;
+  login: (credentials: { email: string; password?: string; role?: User['role']; name?: string }) => Promise<{ success: boolean; error?: string }>;
+  signup: (data: { name: string; email: string; password: string; confirmPassword: string; role?: User['role'] }) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
 
   // Language & Theme
   language: LanguageCode;
@@ -63,6 +71,8 @@ export const useAppStore = create<AppState>((set, get) => ({
     preferredLanguage: 'en',
     organizationId: 'ORG-01',
   },
+  isAuthenticated: false,
+  isAuthChecking: true,
   organization: {
     id: 'ORG-01',
     name: 'FlowMind Enterprise',
@@ -71,10 +81,113 @@ export const useAppStore = create<AppState>((set, get) => ({
     plan: 'ENTERPRISE',
     createdAt: '2026-01-01',
   },
+
+  setUser: (user) => set({ user }),
+  setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+
+  checkAuth: async () => {
+    try {
+      set({ isAuthChecking: true });
+      const res = await fetch('/api/auth/me', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated && data.user) {
+          set({ user: data.user, isAuthenticated: true, isAuthChecking: false });
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error('[AUTH CHECK ERR]', err);
+    }
+
+    set({ isAuthenticated: false, isAuthChecking: false });
+    return false;
+  },
+
   setRole: (role) =>
     set((state) => ({
       user: { ...state.user, role },
     })),
+
+  login: async ({ email, password, role = 'ADMIN' }) => {
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        return { success: false, error: data.error || 'Authentication failed.' };
+      }
+
+      set({ user: data.user, isAuthenticated: true });
+
+      get().addToast({
+        title: 'Authentication Successful',
+        message: `Welcome back, ${data.user.name} (${data.user.role})!`,
+        type: 'success',
+      });
+
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: 'Network or server error during login.' };
+    }
+  },
+
+  signup: async ({ name, email, password, confirmPassword, role = 'EMPLOYEE' }) => {
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, confirmPassword, role }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        return { success: false, error: data.error || 'Account creation failed.' };
+      }
+
+      set({ user: data.user, isAuthenticated: true });
+
+      get().addToast({
+        title: 'Account Created',
+        message: `Welcome to FlowMind AI, ${data.user.name}!`,
+        type: 'success',
+      });
+
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: 'Network or server error during signup.' };
+    }
+  },
+
+  logout: async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (err) {
+      console.error('[LOGOUT API ERR]', err);
+    }
+
+    set({ isAuthenticated: false });
+
+    get().addToast({
+      title: 'Logged Out',
+      message: 'You have been safely signed out.',
+      type: 'info',
+    });
+  },
 
   language: 'en',
   setLanguage: (lang) => {

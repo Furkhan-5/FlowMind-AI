@@ -13,15 +13,16 @@ const PUBLIC_ROUTES = [
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { checkAuth, isAuthChecking, isAuthenticated } = useAppStore();
+  const { checkAuth, initTheme, isAuthChecking, isAuthenticated } = useAppStore();
   const pathname = usePathname();
   const router = useRouter();
 
   const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 
   useEffect(() => {
+    initTheme();
     checkAuth();
-  }, [checkAuth]);
+  }, [checkAuth, initTheme]);
 
   useEffect(() => {
     if (!isAuthChecking && !isAuthenticated && !isPublicRoute) {

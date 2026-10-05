@@ -7,9 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "npx tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "^5.19.1",
     "@react-three/drei": "^9.105.0",
     "@react-three/fiber": "^8.16.0",
     "bcryptjs": "^3.0.3",
@@ -33,6 +40,7 @@
     "@types/three": "^0.163.0",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
+    "prisma": "^5.19.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
   }

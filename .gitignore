@@ -37,3 +37,7 @@ Thumbs.db
 # runtime data
 .data/
 
+
+
+# python cache
+__pycache__/

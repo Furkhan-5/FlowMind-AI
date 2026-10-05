@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getCurrentUserFromSession } from '@/lib/auth/session';
-import { db } from '@/lib/auth/db';
+import { userService } from '@/lib/services/userService';
 
 export async function GET() {
   try {
@@ -13,7 +13,10 @@ export async function GET() {
       );
     }
 
-    const userRecord = db.findUserById(session.userId) || db.findUserByEmail(session.email);
+    let userRecord = await userService.findUserById(session.userId);
+    if (!userRecord && session.email) {
+      userRecord = await userService.findUserByEmail(session.email);
+    }
 
     if (!userRecord) {
       return NextResponse.json(
@@ -27,9 +30,9 @@ export async function GET() {
       name: userRecord.name,
       email: userRecord.email,
       role: session.role || userRecord.role,
-      avatar: userRecord.avatar,
+      avatar: userRecord.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userRecord.email)}`,
       organizationId: userRecord.organizationId,
-      preferredLanguage: 'en' as const,
+      preferredLanguage: (userRecord.preferredLanguage as any) || 'en',
     };
 
     const res = NextResponse.json({

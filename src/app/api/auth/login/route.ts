@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/auth/db';
+import { userService } from '@/lib/services/userService';
+import { auditService } from '@/lib/services/auditService';
 import { setSessionCookie } from '@/lib/auth/session';
-import { auditLogger } from '@/lib/security/auditLogger';
 
 export async function POST(request: Request) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = db.findUserByEmail(email);
+    const user = await userService.findUserByEmail(email);
 
     if (!user) {
       return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const isPasswordValid = db.verifyPassword(password, user.passwordHash);
+    const isPasswordValid = userService.verifyPassword(password, user.passwordHash);
     if (!isPasswordValid) {
       return NextResponse.json(
         { error: 'Invalid email or password.' },
@@ -39,7 +39,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Optional role override for demo role switching if provided
     const activeRole = role || user.role;
 
     // Set HTTP-Only Session Cookie
@@ -52,15 +51,13 @@ export async function POST(request: Request) {
     });
 
     // Log security audit event
-    auditLogger.logAuditEvent({
+    await auditService.logAuditEvent({
       userId: user.id,
+      userEmail: user.email,
       organizationId: user.organizationId,
-      requestId: `REQ-LOGIN-${Date.now()}`,
-      agentId: 'Security',
-      actionType: 'USER_LOGIN_SUCCESS',
-      parameters: { email: user.email, role: activeRole },
-      approvalStatus: 'APPROVED',
-      executionStatus: 'EXECUTED',
+      action: 'USER_LOGIN_SUCCESS',
+      resourceType: 'Security',
+      details: { email: user.email, role: activeRole },
     });
 
     const responseUser = {
@@ -68,9 +65,9 @@ export async function POST(request: Request) {
       name: user.name,
       email: user.email,
       role: activeRole,
-      avatar: user.avatar,
+      avatar: user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user.email)}`,
       organizationId: user.organizationId,
-      preferredLanguage: 'en' as const,
+      preferredLanguage: (user.preferredLanguage as any) || 'en',
     };
 
     const res = NextResponse.json({

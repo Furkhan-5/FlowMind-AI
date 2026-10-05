@@ -10,6 +10,7 @@ import { dagValidator } from './dagValidator';
 import { conditionEvaluator } from './conditionEvaluator';
 import { variableResolver } from './variableResolver';
 import { workflowStorage } from './workflowStorage';
+import { workflowService } from '@/lib/services/workflowService';
 import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { artifactManager } from '@/lib/ai/artifactManager';
 import { auditLogger } from '@/lib/security/auditLogger';
@@ -24,15 +25,19 @@ export class WorkflowEngineRunnerService {
     user: any = { id: 'USR-01', name: 'Admin', organizationId: 'ORG-01', role: 'ADMIN' }
   ): Promise<WorkflowExecution> {
     const workflow = version
-      ? workflowStorage.getWorkflowVersion(workflowId, version)
-      : workflowStorage.getLatestWorkflow(workflowId);
+      ? await workflowService.getWorkflowById(workflowId)
+      : await workflowService.getWorkflowById(workflowId);
 
-    if (!workflow) {
+    const fallbackWf = workflow || (version
+      ? workflowStorage.getWorkflowVersion(workflowId, version)
+      : workflowStorage.getLatestWorkflow(workflowId));
+
+    if (!fallbackWf) {
       throw new Error(`Workflow '${workflowId}' (version: ${version || 'latest'}) not found.`);
     }
 
     // 1. DAG Graph Validation
-    const valRes = dagValidator.validateDAG(workflow);
+    const valRes = dagValidator.validateDAG(fallbackWf);
     if (!valRes.valid) {
       throw new Error(`Cannot execute invalid workflow DAG: ${valRes.errors.map((e) => e.message).join('; ')}`);
     }
@@ -42,9 +47,9 @@ export class WorkflowEngineRunnerService {
 
     const execution: WorkflowExecution = {
       id: executionId,
-      workflowId: workflow.id,
-      workflowVersion: workflow.version,
-      organizationId: workflow.organizationId,
+      workflowId: fallbackWf.id,
+      workflowVersion: fallbackWf.version,
+      organizationId: fallbackWf.organizationId,
       status: 'RUNNING',
       triggerPayload,
       nodeRecords: {},
@@ -55,16 +60,15 @@ export class WorkflowEngineRunnerService {
 
     this.activeExecutions.set(executionId, execution);
 
-    this.addLog(execution, `🚀 Workflow execution started for '${workflow.name}' (v${workflow.version}). Trigger payload loaded.`, 'RUNNING');
+    this.addLog(execution, `🚀 Workflow execution started for '${fallbackWf.name}' (v${fallbackWf.version}). Trigger payload loaded.`, 'RUNNING');
 
     // 2. Execute Graph Nodes in Topological Order
-    const topoOrder = valRes.topologicalOrder || workflow.nodes.map((n) => n.id);
-    const nodeMap = new Map(workflow.nodes.map((n) => [n.id, n]));
+    const topoOrder = valRes.topologicalOrder || fallbackWf.nodes.map((n) => n.id);
+    const nodeMap = new Map(fallbackWf.nodes.map((n) => [n.id, n]));
 
     let skippedBranchNodes = new Set<string>();
 
     for (const nodeId of topoOrder) {
-      // Check for Execution Control (PAUSED / CANCELLED)
       if (execution.status === 'CANCELLED') {
         this.addLog(execution, `🚫 Workflow execution cancelled by user. Halting remaining nodes.`, 'CANCELLED');
         break;
@@ -89,7 +93,6 @@ export class WorkflowEngineRunnerService {
       execution.currentNodeId = nodeId;
       const nodeStartTime = Date.now();
 
-      // Node Execution Record Setup
       execution.nodeRecords[nodeId] = {
         nodeId,
         status: 'RUNNING',
@@ -101,8 +104,7 @@ export class WorkflowEngineRunnerService {
       this.addLog(execution, `● Node '${node.name}' (${node.type}) started execution.`, 'RUNNING', nodeId, node.name, node.type);
 
       try {
-        // Node Type Specific Execution Engine Logic
-        const output = await this.executeNodeLogic(node, execution, workflow, user);
+        const output = await this.executeNodeLogic(node, execution, fallbackWf, user);
 
         const durationMs = Date.now() - nodeStartTime;
         execution.nodeRecords[nodeId].status = 'SUCCESS';
@@ -123,7 +125,6 @@ export class WorkflowEngineRunnerService {
           JSON.stringify(output || {})
         );
 
-        // Handle Condition Node Branch Traversal
         if (node.type === 'CONDITION') {
           const conditionExpr = node.config.expression || 'TRUE';
           const evalResult = conditionEvaluator.evaluateCondition(conditionExpr, execution.nodeOutputs);
@@ -135,8 +136,7 @@ export class WorkflowEngineRunnerService {
             nodeId
           );
 
-          // Mark unchosen branch nodes as skipped
-          const outgoingEdges = workflow.edges.filter((e) => e.source === nodeId);
+          const outgoingEdges = fallbackWf.edges.filter((e) => e.source === nodeId);
           for (const edge of outgoingEdges) {
             const edgeLabel = edge.condition?.label || (edge.condition?.expression?.toLowerCase().includes('true') ? 'TRUE' : 'FALSE');
             const matchBranch = evalResult ? edgeLabel === 'TRUE' : edgeLabel === 'FALSE';
@@ -165,7 +165,6 @@ export class WorkflowEngineRunnerService {
           errorMsg
         );
 
-        // Retry Engine Handling
         const maxAttempts = node.retryPolicy?.maxAttempts || 1;
         if (execution.nodeRecords[nodeId].attempts < maxAttempts) {
           this.addLog(execution, `↻ Retrying Node '${node.name}' (Attempt ${execution.nodeRecords[nodeId].attempts + 1}/${maxAttempts})...`, 'RETRYING');
@@ -180,19 +179,19 @@ export class WorkflowEngineRunnerService {
     if (execution.status === 'RUNNING') {
       execution.status = 'COMPLETED';
       execution.completedAt = new Date().toISOString();
-      this.addLog(execution, `🎉 Workflow '${workflow.name}' completed execution successfully.`, 'COMPLETED');
+      this.addLog(execution, `🎉 Workflow '${fallbackWf.name}' completed execution successfully.`, 'COMPLETED');
     }
 
-    workflowStorage.saveExecution(execution);
+    // Persist to PostgreSQL database and memory storage
+    await workflowService.saveExecution(execution);
 
-    // Audit Log Entry
     auditLogger.logAuditEvent({
       userId: user.id,
-      organizationId: workflow.organizationId,
+      organizationId: fallbackWf.organizationId,
       requestId: execution.id,
       agentId: 'Workflow',
       actionType: `WORKFLOW_EXECUTION_${execution.status}`,
-      parameters: { workflowId, version: workflow.version, status: execution.status },
+      parameters: { workflowId, version: fallbackWf.version, status: execution.status },
       approvalStatus: 'NOT_REQUIRED',
       executionStatus: execution.status === 'COMPLETED' ? 'EXECUTED' : 'FAILED',
     });
@@ -274,6 +273,7 @@ export class WorkflowEngineRunnerService {
     if (!exec || exec.status !== 'RUNNING') return false;
     exec.status = 'PAUSED';
     workflowStorage.saveExecution(exec);
+    workflowService.saveExecution(exec).catch(() => {});
     return true;
   }
 
@@ -282,6 +282,7 @@ export class WorkflowEngineRunnerService {
     if (!exec || exec.status !== 'PAUSED') return false;
     exec.status = 'RUNNING';
     workflowStorage.saveExecution(exec);
+    workflowService.saveExecution(exec).catch(() => {});
     return true;
   }
 
@@ -290,6 +291,7 @@ export class WorkflowEngineRunnerService {
     if (!exec || (exec.status !== 'RUNNING' && exec.status !== 'PAUSED')) return false;
     exec.status = 'CANCELLED';
     workflowStorage.saveExecution(exec);
+    workflowService.saveExecution(exec).catch(() => {});
     return true;
   }
 

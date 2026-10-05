@@ -1,0 +1,384 @@
+// Prisma Schema for FlowMind AI PostgreSQL Backend
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum WorkflowStatus {
+  DRAFT
+  VALIDATED
+  ACTIVE
+  PAUSED
+  DISABLED
+  ARCHIVED
+}
+
+enum ExecutionStatus {
+  QUEUED
+  RUNNING
+  WAITING
+  PAUSED
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum NodeExecutionStatus {
+  PENDING
+  READY
+  RUNNING
+  SUCCESS
+  FAILED
+  RETRYING
+  TERMINAL_FAILURE
+  SKIPPED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EDITED
+  CANCELLED
+}
+
+enum AgentStatus {
+  IDLE
+  ACTIVE
+  PROCESSING
+}
+
+enum AgentTaskStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  domain    String?
+  logo      String?
+  plan      String   @default("ENTERPRISE")
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users              User[]
+  workflows          Workflow[]
+  workflowExecutions WorkflowExecution[]
+  agents             Agent[]
+  agentTasks         AgentTask[]
+  approvalRequests   ApprovalRequest[]
+  auditLogs          AuditLog[]
+  artifacts          Artifact[]
+  conversations      Conversation[]
+
+  @@map("organizations")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  name        String
+  description String?
+  category    String   @default("SYSTEM")
+  roles       String[]
+  createdAt   DateTime @default(now())
+
+  @@map("permissions")
+}
+
+model User {
+  id                String     @id @default(uuid())
+  organizationId    String
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name              String
+  email             String     @unique
+  passwordHash      String
+  role              UserRole   @default(EMPLOYEE)
+  status            UserStatus @default(ACTIVE)
+  avatar            String?
+  preferredLanguage String     @default("en")
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  lastLoginAt       DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  createdWorkflows    Workflow[]          @relation("WorkflowCreator")
+  triggeredExecutions WorkflowExecution[] @relation("ExecutionTriggerer")
+  requestedApprovals  ApprovalRequest[]   @relation("ApprovalRequester")
+  resolvedApprovals   ApprovalRequest[]   @relation("ApprovalResolver")
+  auditLogs           AuditLog[]
+  artifacts           Artifact[]
+  conversations       Conversation[]
+  messages            Message[]
+
+  @@index([organizationId])
+  @@index([email])
+  @@map("users")
+}
+
+model Workflow {
+  id             String         @id @default(uuid())
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  description    String?
+  category       String         @default("GENERAL")
+  naturalTrigger String?
+  triggerType    String         @default("manual")
+  triggerConfig  Json?
+  status         WorkflowStatus @default(DRAFT)
+  isTemplate     Boolean        @default(false)
+  createdById    String?
+  createdBy      User?          @relation("WorkflowCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  versions   WorkflowVersion[]
+  executions WorkflowExecution[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("workflows")
+}
+
+model WorkflowVersion {
+  id            String   @id @default(uuid())
+  workflowId    String
+  workflow      Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  versionNumber Int
+  dagNodes      Json
+  dagEdges      Json
+  changeLog     String?
+  isPublished   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  executions WorkflowExecution[]
+
+  @@unique([workflowId, versionNumber])
+  @@index([workflowId])
+  @@map("workflow_versions")
+}
+
+model WorkflowExecution {
+  id             String          @id @default(uuid())
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  workflowId     String
+  workflow       Workflow        @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  versionId      String?
+  version        WorkflowVersion? @relation(fields: [versionId], references: [id], onDelete: SetNull)
+  triggeredById  String?
+  triggeredBy    User?           @relation("ExecutionTriggerer", fields: [triggeredById], references: [id], onDelete: SetNull)
+  triggerSource  String          @default("MANUAL")
+  status         ExecutionStatus @default(QUEUED)
+  startedAt      DateTime        @default(now())
+  completedAt    DateTime?
+  durationMs     Int?
+  inputPayload   Json?
+  outputResult   Json?
+  logs           Json?
+  errorMessage   String?
+
+  nodeExecutions   WorkflowNodeExecution[]
+  agentTasks       AgentTask[]
+  approvalRequests ApprovalRequest[]
+
+  @@index([organizationId])
+  @@index([workflowId])
+  @@index([status])
+  @@map("workflow_executions")
+}
+
+model WorkflowNodeExecution {
+  id           String              @id @default(uuid())
+  executionId  String
+  execution    WorkflowExecution   @relation(fields: [executionId], references: [id], onDelete: Cascade)
+  nodeId       String
+  nodeName     String
+  nodeType     String
+  agentType    String?
+  status       NodeExecutionStatus @default(PENDING)
+  startedAt    DateTime?
+  completedAt  DateTime?
+  durationMs   Int?
+  attempts     Int                 @default(1)
+  inputData    Json?
+  outputData   Json?
+  errorMessage String?
+
+  @@index([executionId])
+  @@index([nodeId])
+  @@map("workflow_node_executions")
+}
+
+model Agent {
+  id                 String      @id
+  organizationId     String
+  organization       Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name               String
+  roleTitle          String
+  domain             String
+  status             AgentStatus @default(IDLE)
+  description        String?
+  avatarColor        String?
+  tasksCompleted     Int         @default(0)
+  systemPrompt       String?
+  supportedLanguages Json?
+  isEnabled          Boolean     @default(true)
+  config             Json?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  tasks AgentTask[]
+
+  @@index([organizationId])
+  @@map("agents")
+}
+
+model AgentTask {
+  id             String          @id @default(uuid())
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  agentId        String
+  agent          Agent           @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  executionId    String?
+  execution      WorkflowExecution? @relation(fields: [executionId], references: [id], onDelete: SetNull)
+  nodeId         String?
+  prompt         String
+  originalPrompt String?
+  inputLanguage  String          @default("en")
+  outputLanguage String          @default("en")
+  response       String?
+  status         AgentTaskStatus @default(PENDING)
+  durationMs     Int?
+  metadata       Json?
+  createdAt      DateTime        @default(now())
+
+  @@index([organizationId])
+  @@index([agentId])
+  @@map("agent_tasks")
+}
+
+model ApprovalRequest {
+  id             String         @id @default(uuid())
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  executionId    String?
+  execution      WorkflowExecution? @relation(fields: [executionId], references: [id], onDelete: SetNull)
+  nodeId         String?
+  actionType     String
+  actionPayload  Json
+  riskLevel      String         @default("MEDIUM")
+  status         ApprovalStatus @default(PENDING)
+  requestedById  String?
+  requestedBy    User?          @relation("ApprovalRequester", fields: [requestedById], references: [id], onDelete: SetNull)
+  approvedById   String?
+  approvedBy     User?          @relation("ApprovalResolver", fields: [approvedById], references: [id], onDelete: SetNull)
+  rejectReason   String?
+  createdAt      DateTime       @default(now())
+  resolvedAt     DateTime?
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("approval_requests")
+}
+
+model AuditLog {
+  id             String       @id @default(uuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userEmail      String?
+  action         String
+  resourceType   String
+  resourceId     String?
+  details        Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model Artifact {
+  id             String       @id @default(uuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  type           String
+  mimeType       String?
+  fileUrl        String?
+  sizeBytes      Int?
+  metadata       Json?
+  createdById    String?
+  createdBy      User?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId])
+  @@map("artifacts")
+}
+
+model Conversation {
+  id             String       @id @default(uuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  title          String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  messages Message[]
+
+  @@index([organizationId])
+  @@map("conversations")
+}
+
+model Message {
+  id                String       @id @default(uuid())
+  conversationId    String
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender            String
+  userId            String?
+  user              User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  activeAgent       String?
+  content           String
+  translatedContent Json?
+  language          String       @default("en")
+  thoughtStream     Json?
+  actionCard        Json?
+  confidenceLevel   String?
+  riskLevel         String?
+  timestamp         DateTime     @default(now())
+
+  @@index([conversationId])
+  @@map("messages")
+}

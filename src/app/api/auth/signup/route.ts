@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/auth/db';
+import { userService } from '@/lib/services/userService';
+import { auditService } from '@/lib/services/auditService';
 import { setSessionCookie } from '@/lib/auth/session';
-import { auditLogger } from '@/lib/security/auditLogger';
-import { UserRole } from '@/types';
+import { UserRole } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, email, password, confirmPassword, role } = body;
 
-    // Validation checks
     if (!name || typeof name !== 'string' || name.trim().length < 2) {
       return NextResponse.json(
         { error: 'Name must be at least 2 characters long.' },
@@ -39,22 +38,20 @@ export async function POST(request: Request) {
     }
 
     const assignedRole: UserRole = ['ADMIN', 'MANAGER', 'EMPLOYEE'].includes(role)
-      ? role
+      ? (role as UserRole)
       : 'EMPLOYEE';
 
-    // Create user in database
-    const { user, error } = db.createUser({
+    const { user, error } = await userService.createUser({
       name,
       email,
       password,
       role: assignedRole,
     });
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 409 });
+    if (error || !user) {
+      return NextResponse.json({ error: error || 'Failed to create user account.' }, { status: 409 });
     }
 
-    // Auto sign-in upon registration via HTTP-Only session cookie
     await setSessionCookie({
       userId: user.id,
       email: user.email,
@@ -63,15 +60,13 @@ export async function POST(request: Request) {
       organizationId: user.organizationId,
     });
 
-    auditLogger.logAuditEvent({
+    await auditService.logAuditEvent({
       userId: user.id,
+      userEmail: user.email,
       organizationId: user.organizationId,
-      requestId: `REQ-SIGNUP-${Date.now()}`,
-      agentId: 'Security',
-      actionType: 'USER_REGISTERED',
-      parameters: { email: user.email, role: user.role },
-      approvalStatus: 'APPROVED',
-      executionStatus: 'EXECUTED',
+      action: 'USER_REGISTERED',
+      resourceType: 'Security',
+      details: { email: user.email, role: user.role },
     });
 
     const responseUser = {
@@ -81,7 +76,7 @@ export async function POST(request: Request) {
       role: user.role,
       avatar: user.avatar,
       organizationId: user.organizationId,
-      preferredLanguage: 'en' as const,
+      preferredLanguage: ((user as any).preferredLanguage as any) || 'en',
     };
 
     const res = NextResponse.json({

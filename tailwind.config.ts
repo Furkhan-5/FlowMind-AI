@@ -11,15 +11,15 @@ const config: Config = {
     extend: {
       colors: {
         bloom: {
-          bg: "#eef0f5",
-          card: "#ffffff",
-          dark: "#16132a",
-          darkCard: "#1f1b3a",
+          bg: "var(--bloom-bg)",
+          card: "var(--bloom-card)",
+          dark: "var(--bloom-dark)",
+          darkCard: "var(--bloom-darkCard)",
           accent: "#8b5cf6",
           purpleLight: "#e9d5ff",
-          textDark: "#0f172a",
-          textMuted: "#64748b",
-          subtleBorder: "#e2e8f0",
+          textDark: "var(--bloom-textDark)",
+          textMuted: "var(--bloom-textMuted)",
+          subtleBorder: "var(--bloom-subtleBorder)",
         },
       },
       borderRadius: {

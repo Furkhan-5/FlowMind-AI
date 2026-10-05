@@ -18,7 +18,6 @@ import { VisualDAGGraph } from '@/components/workflow/VisualDAGGraph';
 import { NodeConfigPanel } from '@/components/workflow/NodeConfigPanel';
 import { ExecutionRunnerConsole } from '@/components/workflow/ExecutionRunnerConsole';
 import {
-  Sparkles,
   GitFork,
   Play,
   Pause,
@@ -203,7 +202,7 @@ export default function WorkflowsPage() {
           <div className="p-4 rounded-2xl bg-purple-950 text-white space-y-3 shadow-xl">
             <div className="flex items-center justify-between text-xs text-purple-200 font-medium">
               <span className="flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-purple-400" />
+                <Zap className="w-4 h-4 text-purple-400" />
                 Describe your business workflow in natural language:
               </span>
               <span className="text-[10px] text-purple-300 font-mono">Workflow Planner Agent</span>
@@ -223,7 +222,7 @@ export default function WorkflowsPage() {
                 size="md"
                 onClick={handleGenerateWorkflow}
                 disabled={!nlInput.trim() || isPlanning}
-                icon={<Sparkles className="w-4 h-4" />}
+                icon={<Zap className="w-4 h-4" />}
                 className="bg-purple-600 hover:bg-purple-500 text-white font-bold"
               >
                 {isPlanning ? 'Planning DAG...' : 'Plan DAG Workflow'}

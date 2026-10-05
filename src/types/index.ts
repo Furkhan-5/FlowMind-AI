@@ -1,6 +1,6 @@
 export type UserRole = 'ADMIN' | 'MANAGER' | 'EMPLOYEE';
 
-export type LanguageCode = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'ml';
+export type LanguageCode = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'ml' | 'or';
 
 export interface LanguageOption {
   code: LanguageCode;

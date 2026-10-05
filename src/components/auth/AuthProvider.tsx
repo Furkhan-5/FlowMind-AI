@@ -3,7 +3,8 @@
 import React, { useEffect } from 'react';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { usePathname, useRouter } from 'next/navigation';
-import { Loader2, Sparkles } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 const PUBLIC_ROUTES = [
   '/login',
@@ -13,16 +14,15 @@ const PUBLIC_ROUTES = [
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { checkAuth, initTheme, isAuthChecking, isAuthenticated } = useAppStore();
+  const { checkAuth, isAuthChecking, isAuthenticated } = useAppStore();
   const pathname = usePathname();
   const router = useRouter();
 
   const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 
   useEffect(() => {
-    initTheme();
     checkAuth();
-  }, [checkAuth, initTheme]);
+  }, [checkAuth]);
 
   useEffect(() => {
     if (!isAuthChecking && !isAuthenticated && !isPublicRoute) {
@@ -33,15 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // If checking authentication status or unauthenticated on a protected route, render smooth loading screen
   if ((isAuthChecking || (!isAuthenticated && !isPublicRoute)) && !isPublicRoute) {
     return (
-      <div className="min-h-screen bg-bloom-bg flex flex-col items-center justify-center p-6 text-bloom-dark relative overflow-hidden">
-        <div className="w-96 h-96 bg-purple-300/30 rounded-full blur-[100px] absolute pointer-events-none animate-pulse" />
+      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div className="w-96 h-96 bg-purple-900/20 rounded-full blur-[100px] absolute pointer-events-none animate-pulse" />
         <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black shadow-bloom-lg animate-bounce">
-            +
-          </div>
+          <BrandLogo size="xl" showText={false} />
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-700 text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5" />
             <span>FlowMind AI Operating System</span>
           </div>
 

@@ -5,7 +5,7 @@ import { UniversalResponseRenderer } from '@/components/chat/UniversalResponseRe
 import { PromptChips } from '@/components/chat/PromptChips';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { Send, Mic, Sparkles, ShieldCheck } from 'lucide-react';
+import { Send, Mic, Loader2, ShieldCheck } from 'lucide-react';
 import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
 import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
@@ -163,7 +163,7 @@ export const ChatInterface: React.FC = () => {
 
         {isProcessing && (
           <div className="flex items-center gap-2 text-xs text-purple-700 bg-purple-50 p-3 rounded-2xl border border-purple-200 w-fit animate-pulse">
-            <Sparkles className="w-4 h-4 animate-spin text-purple-600" />
+            <Loader2 className="w-4 h-4 animate-spin text-purple-600" />
             <span>Universal Agent Mesh analyzing request, checking risk, and executing governance pipeline...</span>
           </div>
         )}

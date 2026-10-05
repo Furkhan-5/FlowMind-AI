@@ -3,21 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --bloom-bg: #f1f5f9;
-  --bloom-card: #ffffff;
-  --bloom-dark: #0f172a;
-  --bloom-darkCard: #1e293b;
-  --bloom-textDark: #0f172a;
-  --bloom-textMuted: #475569;
-  --bloom-subtleBorder: #e2e8f0;
-}
-
-html.dark {
-  --background: #090714;
+  --background: #040209;
   --foreground: #f8fafc;
-  --bloom-bg: #090714;
+  --bloom-bg: #040209;
   --bloom-card: #131024;
   --bloom-dark: #f8fafc;
   --bloom-darkCard: #1c1836;
@@ -32,43 +20,6 @@ body {
   min-height: 100vh;
   font-family: 'Plus Jakarta Sans', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Section and container dark mode overrides */
-html.dark .bg-white {
-  background-color: #131024 !important;
-  color: #f8fafc !important;
-  border-color: #26204a !important;
-}
-
-html.dark .bg-slate-50 {
-  background-color: #1a1630 !important;
-  color: #f8fafc !important;
-  border-color: #2b2552 !important;
-}
-
-html.dark .bg-slate-100 {
-  background-color: #201a3c !important;
-  color: #f8fafc !important;
-  border-color: #312a5c !important;
-}
-
-html.dark .text-slate-900,
-html.dark .text-slate-800,
-html.dark .text-slate-700 {
-  color: #f8fafc !important;
-}
-
-html.dark .text-slate-600,
-html.dark .text-slate-500 {
-  color: #cbd5e1 !important;
-}
-
-html.dark .border-slate-200,
-html.dark .border-slate-200\/80,
-html.dark .border-slate-300 {
-  border-color: #28214d !important;
 }
 
 /* Custom Scrollbar */

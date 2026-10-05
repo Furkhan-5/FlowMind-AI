@@ -6,66 +6,38 @@ import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { UserRole } from '@/types';
 import {
-  Mail,
-  Lock,
   Eye,
   EyeOff,
-  Sparkles,
-  ShieldCheck,
-  ArrowRight,
   AlertCircle,
-  CheckCircle2,
-  Building2,
-  UserCheck,
-  KeyRound,
   Loader2,
-  RefreshCw,
+  Check,
+  UserCheck,
 } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
 
-export const LoginForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
+import { BrandLogo } from '@/components/ui/BrandLogo';
+
+export const LoginForm: React.FC<{ onSuccess?: () => void; initialMode?: 'LOGIN' | 'SIGNUP' }> = ({
+  onSuccess,
+  initialMode = 'SIGNUP',
+}) => {
   const router = useRouter();
-  const { login, user } = useAppStore();
+  const { login, signup } = useAppStore();
 
-  const [email, setEmail] = useState('furkh@flowmind.ai');
+  const [mode, setMode] = useState<'LOGIN' | 'SIGNUP'>(initialMode);
+  const [firstName, setFirstName] = useState('John');
+  const [lastName, setLastName] = useState('Francisco');
+  const [email, setEmail] = useState('johnfrans@gmail.com');
   const [password, setPassword] = useState('flowmind2026!');
   const [selectedRole, setSelectedRole] = useState<UserRole>('ADMIN');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState('');
-  const [forgotSubmitted, setForgotSubmitted] = useState(false);
 
-  // Quick Preset Logins
   const DEMO_PRESETS = [
-    {
-      role: 'ADMIN' as UserRole,
-      label: 'Admin',
-      name: 'Furkh',
-      email: 'furkh@flowmind.ai',
-      badge: 'Full Access',
-      avatarColor: 'from-purple-600 to-indigo-600',
-    },
-    {
-      role: 'MANAGER' as UserRole,
-      label: 'Manager',
-      name: 'Aniket Sahu',
-      email: 'aniket@flowmind.ai',
-      badge: 'Department Lead',
-      avatarColor: 'from-blue-600 to-cyan-600',
-    },
-    {
-      role: 'EMPLOYEE' as UserRole,
-      label: 'Employee',
-      name: 'Sarah Connor',
-      email: 'sarah@flowmind.ai',
-      badge: 'Operator',
-      avatarColor: 'from-emerald-600 to-teal-600',
-    },
+    { role: 'ADMIN' as UserRole, name: 'Furkh', email: 'furkh@flowmind.ai', label: 'Admin' },
+    { role: 'MANAGER' as UserRole, name: 'Aniket', email: 'aniket@flowmind.ai', label: 'Manager' },
+    { role: 'EMPLOYEE' as UserRole, name: 'Sarah', email: 'sarah@flowmind.ai', label: 'Employee' },
   ];
 
   const handleApplyPreset = (preset: (typeof DEMO_PRESETS)[0]) => {
@@ -80,114 +52,259 @@ export const LoginForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) =
     setErrorMessage(null);
     setIsLoading(true);
 
-    // Simulate standard security token validation latency
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    const result = await login({
-      email,
-      password,
-      role: selectedRole,
-    });
-
-    setIsLoading(false);
-
-    if (result.success) {
-      if (onSuccess) {
-        onSuccess();
+    if (mode === 'LOGIN') {
+      const result = await login({
+        email,
+        password,
+        role: selectedRole,
+      });
+      setIsLoading(false);
+      if (result.success) {
+        if (onSuccess) onSuccess();
+        else router.push('/');
       } else {
-        router.push('/');
+        setErrorMessage(result.error || 'Authentication failed. Please check credentials.');
       }
     } else {
-      setErrorMessage(result.error || 'Authentication failed. Please check your credentials.');
+      const fullName = `${firstName} ${lastName}`.trim() || 'User';
+      const result = await signup({
+        name: fullName,
+        email,
+        password,
+        confirmPassword: password,
+        role: selectedRole,
+      });
+      setIsLoading(false);
+      if (result.success) {
+        if (onSuccess) onSuccess();
+        else router.push('/');
+      } else {
+        setErrorMessage(result.error || 'Account creation failed.');
+      }
     }
-  };
-
-  const handleForgotPasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!forgotEmail || !forgotEmail.includes('@')) {
-      return;
-    }
-    setForgotSubmitted(true);
   };
 
   return (
-    <div className="w-full max-w-md mx-auto relative z-10">
-      {/* Container Glass Card */}
-      <div className="bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-[32px] p-6 sm:p-8 shadow-bloom-lg transition-all duration-300">
-        
-        {/* Header Branding */}
-        <div className="text-center space-y-2 mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100/70 border border-purple-200 text-purple-700 text-xs font-bold animate-pulse">
-            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-            <span>FlowMind AI Operating System</span>
+    <div className="w-full max-w-5xl mx-auto bg-[#050505] rounded-[36px] border border-white/10 shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 text-white my-auto">
+      {/* LEFT PANEL: Purple Radial Gradient & Onboarding Steps */}
+      <div className="lg:col-span-6 bg-gradient-to-b from-[#7e22ce] via-[#3b0764] to-[#040209] p-8 sm:p-12 m-3 rounded-[32px] flex flex-col justify-between relative overflow-hidden min-h-[520px]">
+        {/* Top Brand Logo */}
+        <div className="flex items-center justify-center">
+          <BrandLogo size="md" showText={true} />
+        </div>
+
+        {/* Center Headline & Onboarding Steps */}
+        <div className="space-y-6 my-auto text-center">
+          <div className="space-y-2">
+            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              Get Started with Us
+            </h2>
+            <p className="text-xs sm:text-sm text-purple-200/90 font-medium max-w-xs mx-auto">
+              Complete these easy steps to register your account.
+            </p>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            Sign In to Enterprise
-          </h2>
-          <p className="text-xs text-slate-500 leading-relaxed max-w-xs mx-auto">
-            Access 15 autonomous business agents, workflow engines & real-time analytics.
+          {/* Step Indicators Stack */}
+          <div className="space-y-3 pt-2 max-w-sm mx-auto">
+            {/* Step 1 - Active */}
+            <div className="w-full bg-white text-slate-950 px-5 py-3.5 rounded-2xl flex items-center gap-3.5 shadow-xl font-bold text-xs text-left transition-all">
+              <span className="w-6 h-6 rounded-full bg-slate-950 text-white flex items-center justify-center text-xs font-black shrink-0">
+                1
+              </span>
+              <span className="truncate">{mode === 'SIGNUP' ? 'Sign up your account' : 'Sign in your account'}</span>
+            </div>
+
+            {/* Step 2 - Inactive */}
+            <div className="w-full bg-white/10 text-slate-300 px-5 py-3.5 rounded-2xl flex items-center gap-3.5 font-semibold text-xs text-left border border-white/10 backdrop-blur-md">
+              <span className="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-bold shrink-0">
+                2
+              </span>
+              <span className="truncate">Set up your workspace</span>
+            </div>
+
+            {/* Step 3 - Inactive */}
+            <div className="w-full bg-white/10 text-slate-300 px-5 py-3.5 rounded-2xl flex items-center gap-3.5 font-semibold text-xs text-left border border-white/10 backdrop-blur-md">
+              <span className="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-bold shrink-0">
+                3
+              </span>
+              <span className="truncate">Set up your profile</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Preset Switcher Pills */}
+        <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-purple-200">
+          <span className="font-semibold flex items-center gap-1">
+            <UserCheck className="w-3.5 h-3.5 text-cyan-300" /> Demo Autofill:
+          </span>
+          <div className="flex items-center gap-1.5">
+            {DEMO_PRESETS.map((p) => (
+              <button
+                key={p.role}
+                type="button"
+                onClick={() => handleApplyPreset(p)}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all border ${
+                  email === p.email
+                    ? 'bg-white text-slate-950 border-white shadow'
+                    : 'bg-white/10 hover:bg-white/20 border-white/20 text-white'
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT PANEL: Black Background Auth Form */}
+      <div className="lg:col-span-6 bg-[#050505] p-8 sm:p-12 flex flex-col justify-center">
+        {/* Header */}
+        <div className="space-y-1 mb-6">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            {mode === 'SIGNUP' ? 'Sign Up Account' : 'Sign In Account'}
+          </h1>
+          <p className="text-xs text-slate-400 font-medium">
+            {mode === 'SIGNUP'
+              ? 'Enter your personal data to create your account.'
+              : 'Enter your credentials to access your account.'}
           </p>
         </div>
 
-        {/* Quick Demo Persona Switcher */}
-        <div className="mb-6 bg-slate-50 border border-slate-200/80 rounded-2xl p-3">
-          <div className="flex items-center justify-between text-[11px] font-bold text-slate-600 mb-2.5 px-1">
-            <span className="flex items-center gap-1.5 text-purple-700">
-              <UserCheck className="w-3.5 h-3.5" /> Quick Demo Personas
-            </span>
-            <span className="text-[10px] text-slate-400">Click to autofill</span>
-          </div>
+        {/* Social Buttons (Google & Github) */}
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <button
+            type="button"
+            onClick={() => handleApplyPreset(DEMO_PRESETS[0])}
+            className="py-3 px-4 bg-[#18181b] hover:bg-[#27272a] border border-[#27272a] rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-white transition-colors"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <path
+                fill="#EA4335"
+                d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.3 9 5 12 5z"
+              />
+              <path
+                fill="#4285F4"
+                d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12 0 12.5s.7 2.8 1.9 5.2l3.7-2.9z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.3-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"
+              />
+            </svg>
+            <span>Google</span>
+          </button>
 
-          <div className="grid grid-cols-3 gap-2">
-            {DEMO_PRESETS.map((preset) => {
-              const isActive = email === preset.email && selectedRole === preset.role;
-              return (
-                <button
-                  key={preset.role}
-                  type="button"
-                  onClick={() => handleApplyPreset(preset)}
-                  className={`flex flex-col items-center justify-center p-2 rounded-xl text-center border transition-all ${
-                    isActive
-                      ? 'bg-purple-600 text-white border-purple-600 shadow-md scale-[1.02]'
-                      : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
-                  }`}
-                >
-                  <span className="text-[11px] font-extrabold truncate w-full">{preset.label}</span>
-                  <span className={`text-[9px] mt-0.5 font-medium ${isActive ? 'text-purple-100' : 'text-slate-400'}`}>
-                    {preset.name}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+          <button
+            type="button"
+            onClick={() => handleApplyPreset(DEMO_PRESETS[1])}
+            className="py-3 px-4 bg-[#18181b] hover:bg-[#27272a] border border-[#27272a] rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-white transition-colors"
+          >
+            <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            <span>Github</span>
+          </button>
         </div>
 
-        {/* Error Alert Message */}
+        {/* Divider */}
+        <div className="relative my-4 text-center border-t border-[#27272a]">
+          <span className="relative -top-2.5 bg-[#050505] px-3 text-xs text-slate-500 font-medium">Or</span>
+        </div>
+
+        {/* Error Alert */}
         {errorMessage && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-2.5 text-xs text-red-700 animate-fadeIn">
-            <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
-            <div className="flex-1 font-medium">{errorMessage}</div>
+          <div className="mb-4 p-3 bg-red-950/60 border border-red-500/40 rounded-xl flex items-center gap-2 text-xs text-red-300">
+            <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+            <span>{errorMessage}</span>
           </div>
         )}
 
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Role Selection Tabs */}
+        {/* Main Form */}
+        <form onSubmit={handleSubmit} className="space-y-3.5">
+          {/* First & Last Name (Sign Up Mode) */}
+          {mode === 'SIGNUP' && (
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-white mb-1.5">First Name</label>
+                <input
+                  type="text"
+                  required
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="eg. John"
+                  className="w-full p-3 bg-[#18181b] border border-[#27272a] rounded-xl text-xs font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-white mb-1.5">Last Name</label>
+                <input
+                  type="text"
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="eg. Francisco"
+                  className="w-full p-3 bg-[#18181b] border border-[#27272a] rounded-xl text-xs font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Email */}
           <div>
-            <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Assigned Security Role
+            <label className="block text-xs font-bold text-white mb-1.5">Email</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="eg. johnfrans@gmail.com"
+              className="w-full p-3 bg-[#18181b] border border-[#27272a] rounded-xl text-xs font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-xs font-bold text-white mb-1.5">Password</label>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="w-full p-3 pr-10 bg-[#18181b] border border-[#27272a] rounded-xl text-xs font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            <p className="text-[11px] text-slate-500 mt-1">Must be at least 8 characters.</p>
+          </div>
+
+          {/* Role Pill Selector */}
+          <div className="pt-1">
+            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              Select Enterprise Security Role:
             </label>
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-full border border-slate-200">
+            <div className="grid grid-cols-3 gap-1.5 bg-[#18181b] p-1 rounded-xl border border-[#27272a]">
               {(['ADMIN', 'MANAGER', 'EMPLOYEE'] as UserRole[]).map((role) => (
                 <button
                   key={role}
                   type="button"
                   onClick={() => setSelectedRole(role)}
-                  className={`py-1.5 text-[11px] font-bold rounded-full transition-all ${
-                    selectedRole === role
-                      ? 'bg-slate-900 text-white shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                  className={`py-1 text-[10px] font-bold rounded-lg transition-all ${
+                    selectedRole === role ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   {role}
@@ -196,223 +313,51 @@ export const LoginForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) =
             </div>
           </div>
 
-          {/* Email Address */}
-          <div>
-            <label htmlFor="email-input" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Work Email Address
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Mail className="w-4 h-4" />
-              </div>
-              <input
-                id="email-input"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@flowmind.ai"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-colors"
-              />
-            </div>
-          </div>
-
-          {/* Password */}
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label htmlFor="password-input" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider">
-                Account Password
-              </label>
-              <button
-                type="button"
-                onClick={() => {
-                  setForgotEmail(email);
-                  setForgotSubmitted(false);
-                  setShowForgotPassword(true);
-                }}
-                className="text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors"
-              >
-                Forgot?
-              </button>
-            </div>
-            <div className="relative flex items-center">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Lock className="w-4 h-4" />
-              </div>
-              <input
-                id="password-input"
-                type={showPassword ? 'text' : 'password'}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                className="w-full pl-10 pr-11 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-colors"
-              />
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowPassword((prev) => !prev);
-                }}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center justify-center text-slate-400 hover:text-purple-600 transition-colors focus:outline-none cursor-pointer z-10"
-                title={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? (
-                  <EyeOff className="w-4 h-4 text-purple-600" />
-                ) : (
-                  <Eye className="w-4 h-4 text-slate-400 hover:text-slate-600" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Remember Me Checkbox */}
-          <div className="flex items-center justify-between pt-1">
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-600">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500"
-              />
-              <span>Remember active session</span>
-            </label>
-            <span className="flex items-center gap-1 text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
-              <ShieldCheck className="w-3 h-3" /> 256-bit Encrypted
-            </span>
-          </div>
-
-          {/* Submit Login Button */}
-          <Button
+          {/* Submit Action Button */}
+          <button
             type="submit"
-            variant="dark"
-            size="lg"
-            className="w-full py-3 text-xs font-bold rounded-2xl shadow-bloom-lg hover:shadow-purple-500/25 transition-all mt-2"
             disabled={isLoading}
+            className="w-full py-3.5 bg-white hover:bg-slate-200 text-slate-950 font-black text-xs tracking-wider rounded-xl shadow-xl transition-all hover:scale-[1.01] mt-3 flex items-center justify-center gap-2"
           >
             {isLoading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Authenticating Session...
-              </span>
+              <>
+                <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                <span>Processing...</span>
+              </>
             ) : (
-              <span className="flex items-center justify-center gap-2">
-                <span>Sign In to Dashboard</span>
-                <ArrowRight className="w-4 h-4" />
-              </span>
+              <span>{mode === 'SIGNUP' ? 'Sign Up' : 'Sign In'}</span>
             )}
-          </Button>
+          </button>
         </form>
 
-        {/* Divider */}
-        <div className="relative my-5">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200"></div>
-          </div>
-          <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-wider">
-            <span className="bg-white px-2 text-slate-400">or enterprise single sign-on</span>
-          </div>
-        </div>
-
-        {/* Enterprise SSO Button */}
-        <button
-          type="button"
-          onClick={() => {
-            handleApplyPreset(DEMO_PRESETS[0]);
-            handleSubmit({ preventDefault: () => {} } as any);
-          }}
-          className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200/80 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 flex items-center justify-center gap-2 transition-colors"
-        >
-          <Building2 className="w-4 h-4 text-purple-600" />
-          <span>Continue with Okta / Google Workspace SSO</span>
-        </button>
-
-        {/* Link to Sign Up */}
-        <div className="text-center pt-4 border-t border-slate-100 mt-4">
-          <p className="text-xs text-slate-600">
-            Don&apos;t have an account yet?{' '}
-            <Link
-              href="/signup"
-              className="font-bold text-purple-600 hover:text-purple-700 underline underline-offset-4"
-            >
-              Create Account
-            </Link>
-          </p>
-        </div>
-
-        {/* Footer Security Notice */}
-        <p className="text-center text-[10px] text-slate-400 mt-4">
-          Protected by FlowMind AI RBAC Guard & Real-Time Audit Logger.
-        </p>
-      </div>
-
-      {/* Forgot Password Modal */}
-      {showForgotPassword && (
-        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-slate-200 animate-fadeIn space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <KeyRound className="w-4 h-4 text-purple-600" /> Reset Password
-              </h3>
+        {/* Toggle Mode Switch Link */}
+        <div className="text-center pt-5 mt-2">
+          {mode === 'SIGNUP' ? (
+            <p className="text-xs text-slate-400">
+              Already have an account?{' '}
               <button
                 type="button"
-                onClick={() => setShowForgotPassword(false)}
-                className="text-xs font-bold text-slate-400 hover:text-slate-600 px-2"
+                onClick={() => setMode('LOGIN')}
+                className="font-bold text-white hover:underline"
               >
-                ✕
+                Log in
               </button>
-            </div>
-
-            {!forgotSubmitted ? (
-              <form onSubmit={handleForgotPasswordSubmit} className="space-y-3">
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Enter your registered work email address below to receive a secure password reset link.
-                </p>
-                <div>
-                  <input
-                    type="email"
-                    required
-                    value={forgotEmail}
-                    onChange={(e) => setForgotEmail(e.target.value)}
-                    placeholder="name@flowmind.ai"
-                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
-                  />
-                </div>
-                <div className="flex items-center justify-end gap-2 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setShowForgotPassword(false)}
-                    className="px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
-                  >
-                    Cancel
-                  </button>
-                  <Button type="submit" variant="primary" size="sm">
-                    Send Reset Link
-                  </Button>
-                </div>
-              </form>
-            ) : (
-              <div className="text-center py-4 space-y-3">
-                <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto animate-bounce" />
-                <h4 className="text-xs font-bold text-slate-900">Reset Instructions Sent!</h4>
-                <p className="text-[11px] text-slate-600">
-                  We've dispatched a recovery token to <span className="font-bold text-slate-800">{forgotEmail}</span>.
-                </p>
-                <Button
-                  type="button"
-                  variant="dark"
-                  size="sm"
-                  className="w-full mt-2"
-                  onClick={() => setShowForgotPassword(false)}
-                >
-                  Return to Sign In
-                </Button>
-              </div>
-            )}
-          </div>
+            </p>
+          ) : (
+            <p className="text-xs text-slate-400">
+              Don&apos;t have an account?{' '}
+              <button
+                type="button"
+                onClick={() => setMode('SIGNUP')}
+                className="font-bold text-white hover:underline"
+              >
+                Sign Up
+              </button>
+            </p>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
+

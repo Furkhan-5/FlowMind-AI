@@ -14,7 +14,6 @@ import {
   X,
   Send,
   Mic,
-  Sparkles,
   ChevronRight,
   ShieldCheck,
   CheckCircle2,
@@ -39,7 +38,7 @@ export const RobotAssistant: React.FC = () => {
     addToast,
   } = useAppStore();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedAgent, setSelectedAgentState] = useState<AgentType | null>(null);
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -183,46 +182,54 @@ export const RobotAssistant: React.FC = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 bg-bloom-dark hover:bg-bloom-darkCard text-white px-5 py-3 rounded-full shadow-bloom-lg border border-purple-500/30 transition-all transform hover:scale-105"
+          className="group relative flex items-center gap-3.5 bg-slate-950/90 hover:bg-slate-900 text-white px-6 py-3.5 rounded-full shadow-[0_0_35px_rgba(168,85,247,0.35)] border border-purple-500/50 hover:border-cyan-400 transition-all transform hover:scale-105 backdrop-blur-xl"
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white shadow-md animate-bounce">
-            <Bot className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 via-indigo-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black shadow-lg animate-bounce">
+            <Bot className="w-5 h-5 text-slate-950" />
           </div>
           <div className="text-left">
-            <p className="text-xs font-extrabold tracking-tight">{t.robotPillTitle || "AI Robot Assistant"}</p>
-            <p className="text-[10px] text-purple-300 font-medium">{t.robotPillSubtitle || "Select Agent & Chat"}</p>
+            <p className="text-xs font-black tracking-wide text-white group-hover:text-cyan-300 transition-colors">
+              {t.robotPillTitle || "AI Robot Assistant"}
+            </p>
+            <p className="text-[10px] text-cyan-400 font-bold tracking-wider uppercase">
+              {t.robotPillSubtitle || "Select Agent & Chat"}
+            </p>
           </div>
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-slate-950 animate-ping" />
+          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-slate-950 animate-ping" />
         </button>
       )}
 
       {/* Robot Popup Panel */}
       {isOpen && (
-        <div className="w-[92vw] sm:w-[440px] max-h-[85vh] bg-white rounded-[32px] border border-slate-200 shadow-bloom-lg flex flex-col overflow-hidden animate-fadeIn relative">
+        <div
+          data-lenis-prevent
+          onWheel={(e) => e.stopPropagation()}
+          className="w-[92vw] sm:w-[440px] max-h-[85vh] bg-slate-950/95 text-white rounded-[32px] border border-white/15 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl flex flex-col overflow-hidden animate-fadeIn relative overscroll-contain"
+        >
           {/* Robot Header */}
-          <div className="p-4 bg-bloom-dark text-white flex items-center justify-between">
+          <div className="p-4 bg-slate-900/90 border-b border-white/10 text-white flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-white">
-                <Bot className="w-5 h-5 text-purple-300" />
+              <div className="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-white">
+                <Bot className="w-5 h-5 text-cyan-300" />
               </div>
               <div>
-                <h3 className="text-xs font-extrabold tracking-tight">{t.assistantTitle || "FlowMind Robot Assistant"}</h3>
-                <p className="text-[10px] text-purple-300">{t.selectAgentPrompt || "Select 1 of 15 Agents to Interact"}</p>
+                <h3 className="text-xs font-black tracking-wide text-white">{t.assistantTitle || "FlowMind Robot Assistant"}</h3>
+                <p className="text-[10px] text-cyan-300 font-semibold">{t.selectAgentPrompt || "Select 1 of 15 Agents to Interact"}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {selectedAgent && (
                 <button
                   onClick={() => setSelectedAgentState(null)}
-                  className="text-[10px] bg-purple-900/60 hover:bg-purple-800 text-purple-200 px-2.5 py-1 rounded-full border border-purple-700/50 flex items-center gap-1"
+                  className="text-[10px] font-bold bg-purple-950/80 hover:bg-purple-900 text-purple-200 px-3 py-1 rounded-full border border-purple-500/40 flex items-center gap-1 transition-all"
                   title="Switch Agent"
                 >
-                  <RefreshCw className="w-3 h-3" /> {t.switchAgent || "Switch Agent"}
+                  <RefreshCw className="w-3 h-3 text-cyan-400" /> {t.switchAgent || "Switch Agent"}
                 </button>
               )}
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
+                className="p-1.5 rounded-full hover:bg-white/10 text-slate-300 hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -231,20 +238,24 @@ export const RobotAssistant: React.FC = () => {
 
           {/* STEP 1: Select Agent Grid (When no agent is selected) */}
           {!selectedAgent ? (
-            <div className="p-5 flex-1 overflow-y-auto space-y-4 custom-scrollbar bg-bloom-bg">
+            <div
+              data-lenis-prevent
+              onWheel={(e) => e.stopPropagation()}
+              className="p-5 flex-1 overflow-y-auto space-y-4 custom-scrollbar bg-slate-950/80 overscroll-contain"
+            >
               {/* Robot Greeting Speech Bubble */}
-              <div className="p-4 rounded-2xl bg-white border border-purple-200 shadow-sm space-y-2 relative">
+              <div className="p-4 rounded-2xl bg-slate-900/90 border border-purple-500/30 shadow-md space-y-2 relative">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-bloom-dark">🤖 {t.appName}:</span>
+                  <span className="text-sm font-black text-cyan-300">🤖 {t.appName}:</span>
                 </div>
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-xs text-slate-200 leading-relaxed">
                   "{t.robotGreeting || "Hi! 👋 Welcome to FlowMind AI. Please select which specialized domain agent you would like to interact with today:"}"
                 </p>
               </div>
 
               {/* 15 Agents Picker Grid */}
               <div className="space-y-2">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                   {t.selectAgentPrompt || "15 Specialized Domain Agents:"}
                 </span>
                 <div className="grid grid-cols-2 gap-2">
@@ -252,15 +263,15 @@ export const RobotAssistant: React.FC = () => {
                     <button
                       key={agent.id}
                       onClick={() => handleSelectAgent(agent.id)}
-                      className="p-3 rounded-2xl bg-white hover:bg-purple-50/80 border border-slate-200 hover:border-purple-300 text-left transition-all duration-200 shadow-sm flex flex-col justify-between group"
+                      className="p-3 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 hover:border-purple-400/60 text-left transition-all duration-200 shadow-sm flex flex-col justify-between group"
                     >
                       <div className="flex items-center justify-between mb-1">
                         <AgentLogo agentId={agent.id} size="sm" glow />
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-600 transition-colors" />
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-300 transition-colors" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-bloom-dark group-hover:text-purple-900">{getLocalizedAgentName(agent.id, language)}</h4>
-                        <p className="text-[10px] text-slate-500 truncate">{getLocalizedAgentDomain(agent.id, language)}</p>
+                        <h4 className="text-xs font-bold text-white group-hover:text-cyan-300">{getLocalizedAgentName(agent.id, language)}</h4>
+                        <p className="text-[10px] text-slate-400 truncate">{getLocalizedAgentDomain(agent.id, language)}</p>
                       </div>
                     </button>
                   ))}
@@ -269,23 +280,27 @@ export const RobotAssistant: React.FC = () => {
             </div>
           ) : (
             /* STEP 2: Agent Conversation View (When an agent is selected) */
-            <div className="flex-1 flex flex-col h-[520px] bg-bloom-bg">
+            <div className="flex-1 flex flex-col h-[520px] bg-slate-950/80">
               {/* Agent Title Bar */}
-              <div className="px-4 py-2 bg-purple-50 border-b border-purple-200 flex items-center justify-between">
+              <div className="px-4 py-2 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <AgentLogo agentId={selectedAgent} size="xs" glow />
-                  <span className="text-xs font-bold text-purple-900 flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span className="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                     Connected to: {getLocalizedAgentName(selectedAgent, language)}
                   </span>
                 </div>
                 <Badge variant="purple" className="text-[9px]">
-                  <ShieldCheck className="w-3 h-3" /> {user.role} SANITIZED
+                  <ShieldCheck className="w-3 h-3 text-cyan-300" /> {user.role} SANITIZED
                 </Badge>
               </div>
 
               {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+              <div
+                data-lenis-prevent
+                onWheel={(e) => e.stopPropagation()}
+                className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar overscroll-contain"
+              >
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
@@ -295,15 +310,15 @@ export const RobotAssistant: React.FC = () => {
                       {msg.sender !== 'USER' && (
                         <AgentLogo agentId={msg.activeAgent || selectedAgent} size="xs" />
                       )}
-                      <span className="text-[10px] font-bold text-slate-500">
+                      <span className="text-[10px] font-bold text-slate-400">
                         {msg.sender === 'USER' ? 'You' : `${msg.activeAgent || selectedAgent} Agent`}
                       </span>
                     </div>
                     <div
-                      className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed border shadow-sm ${
+                      className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed border shadow-md ${
                         msg.sender === 'USER'
-                          ? 'bg-bloom-dark text-white border-bloom-darkCard rounded-br-none'
-                          : 'bg-white text-bloom-textDark border-slate-200 rounded-bl-none'
+                          ? 'bg-purple-600/90 text-white border-purple-400/50 rounded-br-none'
+                          : 'bg-slate-900 text-slate-100 border-white/10 rounded-bl-none'
                       }`}
                     >
                       <p>{msg.content}</p>
@@ -314,8 +329,8 @@ export const RobotAssistant: React.FC = () => {
                 ))}
 
                 {isProcessing && (
-                  <div className="flex items-center gap-2 text-xs text-purple-700 bg-purple-50 p-2.5 rounded-xl border border-purple-200 animate-pulse w-fit">
-                    <Sparkles className="w-3.5 h-3.5 animate-spin text-purple-600" />
+                  <div className="flex items-center gap-2 text-xs text-cyan-300 bg-slate-900 p-2.5 rounded-xl border border-white/10 animate-pulse w-fit">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
                     <span>Executing query with {selectedAgent} Agent...</span>
                   </div>
                 )}
@@ -327,16 +342,16 @@ export const RobotAssistant: React.FC = () => {
               </div>
 
               {/* Agent Quick Prompts */}
-              <div className="p-2 border-t border-slate-200 bg-white space-y-2">
+              <div className="p-3 border-t border-white/10 bg-slate-900/90 space-y-2">
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar">
-                  <span className="text-[9px] font-bold text-purple-700 uppercase tracking-wider shrink-0">
+                  <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-wider shrink-0">
                     Suggested:
                   </span>
                   {getAgentPrompts(selectedAgent).map((p, idx) => (
                     <button
                       key={idx}
                       onClick={() => handleSendQuery(p)}
-                      className="shrink-0 px-2.5 py-1 rounded-full text-[10px] bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 font-medium transition-colors"
+                      className="shrink-0 px-2.5 py-1 rounded-full text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 font-medium transition-colors"
                     >
                       {p}
                     </button>
@@ -345,16 +360,16 @@ export const RobotAssistant: React.FC = () => {
 
                 {/* Voice Status Indicator Banner */}
                 {isVoiceActive && (
-                  <div className="flex items-center justify-between bg-red-50 text-red-700 px-3 py-1.5 rounded-xl border border-red-200 text-[10px]">
+                  <div className="flex items-center justify-between bg-red-950/80 text-red-200 px-3 py-1.5 rounded-xl border border-red-500/40 text-[10px]">
                     <span className="font-bold flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-                      {t.listening || "Microphone Active – Listening to your speech..."}
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                      {t.listening || "Microphone Active – Listening..."}
                     </span>
                     <button
                       onClick={() => handleSendQuery(t.scheduleMeeting)}
-                      className="bg-red-600 text-white px-2 py-0.5 rounded-full hover:bg-red-700 text-[9px] font-semibold transition-colors"
+                      className="bg-red-600 text-white px-2 py-0.5 rounded-full hover:bg-red-500 text-[9px] font-semibold transition-colors"
                     >
-                      ⚡ Demo Speech Input
+                      ⚡ Demo Input
                     </button>
                   </div>
                 )}
@@ -366,8 +381,8 @@ export const RobotAssistant: React.FC = () => {
                     title={isVoiceActive ? 'Stop Listening' : 'Start Voice Input'}
                     className={`p-2 rounded-full border transition-all ${
                       isVoiceActive
-                        ? 'bg-red-500 text-white border-red-500 animate-pulse ring-2 ring-red-300'
-                        : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200'
+                        ? 'bg-red-500 text-white border-red-500 animate-pulse ring-2 ring-red-400'
+                        : 'bg-slate-800 border-white/15 text-slate-300 hover:bg-slate-700'
                     }`}
                   >
                     <Mic className="w-3.5 h-3.5" />
@@ -383,10 +398,10 @@ export const RobotAssistant: React.FC = () => {
                         ? `🎤 ${t.listening || 'Listening...'}`
                         : t.typeMessage || `Ask ${selectedAgent} Agent...`
                     }
-                    className={`flex-1 text-bloom-textDark text-xs rounded-full px-4 py-2 focus:outline-none transition-colors ${
+                    className={`flex-1 text-white text-xs rounded-full px-4 py-2 focus:outline-none transition-colors ${
                       isVoiceActive
-                        ? 'bg-red-50/60 border-red-300 focus:border-red-500 font-medium placeholder-red-400'
-                        : 'bg-slate-100 border-slate-200 focus:border-purple-500'
+                        ? 'bg-red-950/60 border-red-500 focus:border-red-400 font-medium placeholder-red-300'
+                        : 'bg-slate-800/90 border-white/15 text-white placeholder:text-slate-400 focus:border-cyan-400'
                     }`}
                   />
 

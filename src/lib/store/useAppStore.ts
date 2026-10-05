@@ -28,12 +28,9 @@ interface AppState {
   signup: (data: { name: string; email: string; password: string; confirmPassword: string; role?: User['role'] }) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
 
-  // Language & Theme
+  // Language
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
-  isDarkMode: boolean;
-  initTheme: () => void;
-  toggleDarkMode: () => void;
 
   // Active View / Sidebar
   activeModule: string;
@@ -207,33 +204,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     }));
   },
 
-  isDarkMode: true,
-  initTheme: () => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('flowmind_theme');
-      const isDark = savedTheme ? savedTheme === 'dark' : true;
-      set({ isDarkMode: isDark });
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  },
-  toggleDarkMode: () => {
-    set((state) => {
-      const nextMode = !state.isDarkMode;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('flowmind_theme', nextMode ? 'dark' : 'light');
-        if (nextMode) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      }
-      return { isDarkMode: nextMode };
-    });
-  },
+
 
   activeModule: 'dashboard',
   setActiveModule: (activeModule) => set({ activeModule }),

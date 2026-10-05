@@ -15,12 +15,16 @@ export function detectLanguageScript(text: string): LanguageCode {
   // Malayalam Unicode range: 0D00–0D7F
   if (/[\u0D00-\u0D7F]/.test(text)) return 'ml';
 
+  // Odia Unicode range: 0B00–0B7F
+  if (/[\u0B00-\u0B7F]/.test(text)) return 'or';
+
   return 'en';
 }
 
 // Map language codes to BCP 47 speech synthesis tags
 export const VOICE_LANG_TAGS: Record<LanguageCode, string> = {
   en: 'en-US',
+  or: 'or-IN',
   te: 'te-IN',
   hi: 'hi-IN',
   ta: 'ta-IN',

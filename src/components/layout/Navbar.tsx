@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from '@/lib/i18n/translations';
 import { LanguageCode, UserRole } from '@/types';
-import { Mic, ChevronDown, LogIn, LogOut, User as UserIcon, Sun, Moon } from 'lucide-react';
+import { Mic, ChevronDown, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export const Navbar: React.FC = () => {
   const {
@@ -17,8 +18,6 @@ export const Navbar: React.FC = () => {
     setRole,
     isVoiceActive,
     setVoiceActive,
-    isDarkMode,
-    toggleDarkMode,
   } = useAppStore();
 
   const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
@@ -38,12 +37,9 @@ export const Navbar: React.FC = () => {
         {/* Brand Logo */}
         <button
           onClick={() => setActiveModule('dashboard')}
-          className="flex items-center gap-2 font-bold text-bloom-dark dark:text-white text-base tracking-tight hover:opacity-80 transition-opacity"
+          className="hover:opacity-80 transition-opacity"
         >
-          <span className="w-6 h-6 rounded-full bg-bloom-dark dark:bg-purple-600 text-white flex items-center justify-center text-xs font-black">
-            +
-          </span>
-          <span>FlowMind AI</span>
+          <BrandLogo size="sm" showText={true} />
         </button>
 
         {/* Center Nav Links */}
@@ -86,19 +82,6 @@ export const Navbar: React.FC = () => {
             </select>
             <ChevronDown className="w-3 h-3 text-slate-500 absolute right-2.5 top-2.5 pointer-events-none" />
           </div>
-
-          {/* Theme Mode Toggle Pill */}
-          <button
-            onClick={() => toggleDarkMode()}
-            className="p-2 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-sm active:scale-95"
-            title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          >
-            {isDarkMode ? (
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <Moon className="w-3.5 h-3.5 text-indigo-600" />
-            )}
-          </button>
 
           {/* Voice Assistant Pill */}
           <button

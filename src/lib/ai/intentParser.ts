@@ -8,7 +8,7 @@ export interface CanonicalIntent {
   summaryText: string;
 }
 
-const LOCALIZED_INTENT_SUMMARIES: Record<string, Record<LanguageCode, string>> = {
+const LOCALIZED_INTENT_SUMMARIES: Record<string, Partial<Record<LanguageCode, string>>> = {
   SCHEDULE_SALES_MEETING: {
     en: "Scheduled sales meeting and updated CRM lead pipeline.",
     te: "సేల్స్ సమావేశాన్ని షెడ్యూల్ చేసి CRM లీడ్ పైప్‌లైన్‌ను నవీకరించాము.",
@@ -122,7 +122,7 @@ export function parseCanonicalBusinessIntent(text: string, requestedLang: Langua
   }
 
   const summaries = LOCALIZED_INTENT_SUMMARIES[actionKey] || LOCALIZED_INTENT_SUMMARIES.EXECUTIVE_QUERY;
-  const summaryText = summaries[requestedLang] || summaries.en;
+  const summaryText = summaries[requestedLang] || summaries.en || 'Intent processed.';
 
   return {
     action: actionKey,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { UI_TRANSLATIONS } from '@/lib/i18n/translations';
-import { Sparkles } from 'lucide-react';
 
 interface PromptChipsProps {
   onSelectPrompt: (prompt: string) => void;
@@ -22,7 +21,7 @@ export const PromptChips: React.FC<PromptChipsProps> = ({ onSelectPrompt }) => {
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 custom-scrollbar">
       <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1 shrink-0">
-        <Sparkles className="w-3 h-3" /> {t.quickPrompts || "Quick Prompts:"}
+        {t.quickPrompts || "Quick Prompts:"}
       </span>
       {prompts.map((prompt, idx) => (
         <button

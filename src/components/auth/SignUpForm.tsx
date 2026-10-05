@@ -11,7 +11,6 @@ import {
   Lock,
   Eye,
   EyeOff,
-  Sparkles,
   ShieldCheck,
   ArrowRight,
   AlertCircle,
@@ -84,7 +83,6 @@ export const SignUpForm: React.FC = () => {
         {/* Header */}
         <div className="text-center space-y-2 mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100/70 border border-purple-200 text-purple-700 text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
             <span>FlowMind AI Registration</span>
           </div>
 

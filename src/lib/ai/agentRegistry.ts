@@ -4,7 +4,7 @@ import { SPECIALIZED_AGENT_PROMPTS } from './agents/prompts';
 import { MOCK_AGENTS } from '@/lib/mockData';
 
 // Helper for localized response strings for all 15 agents
-const AGENT_RESPONSES: Record<string, Record<LanguageCode, string>> = {
+const AGENT_RESPONSES: Record<string, Partial<Record<LanguageCode, string>>> = {
   CEO: {
     en: "CEO Agent evaluated enterprise performance and synchronized all 15 active domain agents.",
     te: "CEO ఏజెంట్ సంస్థ పనితీరును సమీక్షించింది మరియు 15 డొమైన్ ఏజెంట్లను అనుసంధానించింది.",

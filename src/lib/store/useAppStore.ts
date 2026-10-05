@@ -32,6 +32,7 @@ interface AppState {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
   isDarkMode: boolean;
+  initTheme: () => void;
   toggleDarkMode: () => void;
 
   // Active View / Sidebar
@@ -207,7 +208,32 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   isDarkMode: true,
-  toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
+  initTheme: () => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('flowmind_theme');
+      const isDark = savedTheme ? savedTheme === 'dark' : true;
+      set({ isDarkMode: isDark });
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  },
+  toggleDarkMode: () => {
+    set((state) => {
+      const nextMode = !state.isDarkMode;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('flowmind_theme', nextMode ? 'dark' : 'light');
+        if (nextMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+      return { isDarkMode: nextMode };
+    });
+  },
 
   activeModule: 'dashboard',
   setActiveModule: (activeModule) => set({ activeModule }),

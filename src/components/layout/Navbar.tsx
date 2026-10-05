@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from '@/lib/i18n/translations';
 import { LanguageCode, UserRole } from '@/types';
-import { Mic, ChevronDown, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { Mic, ChevronDown, LogIn, LogOut, User as UserIcon, Sun, Moon } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const {
@@ -17,6 +17,8 @@ export const Navbar: React.FC = () => {
     setRole,
     isVoiceActive,
     setVoiceActive,
+    isDarkMode,
+    toggleDarkMode,
   } = useAppStore();
 
   const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
@@ -31,14 +33,14 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 px-4 sm:px-8 pt-4 pb-2 bg-bloom-bg/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto bg-white/90 border border-slate-200/80 rounded-full px-6 py-3 shadow-bloom flex items-center justify-between">
+    <header className="sticky top-0 z-50 px-4 sm:px-8 pt-4 pb-2 bg-bloom-bg/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors">
+      <div className="max-w-7xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-full px-6 py-3 shadow-bloom flex items-center justify-between transition-colors">
         {/* Brand Logo */}
         <button
           onClick={() => setActiveModule('dashboard')}
-          className="flex items-center gap-2 font-bold text-bloom-dark text-base tracking-tight hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 font-bold text-bloom-dark dark:text-white text-base tracking-tight hover:opacity-80 transition-opacity"
         >
-          <span className="w-6 h-6 rounded-full bg-bloom-dark text-white flex items-center justify-center text-xs font-black">
+          <span className="w-6 h-6 rounded-full bg-bloom-dark dark:bg-purple-600 text-white flex items-center justify-center text-xs font-black">
             +
           </span>
           <span>FlowMind AI</span>
@@ -58,8 +60,8 @@ export const Navbar: React.FC = () => {
               }}
               className={`text-xs font-medium transition-all ${
                 activeModule === item.id
-                  ? 'text-bloom-dark font-bold underline underline-offset-8 decoration-2 decoration-bloom-accent'
-                  : 'text-bloom-textMuted hover:text-bloom-dark'
+                  ? 'text-bloom-dark dark:text-purple-300 font-bold underline underline-offset-8 decoration-2 decoration-bloom-accent'
+                  : 'text-bloom-textMuted dark:text-slate-400 hover:text-bloom-dark dark:hover:text-white'
               }`}
             >
               {item.label}
@@ -74,10 +76,10 @@ export const Navbar: React.FC = () => {
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-              className="bg-slate-100 hover:bg-slate-200 border border-slate-200 text-bloom-dark text-xs font-semibold rounded-full px-3 py-1.5 pr-6 appearance-none focus:outline-none cursor-pointer transition-colors"
+              className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-bloom-dark dark:text-slate-100 text-xs font-semibold rounded-full px-3 py-1.5 pr-6 appearance-none focus:outline-none cursor-pointer transition-colors"
             >
               {SUPPORTED_LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code} className="bg-white text-slate-800">
+                <option key={lang.code} value={lang.code} className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">
                   {lang.flag} {lang.nativeName}
                 </option>
               ))}
@@ -85,13 +87,26 @@ export const Navbar: React.FC = () => {
             <ChevronDown className="w-3 h-3 text-slate-500 absolute right-2.5 top-2.5 pointer-events-none" />
           </div>
 
+          {/* Theme Mode Toggle Pill */}
+          <button
+            onClick={() => toggleDarkMode()}
+            className="p-2 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-sm active:scale-95"
+            title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            {isDarkMode ? (
+              <Sun className="w-3.5 h-3.5 text-amber-400" />
+            ) : (
+              <Moon className="w-3.5 h-3.5 text-indigo-600" />
+            )}
+          </button>
+
           {/* Voice Assistant Pill */}
           <button
             onClick={() => setVoiceActive(!isVoiceActive)}
             className={`p-2 rounded-full border transition-all ${
               isVoiceActive
                 ? 'bg-red-500 text-white border-red-500 animate-pulse'
-                : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
             title="Toggle Voice Assistant"
           >

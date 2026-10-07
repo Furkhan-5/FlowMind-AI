@@ -3,7 +3,6 @@ import {
   Lead,
   Invoice,
   Employee,
-  InventoryItem,
   SupportTicket,
   Workflow,
   ProactiveAlert,
@@ -163,37 +162,31 @@ export const MOCK_AGENTS: AgentInfo[] = [
 ];
 
 export const MOCK_LEADS: Lead[] = [
-  { id: 'LD-101', name: 'Vikram Sharma', company: 'Apex Tech Solutions', email: 'vikram@apextech.in', phone: '+91 98765 43210', value: 125000, status: 'PROPOSAL', assignedAgent: 'Sales Agent' },
-  { id: 'LD-102', name: 'Ananya Reddy', company: 'Hyderabad Pharma Ltd', email: 'ananya@hydpharma.com', phone: '+91 98123 45678', value: 340000, status: 'WON', assignedAgent: 'Sales Agent' },
-  { id: 'LD-103', name: 'Rahul Verma', company: 'Bangalore AI Labs', email: 'rahul@blrai.io', phone: '+91 97654 32109', value: 85000, status: 'QUALIFIED', assignedAgent: 'Sales Agent' },
-  { id: 'LD-104', name: 'Priya Sundaram', company: 'Chennai Logistics', email: 'priya@clogistics.in', phone: '+91 99887 76655', value: 210000, status: 'CONTACTED', assignedAgent: 'Sales Agent' },
-  { id: 'LD-105', name: 'Karthik Menon', company: 'Kochi Renewable Energy', email: 'karthik@kochienergy.org', phone: '+91 94433 22110', value: 160000, status: 'NEW', assignedAgent: 'Sales Agent' },
+  { id: 'LD-101', organizationId: 'ORG-01', name: 'Vikram Sharma', company: 'Apex Tech Solutions', email: 'vikram@apextech.in', phone: '+91 98765 43210', value: 125000, stage: 'PROPOSAL', source: 'WEBSITE', status: 'ACTIVE', score: 85, tags: ['High Value'], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'LD-102', organizationId: 'ORG-01', name: 'Ananya Reddy', company: 'Hyderabad Pharma Ltd', email: 'ananya@hydpharma.com', phone: '+91 98123 45678', value: 340000, stage: 'WON', source: 'REFERRAL', status: 'ACTIVE', score: 95, tags: ['Enterprise'], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'LD-103', organizationId: 'ORG-01', name: 'Rahul Verma', company: 'Bangalore AI Labs', email: 'rahul@blrai.io', phone: '+91 97654 32109', value: 85000, stage: 'QUALIFIED', source: 'OUTBOUND', status: 'ACTIVE', score: 75, tags: ['AI Labs'], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'LD-104', organizationId: 'ORG-01', name: 'Priya Sundaram', company: 'Chennai Logistics', email: 'priya@clogistics.in', phone: '+91 99887 76655', value: 210000, stage: 'CONTACTED', source: 'INBOUND', status: 'ACTIVE', score: 80, tags: ['Logistics'], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'LD-105', organizationId: 'ORG-01', name: 'Karthik Menon', company: 'Kochi Renewable Energy', email: 'karthik@kochienergy.org', phone: '+91 94433 22110', value: 160000, stage: 'NEW', source: 'WEBSITE', status: 'ACTIVE', score: 65, tags: ['CleanTech'], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
 ];
 
 export const MOCK_INVOICES: Invoice[] = [
-  { id: 'INV-2026-001', clientName: 'Hyderabad Pharma Ltd', amount: 340000, dueDate: '2026-09-25', status: 'PAID', itemsCount: 4 },
-  { id: 'INV-2026-002', clientName: 'Apex Tech Solutions', amount: 125000, dueDate: '2026-09-10', status: 'OVERDUE', itemsCount: 2 },
-  { id: 'INV-2026-003', clientName: 'Chennai Logistics', amount: 95000, dueDate: '2026-09-30', status: 'PENDING', itemsCount: 3 },
-  { id: 'INV-2026-004', clientName: 'Bangalore AI Labs', amount: 85000, dueDate: '2026-10-05', status: 'PENDING', itemsCount: 1 },
+  { id: 'INV-2026-001', organizationId: 'ORG-01', invoiceNumber: 'INV-2026-001', customerName: 'Hyderabad Pharma Ltd', subtotal: 340000, tax: 61200, discount: 0, total: 401200, dueDate: '2026-09-25', status: 'PAID', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'INV-2026-002', organizationId: 'ORG-01', invoiceNumber: 'INV-2026-002', customerName: 'Apex Tech Solutions', subtotal: 125000, tax: 22500, discount: 0, total: 147500, dueDate: '2026-09-10', status: 'OVERDUE', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'INV-2026-003', organizationId: 'ORG-01', invoiceNumber: 'INV-2026-003', customerName: 'Chennai Logistics', subtotal: 95000, tax: 17100, discount: 0, total: 112100, dueDate: '2026-09-30', status: 'PENDING', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'INV-2026-004', organizationId: 'ORG-01', invoiceNumber: 'INV-2026-004', customerName: 'Bangalore AI Labs', subtotal: 85000, tax: 15300, discount: 0, total: 100300, dueDate: '2026-10-05', status: 'PENDING', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
 ];
 
 export const MOCK_EMPLOYEES: Employee[] = [
-  { id: 'EMP-01', name: 'Rajesh Kumar', role: 'Sales Manager', department: 'Sales', status: 'ACTIVE', salary: 120000 },
-  { id: 'EMP-02', name: 'Sravani Rao', role: 'Senior AI Engineer', department: 'Engineering', status: 'ACTIVE', salary: 180000 },
-  { id: 'EMP-03', name: 'Amit Patel', role: 'Finance Director', department: 'Finance', status: 'ACTIVE', salary: 195000 },
-  { id: 'EMP-04', name: 'Deepa Nair', role: 'Customer Support Lead', department: 'Support', status: 'ON_LEAVE', salary: 95000 },
-];
-
-export const MOCK_INVENTORY: InventoryItem[] = [
-  { id: 'SKU-8801', productName: 'Enterprise AI Gateway Hub', sku: 'EAG-8801', quantity: 45, minThreshold: 10, unitPrice: 2500, status: 'IN_STOCK' },
-  { id: 'SKU-8802', productName: 'Multilingual Voice Micro-Server', sku: 'MVS-8802', quantity: 4, minThreshold: 15, unitPrice: 1800, status: 'LOW_STOCK' },
-  { id: 'SKU-8803', productName: 'Vector Edge Neural Processing Unit', sku: 'NPU-8803', quantity: 0, minThreshold: 5, unitPrice: 4200, status: 'OUT_OF_STOCK' },
+  { id: 'EMP-01', organizationId: 'ORG-01', employeeCode: 'EMP-1001', name: 'Rajesh Kumar', email: 'rajesh@flowmind.ai', designation: 'Sales Manager', department: 'Sales', employmentStatus: 'ACTIVE', joiningDate: '2023-01-10', salary: 120000, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'EMP-02', organizationId: 'ORG-01', employeeCode: 'EMP-1002', name: 'Sravani Rao', email: 'sravani@flowmind.ai', designation: 'Senior AI Engineer', department: 'Engineering', employmentStatus: 'ACTIVE', joiningDate: '2023-02-15', salary: 180000, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'EMP-03', organizationId: 'ORG-01', employeeCode: 'EMP-1003', name: 'Amit Patel', email: 'amit@flowmind.ai', designation: 'Finance Director', department: 'Finance', employmentStatus: 'ACTIVE', joiningDate: '2023-03-20', salary: 195000, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'EMP-04', organizationId: 'ORG-01', employeeCode: 'EMP-1004', name: 'Deepa Nair', email: 'deepa@flowmind.ai', designation: 'Customer Support Lead', department: 'Support', employmentStatus: 'ON_LEAVE', joiningDate: '2023-04-05', salary: 95000, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
 ];
 
 export const MOCK_TICKETS: SupportTicket[] = [
-  { id: 'TCK-501', customerName: 'Apex Tech Solutions', subject: 'API Rate limit exceeded on Telugu Voice Synthesizer', priority: 'HIGH', status: 'OPEN', assignedAgent: 'Support' },
-  { id: 'TCK-502', customerName: 'Bangalore AI Labs', subject: 'Invoice PDF export missing GST tax break-up', priority: 'MEDIUM', status: 'IN_PROGRESS', assignedAgent: 'Finance' },
-  { id: 'TCK-503', customerName: 'Chennai Logistics', subject: 'Requesting custom Slack webhook notification integration', priority: 'LOW', status: 'RESOLVED', assignedAgent: 'Workflow' },
+  { id: 'TCK-501', organizationId: 'ORG-01', ticketNumber: 'TCK-501', customerName: 'Apex Tech Solutions', title: 'API Rate limit exceeded on Telugu Voice Synthesizer', description: 'API rate limit exceeded during high volume request spikes.', priority: 'HIGH', status: 'OPEN', category: 'TECHNICAL', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'TCK-502', organizationId: 'ORG-01', ticketNumber: 'TCK-502', customerName: 'Bangalore AI Labs', title: 'Invoice PDF export missing GST tax break-up', description: 'Tax line item breakdown formatting request.', priority: 'MEDIUM', status: 'IN_PROGRESS', category: 'BILLING', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: 'TCK-503', organizationId: 'ORG-01', ticketNumber: 'TCK-503', customerName: 'Chennai Logistics', title: 'Requesting custom Slack webhook notification integration', description: 'Integration hook for Slack alerts.', priority: 'LOW', status: 'RESOLVED', category: 'INTEGRATION', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
 ];
 
 export const MOCK_WORKFLOWS: Workflow[] = [

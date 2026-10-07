@@ -382,3 +382,282 @@ model Message {
   @@index([conversationId])
   @@map("messages")
 }
+
+// ================================================================
+// WEEK 5 — BUSINESS OPERATIONS SUITE MODELS
+// ================================================================
+
+enum LeadStage {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  NEGOTIATION
+  WON
+  LOST
+}
+
+model Lead {
+  id              String      @id @default(uuid())
+  organizationId  String
+  name            String
+  email           String
+  phone           String?
+  company         String
+  source          String      @default("WEBSITE")
+  ownerId         String?
+  stage           LeadStage   @default(NEW)
+  status          String      @default("ACTIVE")
+  score           Int         @default(50)
+  value           Float       @default(0.0)
+  tags            String[]
+  notes           String?
+  lastContactedAt DateTime?
+  nextFollowUpAt  DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  stageHistory LeadStageHistory[]
+
+  @@index([organizationId])
+  @@index([stage])
+  @@map("leads")
+}
+
+model LeadStageHistory {
+  id            String   @id @default(uuid())
+  leadId        String
+  lead          Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  previousStage String
+  newStage      String
+  changedBy     String
+  reason        String?
+  timestamp     DateTime @default(now())
+
+  @@index([leadId])
+  @@map("lead_stage_histories")
+}
+
+model Employee {
+  id                String   @id @default(uuid())
+  organizationId    String
+  userId            String?
+  employeeCode      String   @unique
+  name              String
+  email             String   @unique
+  department        String
+  designation       String
+  managerId         String?
+  joiningDate       DateTime @default(now())
+  employmentStatus  String   @default("ACTIVE")
+  salary            Float    @default(0.0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  leaveRequests  LeaveRequest[]
+  payrollRecords PayrollRecord[]
+
+  @@index([organizationId])
+  @@index([department])
+  @@map("employees")
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model LeaveRequest {
+  id             String      @id @default(uuid())
+  organizationId String
+  employeeId     String
+  employee       Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  leaveType      String
+  startDate      DateTime
+  endDate        DateTime
+  reason         String
+  status         LeaveStatus @default(PENDING)
+  approverId     String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@index([organizationId])
+  @@index([employeeId])
+  @@map("leave_requests")
+}
+
+model PayrollRecord {
+  id             String   @id @default(uuid())
+  organizationId String
+  employeeId     String
+  employee       Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  period         String
+  baseSalary     Float
+  allowances     Float    @default(0.0)
+  deductions     Float    @default(0.0)
+  bonuses        Float    @default(0.0)
+  grossSalary    Float
+  netSalary      Float
+  status         String   @default("PROCESSED")
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId])
+  @@index([employeeId])
+  @@map("payroll_records")
+}
+
+enum InvoiceStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model Invoice {
+  id             String        @id @default(uuid())
+  organizationId String
+  invoiceNumber  String        @unique
+  customerId     String?
+  customerName   String
+  customerEmail  String?
+  createdById    String?
+  status         InvoiceStatus @default(PENDING)
+  subtotal       Float
+  tax            Float         @default(0.0)
+  discount       Float         @default(0.0)
+  total          Float
+  dueDate        DateTime
+  paidAt         DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  items    InvoiceItem[]
+  payments Payment[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String  @id @default(uuid())
+  invoiceId   String
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  description String
+  quantity    Int     @default(1)
+  unitPrice   Float
+  amount      Float
+
+  @@index([invoiceId])
+  @@map("invoice_items")
+}
+
+model Payment {
+  id             String   @id @default(uuid())
+  organizationId String
+  invoiceId      String
+  invoice        Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  amount         Float
+  paymentMethod  String   @default("BANK_TRANSFER")
+  status         String   @default("COMPLETED")
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId])
+  @@index([invoiceId])
+  @@map("payments")
+}
+
+model Product {
+  id             String   @id @default(uuid())
+  organizationId String
+  sku            String   @unique
+  name           String
+  description    String?
+  category       String
+  quantity       Int      @default(0)
+  reorderLevel   Int      @default(10)
+  unitPrice      Float
+  status         String   @default("IN_STOCK")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  stockMovements StockMovement[]
+
+  @@index([organizationId])
+  @@index([sku])
+  @@map("products")
+}
+
+model StockMovement {
+  id             String   @id @default(uuid())
+  organizationId String
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity       Int
+  movementType   String   // STOCK_IN, STOCK_OUT, ADJUSTMENT, TRANSFER
+  reference      String?
+  createdById    String?
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId])
+  @@index([productId])
+  @@map("stock_movements")
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING
+  RESOLVED
+  CLOSED
+}
+
+model SupportTicket {
+  id             String         @id @default(uuid())
+  organizationId String
+  ticketNumber   String         @unique
+  customerId     String?
+  customerName   String
+  title          String
+  description    String
+  priority       TicketPriority @default(MEDIUM)
+  status         TicketStatus   @default(OPEN)
+  category       String         @default("GENERAL")
+  assignedToId   String?
+  createdById    String?
+  resolvedAt     DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  notes TicketNote[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@index([priority])
+  @@map("support_tickets")
+}
+
+model TicketNote {
+  id        String        @id @default(uuid())
+  ticketId  String
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author    String
+  note      String
+  isInternal Boolean      @default(false)
+  createdAt DateTime      @default(now())
+
+  @@index([ticketId])
+  @@map("ticket_notes")
+}

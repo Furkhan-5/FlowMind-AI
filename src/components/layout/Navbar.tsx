@@ -24,6 +24,7 @@ export const Navbar: React.FC = () => {
 
   const navItems = [
     { id: 'dashboard', label: t.dashboard },
+    { id: 'modules', label: 'Business Suite' },
     { id: 'agents', label: t.activeAgents },
     { id: 'workflows', label: t.workflows },
     { id: 'data-analyst', label: t.dataStudio },
@@ -34,6 +35,13 @@ export const Navbar: React.FC = () => {
   const handleNavClick = (id: string) => {
     if (id === 'dashboard') {
       window.location.href = '/';
+      return;
+    }
+
+    if (id === 'modules') {
+      if (window.location.pathname !== '/modules') {
+        window.location.href = '/modules';
+      }
       return;
     }
 

@@ -132,53 +132,10 @@ export interface Workflow {
   lastRun: string;
 }
 
-export interface Lead {
-  id: string;
-  name: string;
-  company: string;
-  email: string;
-  phone: string;
-  value: number;
-  status: 'NEW' | 'CONTACTED' | 'QUALIFIED' | 'PROPOSAL' | 'WON' | 'LOST';
-  assignedAgent: string;
-}
-
-export interface Invoice {
-  id: string;
-  clientName: string;
-  amount: number;
-  dueDate: string;
-  status: 'PAID' | 'PENDING' | 'OVERDUE';
-  itemsCount: number;
-}
-
-export interface Employee {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  status: 'ACTIVE' | 'ON_LEAVE';
-  salary: number;
-}
-
-export interface InventoryItem {
-  id: string;
-  productName: string;
-  sku: string;
-  quantity: number;
-  minThreshold: number;
-  unitPrice: number;
-  status: 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK';
-}
-
-export interface SupportTicket {
-  id: string;
-  customerName: string;
-  subject: string;
-  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-  status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED';
-  assignedAgent: AgentType;
-}
+export * from './agentEvents';
+export * from './universalAgent';
+export * from './workflowDSL';
+export * from './business';
 
 export interface ProactiveAlert {
   id: string;
@@ -189,9 +146,5 @@ export interface ProactiveAlert {
   timestamp: string;
   recommendedAction: ActionCardData;
 }
-
-export * from './agentEvents';
-export * from './universalAgent';
-export * from './workflowDSL';
 
 

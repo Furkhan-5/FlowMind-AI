@@ -32,15 +32,22 @@ export const Navbar: React.FC = () => {
   ];
 
   const handleNavClick = (id: string) => {
-    setActiveModule(id);
+    if (id === 'dashboard') {
+      window.location.href = '/';
+      return;
+    }
+
     if (id === 'workflows') {
       if (window.location.pathname !== '/workflows') {
         window.location.href = '/workflows';
       }
-    } else {
-      if (window.location.pathname !== '/dashboard') {
-        window.location.href = '/dashboard';
-      }
+      return;
+    }
+
+    // For future implementation modules (data-analyst, knowledge, crm) & agents:
+    setActiveModule(id);
+    if (window.location.pathname !== '/dashboard') {
+      window.location.href = '/dashboard';
     }
   };
 
@@ -50,13 +57,10 @@ export const Navbar: React.FC = () => {
         {/* Brand Logo */}
         <button
           onClick={() => {
-            setActiveModule('dashboard');
-            if (window.location.pathname !== '/dashboard') {
-              window.location.href = '/dashboard';
-            }
+            window.location.href = '/';
           }}
           className="hover:opacity-80 transition-opacity flex items-center gap-2"
-          title="Go to Dashboard"
+          title="Go to 3D Executive Landing Page"
         >
           <BrandLogo size="sm" showText={true} />
         </button>

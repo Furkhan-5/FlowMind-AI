@@ -127,7 +127,13 @@ export default function DashboardPage() {
                     </h3>
                     <p className="text-xs text-slate-500">Auto-clean CSV datasets, impute missing values, and generate recommended chart visualizers.</p>
                   </div>
-                  <Badge variant="purple">Analytics Agent Active</Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="purple">Future Module — Interactive Preview</Badge>
+                  </div>
+                </div>
+
+                <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 text-xs text-purple-900 font-medium">
+                  💡 <strong>Planned Architecture Note:</strong> AI Data Studio is queued as a future phase release. The full interactive dataset cleaner and chart visualizer UI are pre-wired.
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -160,7 +166,13 @@ export default function DashboardPage() {
                     </h3>
                     <p className="text-xs text-slate-500">Indexed corporate documentation with vector similarity search for exact agent context retrieval.</p>
                   </div>
-                  <Badge variant="success">Knowledge Agent Active</Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="success">Future Module — Interactive Preview</Badge>
+                  </div>
+                </div>
+
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-900 font-medium">
+                  💡 <strong>Planned Architecture Note:</strong> RAG Knowledge Hub is queued as a future phase release. Vector indexing structures and retrieval query pipes are pre-wired.
                 </div>
 
                 <div className="p-4 bg-slate-900 text-white rounded-2xl space-y-3">
@@ -192,7 +204,13 @@ export default function DashboardPage() {
                     </h3>
                     <p className="text-xs text-slate-500">Manage leads, monitor pipeline status, and track GST tax invoicing.</p>
                   </div>
-                  <Badge variant="purple">Sales & Finance Agents Active</Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="purple">Future Module — Interactive Preview</Badge>
+                  </div>
+                </div>
+
+                <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-xs text-indigo-900 font-medium">
+                  💡 <strong>Planned Architecture Note:</strong> CRM & Business Suite is queued as a future phase release. Lead tables and invoice download generators are pre-wired.
                 </div>
 
                 <GlassCard variant="white" className="p-0 overflow-hidden space-y-3">

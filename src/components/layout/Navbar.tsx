@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from '@/lib/i18n/translations';
 import { LanguageCode, UserRole } from '@/types';
-import { Mic, ChevronDown, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { Mic, ChevronDown, LogIn, LogOut } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export const Navbar: React.FC = () => {
@@ -31,13 +31,32 @@ export const Navbar: React.FC = () => {
     { id: 'crm', label: t.crmLeads },
   ];
 
+  const handleNavClick = (id: string) => {
+    setActiveModule(id);
+    if (id === 'workflows') {
+      if (window.location.pathname !== '/workflows') {
+        window.location.href = '/workflows';
+      }
+    } else {
+      if (window.location.pathname !== '/dashboard') {
+        window.location.href = '/dashboard';
+      }
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 px-4 sm:px-8 pt-4 pb-2 bg-bloom-bg/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors">
       <div className="max-w-7xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-full px-6 py-3 shadow-bloom flex items-center justify-between transition-colors">
         {/* Brand Logo */}
         <button
-          onClick={() => setActiveModule('dashboard')}
-          className="hover:opacity-80 transition-opacity"
+          onClick={() => {
+            setActiveModule('dashboard');
+            if (window.location.pathname !== '/dashboard') {
+              window.location.href = '/dashboard';
+            }
+          }}
+          className="hover:opacity-80 transition-opacity flex items-center gap-2"
+          title="Go to Dashboard"
         >
           <BrandLogo size="sm" showText={true} />
         </button>
@@ -47,13 +66,7 @@ export const Navbar: React.FC = () => {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => {
-                if (item.id === 'workflows') {
-                  window.location.href = '/workflows';
-                } else {
-                  setActiveModule(item.id);
-                }
-              }}
+              onClick={() => handleNavClick(item.id)}
               className={`text-xs font-medium transition-all ${
                 activeModule === item.id
                   ? 'text-bloom-dark dark:text-purple-300 font-bold underline underline-offset-8 decoration-2 decoration-bloom-accent'
@@ -72,7 +85,7 @@ export const Navbar: React.FC = () => {
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-              className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-bloom-dark dark:text-slate-100 text-xs font-semibold rounded-full px-3 py-1.5 pr-6 appearance-none focus:outline-none cursor-pointer transition-colors"
+              className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-bloom-dark dark:text-slate-100 text-xs font-semibold rounded-full px-3 py-1.5 pr-6 appearance-none cursor-pointer focus:outline-none transition-colors"
             >
               {SUPPORTED_LANGUAGES.map((lang) => (
                 <option key={lang.code} value={lang.code} className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">
@@ -143,4 +156,3 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
-

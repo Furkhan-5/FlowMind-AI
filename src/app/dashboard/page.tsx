@@ -8,12 +8,28 @@ import { Navbar } from '@/components/layout/Navbar';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { MOCK_AGENTS, MOCK_LEADS } from '@/lib/mockData';
+import { MOCK_AGENTS, MOCK_LEADS, MOCK_INVOICES } from '@/lib/mockData';
 import { UI_TRANSLATIONS, getLocalizedAgentName, getLocalizedAgentDomain } from '@/lib/i18n/translations';
 import { RobotAssistant } from '@/components/chat/RobotAssistant';
 import { ChatInterface } from '@/components/chat/ChatInterface';
 import LoginPage from '@/app/login/page';
-import { ArrowRight, GitFork, Sparkles, Box } from 'lucide-react';
+import {
+  ArrowRight,
+  GitFork,
+  Sparkles,
+  Box,
+  FileSpreadsheet,
+  BookOpen,
+  Users,
+  Bot,
+  Database,
+  BarChart3,
+  Search,
+  CheckCircle2,
+  FileText,
+  DollarSign,
+  ShieldCheck,
+} from 'lucide-react';
 
 const Hero3DCanvas = dynamic(
   () => import('@/components/canvas/Hero3DCanvas').then((mod) => mod.Hero3DCanvas),
@@ -101,10 +117,89 @@ export default function DashboardPage() {
               </div>
             )}
 
+            {activeModule === 'data-analyst' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-bold text-bloom-dark flex items-center gap-2">
+                      <FileSpreadsheet className="w-5 h-5 text-purple-600" />
+                      AI Data Studio & Automated Analytics
+                    </h3>
+                    <p className="text-xs text-slate-500">Auto-clean CSV datasets, impute missing values, and generate recommended chart visualizers.</p>
+                  </div>
+                  <Badge variant="purple">Analytics Agent Active</Badge>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <GlassCard variant="white" className="space-y-2 text-center p-6">
+                    <BarChart3 className="w-8 h-8 text-purple-600 mx-auto" />
+                    <h4 className="text-xs font-bold text-bloom-dark">Chart Recommendation</h4>
+                    <p className="text-[11px] text-slate-500">Auto-selects optimal bar, line, and pie charts based on dataset metrics.</p>
+                  </GlassCard>
+                  <GlassCard variant="white" className="space-y-2 text-center p-6">
+                    <Database className="w-8 h-8 text-emerald-600 mx-auto" />
+                    <h4 className="text-xs font-bold text-bloom-dark">Dataset Auto-Cleaner</h4>
+                    <p className="text-[11px] text-slate-500">Detects null rows, removes z-score outliers, and standardizes column schemas.</p>
+                  </GlassCard>
+                  <GlassCard variant="white" className="space-y-2 text-center p-6">
+                    <FileText className="w-8 h-8 text-indigo-600 mx-auto" />
+                    <h4 className="text-xs font-bold text-bloom-dark">Executive PDF Summarizer</h4>
+                    <p className="text-[11px] text-slate-500">Generates downloadable executive performance digests in PDF/CSV format.</p>
+                  </GlassCard>
+                </div>
+              </div>
+            )}
+
+            {activeModule === 'knowledge' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-bold text-bloom-dark flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-purple-600" />
+                      RAG Knowledge Hub & Vector Q&A Engine
+                    </h3>
+                    <p className="text-xs text-slate-500">Indexed corporate documentation with vector similarity search for exact agent context retrieval.</p>
+                  </div>
+                  <Badge variant="success">Knowledge Agent Active</Badge>
+                </div>
+
+                <div className="p-4 bg-slate-900 text-white rounded-2xl space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-purple-300">
+                    <Search className="w-4 h-4 text-purple-400" />
+                    Query Corporate Vector Embeddings:
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      placeholder="e.g. What is our refund policy for enterprise quarterly contracts?"
+                      className="flex-1 bg-slate-800 border border-purple-500/40 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-400 focus:outline-none"
+                    />
+                    <Button variant="dark" size="sm" className="bg-purple-600 hover:bg-purple-500 text-white font-bold">
+                      Query Knowledge Base
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeModule === 'crm' && (
-              <div className="space-y-4">
-                <h3 className="text-base font-bold text-bloom-dark">{t.crmAndLeads}</h3>
-                <GlassCard variant="white" className="p-0 overflow-hidden">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-bold text-bloom-dark flex items-center gap-2">
+                      <Users className="w-5 h-5 text-purple-600" />
+                      CRM & Enterprise Business Operations Suite
+                    </h3>
+                    <p className="text-xs text-slate-500">Manage leads, monitor pipeline status, and track GST tax invoicing.</p>
+                  </div>
+                  <Badge variant="purple">Sales & Finance Agents Active</Badge>
+                </div>
+
+                <GlassCard variant="white" className="p-0 overflow-hidden space-y-3">
+                  <div className="p-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                    <h4 className="text-xs font-bold text-bloom-dark uppercase tracking-wider">Active Enterprise Pipeline Leads</h4>
+                    <span className="text-[11px] font-semibold text-emerald-600">Total Value: ₹5,50,000</span>
+                  </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs text-left">
                       <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[10px]">
@@ -142,12 +237,12 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-bloom-bg text-bloom-textDark font-sans selection:bg-purple-200 relative">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 space-y-12 pb-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 space-y-8 pb-24">
         {/* Header Ribbon for 3D View Switching */}
         <div className="flex items-center justify-between bg-slate-900 text-white rounded-2xl px-6 py-3 shadow-xl">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-xs font-bold text-slate-200">Classic Operating System Dashboard</span>
+            <span className="text-xs font-bold text-slate-200">Executive Operating System Dashboard</span>
           </div>
           <Link
             href="/"
@@ -157,6 +252,149 @@ export default function DashboardPage() {
             <span>3D Spatial View</span>
           </Link>
         </div>
+
+        {/* TOP SECTION: Quick Enterprise Workspaces Cards Bar */}
+        <section className="bg-white border border-slate-200/80 rounded-[32px] p-6 shadow-bloom space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" /> Enterprise Platform Hub
+              </span>
+              <h2 className="text-lg font-extrabold text-bloom-dark tracking-tight">
+                Primary Operational Workspaces
+              </h2>
+            </div>
+            <Badge variant="purple">15 AGENTS CONCURRENT</Badge>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* AI Data Studio Card */}
+            <div
+              onClick={() => setActiveModule('data-analyst')}
+              className="p-4 rounded-2xl border border-purple-200/80 bg-purple-50/50 hover:bg-purple-50 hover:border-purple-400 transition-all cursor-pointer space-y-2 group shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-md">
+                  <FileSpreadsheet className="w-5 h-5" />
+                </div>
+                <Badge variant="purple">Analytics</Badge>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-purple-700 transition-colors">
+                  AI Data Studio
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Dataset auto-cleaner, z-score outlier removal, and automated chart visualizers.
+                </p>
+              </div>
+            </div>
+
+            {/* RAG Knowledge Hub Card */}
+            <div
+              onClick={() => setActiveModule('knowledge')}
+              className="p-4 rounded-2xl border border-emerald-200/80 bg-emerald-50/50 hover:bg-emerald-50 hover:border-emerald-400 transition-all cursor-pointer space-y-2 group shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <Badge variant="success">Vector RAG</Badge>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-emerald-700 transition-colors">
+                  RAG Knowledge Hub
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Indexed document memory with vector similarity search context retrieval.
+                </p>
+              </div>
+            </div>
+
+            {/* CRM & Business Suite Card */}
+            <div
+              onClick={() => setActiveModule('crm')}
+              className="p-4 rounded-2xl border border-blue-200/80 bg-blue-50/50 hover:bg-blue-50 hover:border-blue-400 transition-all cursor-pointer space-y-2 group shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+                  <Users className="w-5 h-5" />
+                </div>
+                <Badge variant="purple">Business Suite</Badge>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-blue-700 transition-colors">
+                  CRM & Business Suite
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Pipeline leads, GST billing ledger, employee onboarding, and HR management.
+                </p>
+              </div>
+            </div>
+
+            {/* AI Workflows DAG Card */}
+            <Link
+              href="/workflows"
+              className="p-4 rounded-2xl border border-indigo-200/80 bg-indigo-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all cursor-pointer space-y-2 group shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-md">
+                  <GitFork className="w-5 h-5" />
+                </div>
+                <Badge variant="purple">Topological DAG</Badge>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-indigo-700 transition-colors">
+                  AI Workflows DAG
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Zero-code natural language to topological Kahn's DAG execution engine.
+                </p>
+              </div>
+            </Link>
+
+            {/* 15 Active Agents Mesh Card */}
+            <div
+              onClick={() => setActiveModule('agents')}
+              className="p-4 rounded-2xl border border-amber-200/80 bg-amber-50/50 hover:bg-amber-50 hover:border-amber-400 transition-all cursor-pointer space-y-2 group shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center shadow-md">
+                  <Bot className="w-5 h-5" />
+                </div>
+                <Badge variant="purple">15 Agents</Badge>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-amber-700 transition-colors">
+                  15 Active Agents Mesh
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Concurrently active domain agents coordinated by Master CEO Orchestrator.
+                </p>
+              </div>
+            </div>
+
+            {/* Layman Conversational Chat MVP Card */}
+            <div
+              onClick={() => setActiveModule('chat')}
+              className="p-4 rounded-2xl border border-pink-200/80 bg-pink-50/50 hover:bg-pink-50 hover:border-pink-400 transition-all cursor-pointer space-y-2 group shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-pink-600 text-white flex items-center justify-center shadow-md">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <Badge variant="success">Layman Chat</Badge>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-pink-700 transition-colors">
+                  Layman Conversational MVP
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Multilingual Indic chatbot with Web Speech STT/TTS and HITL Action Cards.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Hero Section */}
         <section className="bg-white border border-slate-200/80 rounded-[32px] p-6 sm:p-10 shadow-bloom space-y-8 relative overflow-hidden">

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES } from '@/lib/i18n/translations';
 import { LanguageCode } from '@/types';
-import { LogIn, LogOut, RotateCcw } from 'lucide-react';
+import { LogIn, LogOut, RotateCcw, GitFork } from 'lucide-react';
 
 import { BrandLogo } from '@/components/ui/BrandLogo';
 
@@ -55,6 +55,16 @@ export const FuturisticNav: React.FC<FuturisticNavProps> = ({
               {link.label}
             </button>
           ))}
+
+          {/* Visual DAG Workflows Direct Navigation */}
+          <Link
+            href="/workflows"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 text-xs font-black tracking-wider transition-all hover:scale-105 shadow-lg"
+            title="Open Zero-Code Visual Workflow DAG Builder"
+          >
+            <GitFork className="w-3.5 h-3.5 text-cyan-400" />
+            <span>DAG WORKFLOWS</span>
+          </Link>
         </nav>
 
         {/* Right Controls */}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { FuturisticNav } from '@/components/layout/FuturisticNav';
 import { CustomCursor } from '@/components/ui/CustomCursor';
@@ -129,6 +130,33 @@ export default function Home() {
           >
             {activeModule === 'chat' && <ChatInterface />}
 
+            {activeModule === 'workflows' && (
+              <div className="space-y-6 text-center py-8">
+                <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-purple-600 to-indigo-500 p-0.5 shadow-2xl shadow-purple-500/30">
+                  <div className="w-full h-full bg-slate-950 rounded-[22px] flex items-center justify-center">
+                    <GitFork className="w-10 h-10 text-cyan-400 animate-pulse" />
+                  </div>
+                </div>
+                <div className="space-y-2 max-w-lg mx-auto">
+                  <h3 className="text-2xl font-black text-white tracking-tight">Zero-Code Visual Workflow DAG Engine</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Compile natural language prompts into executable Directed Acyclic Graphs (DAGs) verified via Kahn's Topological Sort algorithm with live execution tracing and retry policies.
+                  </p>
+                </div>
+
+                <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+                  <Link
+                    href="/workflows"
+                    onClick={() => setActiveModule('dashboard')}
+                    className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-widest shadow-xl transition-all hover:scale-105 inline-flex items-center gap-2"
+                  >
+                    <GitFork className="w-4 h-4 text-cyan-300" />
+                    <span>OPEN VISUAL DAG WORKFLOW BUILDER</span>
+                  </Link>
+                </div>
+              </div>
+            )}
+
             {activeModule === 'agents' && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -215,6 +243,14 @@ export default function Home() {
                     >
                       ENTER WORKSPACE
                     </button>
+
+                    <Link
+                      href="/workflows"
+                      className="px-8 py-3.5 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-xs tracking-widest shadow-[0_0_30px_rgba(129,140,248,0.5)] transition-all hover:scale-105 inline-flex items-center gap-2"
+                    >
+                      <GitFork className="w-4 h-4 text-cyan-300" />
+                      <span>DAG WORKFLOWS</span>
+                    </Link>
 
                     <button
                       type="button"
@@ -306,14 +342,18 @@ export default function Home() {
                       &ldquo;Let intelligence move work forward.&rdquo;
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      5-stage pipeline automation: <span className="text-cyan-300 font-bold">Input ➔ Intelligence ➔ Decision ➔ Action ➔ Result</span>.
+                      5-stage pipeline automation: <span className="text-cyan-300 font-bold">Input ➔ Intelligence ➔ Decision ➔ Action ➔ Result</span>. Zero-code Natural Language to DAG workflow compilation.
                     </p>
-                    <div className="flex flex-wrap items-center gap-2 pt-2">
-                      <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/30 text-emerald-300">
-                        Zero Manual Friction
-                      </span>
-                      <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-indigo-500/20 border border-indigo-400/30 text-indigo-300">
-                        Automated Execution
+                    <div className="flex flex-wrap items-center gap-3 pt-3">
+                      <Link
+                        href="/workflows"
+                        className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-widest shadow-xl transition-all hover:scale-105 inline-flex items-center gap-2"
+                      >
+                        <GitFork className="w-4 h-4 text-cyan-300" />
+                        <span>LAUNCH DAG WORKFLOW BUILDER</span>
+                      </Link>
+                      <span className="px-3 py-1.5 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/30 text-emerald-300">
+                        Topological Kahn's DAG Runner
                       </span>
                     </div>
                   </div>
@@ -332,7 +372,7 @@ export default function Home() {
                   <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
                     15 specialized domain agents operating concurrently across Finance, Sales, HR, Database, Marketing, and Security.
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-2 flex items-center justify-center gap-3">
                     <button
                       type="button"
                       onClick={() => setActiveModule('agents')}
@@ -340,6 +380,13 @@ export default function Home() {
                     >
                       Inspect 15 Domain Agents
                     </button>
+                    <Link
+                      href="/workflows"
+                      className="px-6 py-2.5 rounded-full bg-purple-600/80 hover:bg-purple-600 border border-purple-400/40 text-white font-bold text-xs shadow-lg transition-all inline-flex items-center gap-1.5"
+                    >
+                      <GitFork className="w-3.5 h-3.5 text-cyan-300" />
+                      <span>Visual DAG Builder</span>
+                    </Link>
                   </div>
                 </div>
               </section>
@@ -356,7 +403,7 @@ export default function Home() {
                   <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
                     Experience the unified AI Business Operating System. Everything connected, everything flowing in 3D spatial harmony.
                   </p>
-                  <div className="pt-4">
+                  <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
                     <button
                       type="button"
                       onClick={() => setActiveModule('agents')}
@@ -364,6 +411,13 @@ export default function Home() {
                     >
                       LAUNCH FLOWMIND SYSTEM
                     </button>
+                    <Link
+                      href="/workflows"
+                      className="px-8 py-4 rounded-full bg-slate-900 border border-purple-500/50 hover:bg-slate-800 text-purple-200 font-black text-xs tracking-widest shadow-2xl transition-all hover:scale-105 inline-flex items-center gap-2"
+                    >
+                      <GitFork className="w-4 h-4 text-cyan-400" />
+                      <span>BUILD DAG WORKFLOW</span>
+                    </Link>
                   </div>
                 </div>
               </section>

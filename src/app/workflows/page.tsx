@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { Navbar } from '@/components/layout/Navbar';
 import { GlassCard } from '@/components/ui/GlassCard';
@@ -32,6 +33,7 @@ import {
   FileText,
   Clock,
   RotateCcw,
+  ArrowLeft,
 } from 'lucide-react';
 
 export default function WorkflowsPage() {
@@ -193,6 +195,13 @@ export default function WorkflowsPage() {
               </h1>
             </div>
             <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Overview</span>
+              </Link>
               <Badge variant="purple">15 AGENTS LINKED</Badge>
               <Badge variant="success">TOPOLOGICAL DAG RUNNER</Badge>
             </div>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { SUPPORTED_LANGUAGES } from '@/lib/i18n/translations';
 import { LanguageCode } from '@/types';
-import { LogIn, LogOut, RotateCcw, GitFork } from 'lucide-react';
+import { LogIn, LogOut, RotateCcw, GitFork, LayoutDashboard } from 'lucide-react';
 
 import { BrandLogo } from '@/components/ui/BrandLogo';
 
@@ -35,12 +35,12 @@ export const FuturisticNav: React.FC<FuturisticNavProps> = ({
     <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-5 transition-all">
       <div className="max-w-7xl mx-auto bg-slate-950/40 dark:bg-slate-950/60 border border-white/10 rounded-full px-6 py-3 backdrop-blur-xl shadow-2xl flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className="hover:opacity-80 transition-opacity">
+        <Link href="/dashboard" className="hover:opacity-80 transition-opacity" title="Go to Classic Operating System Dashboard">
           <BrandLogo size="md" showText={true} />
         </Link>
 
         {/* Center Nav Links */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-5">
           {NAV_LINKS.map((link) => (
             <button
               key={link.label}
@@ -56,13 +56,23 @@ export const FuturisticNav: React.FC<FuturisticNavProps> = ({
             </button>
           ))}
 
+          {/* Classic Dashboard Link */}
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-cyan-400/40 text-cyan-300 text-xs font-black tracking-wider transition-all hover:scale-105 shadow-md"
+            title="Open Classic Home Dashboard"
+          >
+            <LayoutDashboard className="w-3.5 h-3.5 text-cyan-400" />
+            <span>DASHBOARD</span>
+          </Link>
+
           {/* Visual DAG Workflows Direct Navigation */}
           <Link
             href="/workflows"
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 text-xs font-black tracking-wider transition-all hover:scale-105 shadow-lg"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 text-xs font-black tracking-wider transition-all hover:scale-105 shadow-md"
             title="Open Zero-Code Visual Workflow DAG Builder"
           >
-            <GitFork className="w-3.5 h-3.5 text-cyan-400" />
+            <GitFork className="w-3.5 h-3.5 text-purple-300" />
             <span>DAG WORKFLOWS</span>
           </Link>
         </nav>

@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import DashboardPage from '@/app/dashboard/page';
 
 export default function AppAliasPage() {
-  redirect('/');
+  return <DashboardPage />;
 }

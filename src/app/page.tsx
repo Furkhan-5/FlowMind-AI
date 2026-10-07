@@ -28,6 +28,7 @@ import {
   Brain,
   Network,
   Workflow,
+  LayoutDashboard,
 } from 'lucide-react';
 
 import LoginPage from '@/app/login/page';
@@ -236,13 +237,13 @@ export default function Home() {
 
                   {/* Minimal High-Contrast Action CTA Buttons */}
                   <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setActiveModule('agents')}
-                      className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-500 via-indigo-600 to-purple-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black text-xs tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all hover:scale-105"
+                    <Link
+                      href="/dashboard"
+                      className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-500 via-indigo-600 to-purple-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black text-xs tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all hover:scale-105 inline-flex items-center gap-2"
                     >
-                      ENTER WORKSPACE
-                    </button>
+                      <LayoutDashboard className="w-4 h-4 text-cyan-300" />
+                      <span>ENTER WORKSPACE DASHBOARD</span>
+                    </Link>
 
                     <Link
                       href="/workflows"
@@ -373,13 +374,12 @@ export default function Home() {
                     15 specialized domain agents operating concurrently across Finance, Sales, HR, Database, Marketing, and Security.
                   </p>
                   <div className="pt-2 flex items-center justify-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setActiveModule('agents')}
+                    <Link
+                      href="/dashboard"
                       className="px-6 py-2.5 rounded-full bg-white text-slate-950 font-bold text-xs shadow-lg transition-all hover:bg-slate-200"
                     >
-                      Inspect 15 Domain Agents
-                    </button>
+                      Inspect Workspace & Agents
+                    </Link>
                     <Link
                       href="/workflows"
                       className="px-6 py-2.5 rounded-full bg-purple-600/80 hover:bg-purple-600 border border-purple-400/40 text-white font-bold text-xs shadow-lg transition-all inline-flex items-center gap-1.5"
@@ -404,13 +404,13 @@ export default function Home() {
                     Experience the unified AI Business Operating System. Everything connected, everything flowing in 3D spatial harmony.
                   </p>
                   <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-                    <button
-                      type="button"
-                      onClick={() => setActiveModule('agents')}
-                      className="px-10 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-indigo-500 text-slate-950 font-black text-xs tracking-widest shadow-2xl transition-all hover:scale-105"
+                    <Link
+                      href="/dashboard"
+                      className="px-10 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-indigo-500 text-slate-950 font-black text-xs tracking-widest shadow-2xl transition-all hover:scale-105 inline-flex items-center gap-2"
                     >
-                      LAUNCH FLOWMIND SYSTEM
-                    </button>
+                      <LayoutDashboard className="w-4 h-4 text-slate-950" />
+                      <span>LAUNCH CLASSIC DASHBOARD</span>
+                    </Link>
                     <Link
                       href="/workflows"
                       className="px-8 py-4 rounded-full bg-slate-900 border border-purple-500/50 hover:bg-slate-800 text-purple-200 font-black text-xs tracking-widest shadow-2xl transition-all hover:scale-105 inline-flex items-center gap-2"

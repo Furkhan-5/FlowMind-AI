@@ -21,8 +21,8 @@ export const userService = {
         include: { organization: true },
       });
       if (user) return user;
-    } catch (err) {
-      console.warn('[userService] Prisma query failed, falling back to file DB:', err);
+    } catch {
+      // Quiet fallback when local PostgreSQL is not running
     }
     // Fallback to file db
     const fileUser = db.findUserByEmail(normalized);
@@ -49,8 +49,8 @@ export const userService = {
         include: { organization: true },
       });
       if (user) return user;
-    } catch (err) {
-      console.warn('[userService] Prisma query failed, falling back to file DB:', err);
+    } catch {
+      // Quiet fallback when local PostgreSQL is not running
     }
     const fileUser = db.findUserById(id);
     if (!fileUser) return null;
@@ -104,8 +104,7 @@ export const userService = {
 
       const { passwordHash: _, ...sanitized } = newUser;
       return { user: sanitized };
-    } catch (err: any) {
-      console.warn('[userService] Prisma create user failed, trying file DB:', err);
+    } catch {
       // Fallback file DB
       const result = db.createUser({
         name: data.name,

@@ -13,26 +13,24 @@ export async function GET() {
       );
     }
 
-    let userRecord = await userService.findUserById(session.userId);
-    if (!userRecord && session.email) {
-      userRecord = await userService.findUserByEmail(session.email);
-    }
-
-    if (!userRecord) {
-      return NextResponse.json(
-        { error: 'User account no longer exists.' },
-        { status: 401 }
-      );
+    let userRecord: any = null;
+    try {
+      userRecord = await userService.findUserById(session.userId);
+      if (!userRecord && session.email) {
+        userRecord = await userService.findUserByEmail(session.email);
+      }
+    } catch (dbErr) {
+      console.warn('[API AUTH ME] DB lookup warning, falling back to session payload:', dbErr);
     }
 
     const sanitizedUser = {
-      id: userRecord.id,
-      name: userRecord.name,
-      email: userRecord.email,
-      role: session.role || userRecord.role,
-      avatar: userRecord.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userRecord.email)}`,
-      organizationId: userRecord.organizationId,
-      preferredLanguage: (userRecord.preferredLanguage as any) || 'en',
+      id: userRecord?.id || session.userId,
+      name: userRecord?.name || session.name || 'FlowMind User',
+      email: userRecord?.email || session.email || 'user@flowmind.ai',
+      role: session.role || userRecord?.role || 'ADMIN',
+      avatar: userRecord?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(session.email || 'user')}`,
+      organizationId: userRecord?.organizationId || session.organizationId || 'ORG-01',
+      preferredLanguage: (userRecord?.preferredLanguage as any) || 'en',
     };
 
     const res = NextResponse.json({

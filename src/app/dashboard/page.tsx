@@ -205,7 +205,14 @@ export default function DashboardPage() {
                     <p className="text-xs text-slate-500">Manage leads, monitor pipeline status, and track GST tax invoicing.</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="purple">Future Module — Interactive Preview</Badge>
+                    <Link
+                      href="/modules"
+                      onClick={() => setActiveModule('dashboard')}
+                      className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-full shadow-md transition-all flex items-center gap-1"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>LAUNCH FULL SUITE (/modules)</span>
+                    </Link>
                   </div>
                 </div>
 

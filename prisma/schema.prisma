@@ -661,3 +661,155 @@ model TicketNote {
   @@index([ticketId])
   @@map("ticket_notes")
 }
+
+// ================================================================
+// WEEK 6 — DATA STUDIO, RAG KNOWLEDGE BASE & PROACTIVE INSIGHTS
+// ================================================================
+
+enum DocumentStatus {
+  UPLOADED
+  PROCESSING
+  INDEXED
+  FAILED
+}
+
+enum DocumentAccessScope {
+  ORGANIZATION
+  DEPARTMENT
+  ROLE_RESTRICTED
+}
+
+model KnowledgeDocument {
+  id             String              @id @default(uuid())
+  organizationId String
+  title          String
+  fileName       String
+  fileType       String              // PDF, TXT, MD, DOCX, CSV
+  fileSize       Int                 @default(0)
+  fileUrl        String?
+  status         DocumentStatus      @default(UPLOADED)
+  errorMessage   String?
+  accessScope    DocumentAccessScope @default(ORGANIZATION)
+  department     String?
+  allowedRoles   String[]            @default(["ADMIN", "MANAGER", "EMPLOYEE"])
+  chunkCount     Int                 @default(0)
+  createdById    String?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  metadata       Json?
+
+  chunks         DocumentChunk[]
+  ingestionJobs  IngestionJob[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@index([accessScope])
+  @@map("knowledge_documents")
+}
+
+model DocumentChunk {
+  id             String            @id @default(uuid())
+  documentId     String
+  document       KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  organizationId String
+  chunkIndex     Int
+  content        String
+  pageNumber     Int?
+  sectionTitle   String?
+  tokenCount     Int?
+  embedding      Json?             // Array of vector floats
+  metadata       Json?
+  createdAt      DateTime          @default(now())
+
+  @@index([documentId])
+  @@index([organizationId])
+  @@map("document_chunks")
+}
+
+model IngestionJob {
+  id             String            @id @default(uuid())
+  documentId     String
+  document       KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  organizationId String
+  status         String            @default("PENDING") // PENDING, RUNNING, COMPLETED, FAILED
+  attempts       Int               @default(1)
+  error          String?
+  startedAt      DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime          @default(now())
+
+  @@index([documentId])
+  @@index([organizationId])
+  @@map("ingestion_jobs")
+}
+
+enum InsightSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum InsightStatus {
+  NEW
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+model ProactiveInsight {
+  id               String          @id @default(uuid())
+  organizationId   String
+  module           String          // CRM, FINANCE, HR, INVENTORY, SUPPORT, WORKFLOW
+  insightType      String          // ANOMALY, THRESHOLD_BREACH, TREND_SHIFT, BOTTLENECK
+  title            String
+  description      String
+  severity         InsightSeverity @default(MEDIUM)
+  conditionTrigger String
+  supportingData   Json?
+  recommendedAction Json?
+  status           InsightStatus   @default(NEW)
+  assignedToId     String?
+  resolvedAt       DateTime?
+  workflowId       String?
+  dedupHash        String          @unique
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  history          InsightHistory[]
+
+  @@index([organizationId])
+  @@index([module])
+  @@index([severity])
+  @@index([status])
+  @@map("proactive_insights")
+}
+
+model InsightHistory {
+  id        String           @id @default(uuid())
+  insightId String
+  insight   ProactiveInsight @relation(fields: [insightId], references: [id], onDelete: Cascade)
+  actorId   String?
+  actorName String?
+  action    String           // CREATED, ACKNOWLEDGED, ACTION_TRIGGERED, RESOLVED
+  notes     String?
+  timestamp DateTime         @default(now())
+
+  @@index([insightId])
+  @@map("insight_histories")
+}
+
+model SavedAnalyticsView {
+  id             String   @id @default(uuid())
+  organizationId String
+  userId         String?
+  name           String
+  description    String?
+  filters        Json?
+  chartConfig    Json?
+  isDefault      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId])
+  @@map("saved_analytics_views")
+}

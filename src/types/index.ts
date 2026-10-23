@@ -136,6 +136,9 @@ export * from './agentEvents';
 export * from './universalAgent';
 export * from './workflowDSL';
 export * from './business';
+export * from './analytics';
+export * from './knowledge';
+export * from './insights';
 
 export interface ProactiveAlert {
   id: string;

@@ -52,7 +52,28 @@ export const Navbar: React.FC = () => {
       return;
     }
 
-    // For future implementation modules (data-analyst, knowledge, crm) & agents:
+    if (id === 'data-analyst') {
+      if (window.location.pathname !== '/data-studio') {
+        window.location.href = '/data-studio';
+      }
+      return;
+    }
+
+    if (id === 'knowledge') {
+      if (window.location.pathname !== '/knowledge-base') {
+        window.location.href = '/knowledge-base';
+      }
+      return;
+    }
+
+    if (id === 'crm') {
+      if (window.location.pathname !== '/modules/crm') {
+        window.location.href = '/modules/crm';
+      }
+      return;
+    }
+
+    // For agents and other modules:
     setActiveModule(id);
     if (window.location.pathname !== '/dashboard') {
       window.location.href = '/dashboard';

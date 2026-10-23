@@ -128,12 +128,19 @@ export default function DashboardPage() {
                     <p className="text-xs text-slate-500">Auto-clean CSV datasets, impute missing values, and generate recommended chart visualizers.</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="purple">Future Module — Interactive Preview</Badge>
+                    <Badge variant="success">Active Enterprise Module</Badge>
                   </div>
                 </div>
 
-                <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 text-xs text-purple-900 font-medium">
-                  💡 <strong>Planned Architecture Note:</strong> AI Data Studio is queued as a future phase release. The full interactive dataset cleaner and chart visualizer UI are pre-wired.
+                <div className="pt-2 flex items-center justify-start gap-4">
+                  <Link
+                    href="/data-studio"
+                    onClick={() => setActiveModule('dashboard')}
+                    className="px-6 py-2.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs tracking-wider shadow-lg transition-all hover:scale-105 inline-flex items-center gap-2"
+                  >
+                    <BarChart3 className="w-4 h-4" />
+                    <span>LAUNCH AI DATA STUDIO WORKSPACE</span>
+                  </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -167,12 +174,19 @@ export default function DashboardPage() {
                     <p className="text-xs text-slate-500">Indexed corporate documentation with vector similarity search for exact agent context retrieval.</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="success">Future Module — Interactive Preview</Badge>
+                    <Badge variant="success">Active Enterprise Module</Badge>
                   </div>
                 </div>
 
-                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-900 font-medium">
-                  💡 <strong>Planned Architecture Note:</strong> RAG Knowledge Hub is queued as a future phase release. Vector indexing structures and retrieval query pipes are pre-wired.
+                <div className="pt-2 flex items-center justify-start gap-4">
+                  <Link
+                    href="/knowledge-base"
+                    onClick={() => setActiveModule('dashboard')}
+                    className="px-6 py-2.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs tracking-wider shadow-lg transition-all hover:scale-105 inline-flex items-center gap-2"
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    <span>LAUNCH RAG KNOWLEDGE BASE WORKSPACE</span>
+                  </Link>
                 </div>
 
                 <div className="p-4 bg-slate-900 text-white rounded-2xl space-y-3">

@@ -278,11 +278,41 @@ def create_document():
         ["/modules/inventory (page.tsx)", "Inventory & Stock", "Hardware Catalog, Movements (IN/OUT/ADJ), Low-Stock Alerts", "COMPLETED"],
         ["/modules/support (page.tsx)", "Customer Support", "SLA Priority Queue (LOW-CRITICAL), Notes, Resolution Drawer", "COMPLETED"],
         ["businessService.ts", "Business Repository", "30+ Typed Methods, Hybrid Offline Fallback, Event Bridge", "COMPLETED"],
-        ["schema.prisma", "PostgreSQL Persistence", "22 Relational Models, Multi-Tenant Isolation, Composite Indexes", "COMPLETED"],
+        ["schema.prisma", "PostgreSQL Persistence", "28 Relational Models, Multi-Tenant Isolation, Composite Indexes", "COMPLETED"],
         ["rbacService.ts", "Security & RBAC Guard", "3-Tier RBAC Matrix, Salary Masking, Anti-Self-Approval Check", "COMPLETED"],
         ["seed.ts", "Database Seeding Script", "Seeds ORG-01, 3 Users, 15 Swarm Agents, & Initial DAG Workflow", "COMPLETED"],
     ]
     add_styled_table(doc, w5_headers, w5_data, col_widths=[1.7, 1.8, 2.7, 1.0], title="Table 4.5. Week 5 Integrated Business Operations Suite Specifications")
+
+    # =========================================================================
+    # SECTION 9.6: WEEK 6 PROGRESS — DATA STUDIO, RAG KNOWLEDGE INTELLIGENCE & PROACTIVE INSIGHTS
+    # =========================================================================
+    add_heading_1(doc, "9.6. Week 6 Progress — AI Data Studio, RAG Knowledge Intelligence & Proactive Insights")
+    add_body_p(doc, "Week 6 elevated FlowMind AI from an operational suite into an autonomous, proactive enterprise intelligence platform by delivering four core capabilities: an AI-Powered Data Studio with interactive Recharts, a 384-dimensional dense semantic vector RAG Knowledge Hub with exact citations, a Knowledge-Aware Swarm bridge, and an autonomous Proactive Anomaly Scanner with Action Governance integration.")
+
+    add_figure_image(doc, os.path.join(img_dir, "fig11_rag_and_analytics_architecture.png"), "Figure 11. Week 6 AI Data Studio, RAG Knowledge Vector Engine & Proactive Insights Architecture")
+
+    add_heading_2(doc, "Week 6 Core Capabilities & Implementations")
+    add_body_p(doc, "Executive analytics dashboard (/data-studio) featuring live KPI ribbons, Recharts AreaChart (Cash Invoicing vs Collections over 7D/30D/90D), BarChart (Sales Pipeline Funnel Stages), Donut Chart (Support Incident Priority), conversational Natural Language Business Assistant ('Ask Data Studio'), and client-side CSV dataset export.", bold_prefix="1. AI Data Studio & Visual Analytics: ")
+    add_body_p(doc, "Corporate policy and SOP library (/knowledge-base) supporting PDF, TXT, DOCX, Markdown, and CSV with pre-flight prompt-injection scrubbing, sliding-window chunking, 384-dimensional normalized dense semantic vector embeddings, sub-millisecond cosine similarity search, strict hallucination defense (< 0.20 threshold), and verified source citations (doc title, section, page, chunk ID, match %).", bold_prefix="2. RAG Knowledge Intelligence & Vector Q&A Engine: ")
+    add_body_p(doc, "Domain-specialized knowledge retrieval bridge (knowledgeTool.ts) allowing the 15-agent swarm (Sales, Finance, HR, Support) to retrieve authoritative corporate policies with audit logging.", bold_prefix="3. Knowledge-Aware Agent Mesh: ")
+    add_body_p(doc, "Autonomous threshold scanner (proactiveInsightsService.ts) detecting overdue invoices, safety stockouts, stale pipeline leads, and SLA breaches. Uses domain-keyed deduplication hashing (dedupHash) and tracks lifecycle state transitions (NEW -> ACKNOWLEDGED -> RESOLVED).", bold_prefix="4. Proactive Business Intelligence Engine: ")
+    add_body_p(doc, "High/Critical risk actions (supplier purchase orders, overdue invoice demand notices) route through approvalService.createApprovalRequest() for Manager/Admin approval; low-risk actions execute autonomously.", bold_prefix="5. Governed Action Recommendations: ")
+
+    w6_headers = ["Component File / Route", "Domain Layer", "Key Implemented Feature", "Status"]
+    w6_data = [
+        ["/data-studio (page.tsx)", "AI Data Studio", "Executive KPI Ribbon, Recharts (Area/Bar/Donut), CSV Export", "COMPLETED"],
+        ["/api/analytics (route.ts)", "Analytics API", "Multi-Domain KPI Aggregations, Time-Series & Support Distributions", "COMPLETED"],
+        ["/api/analytics/query", "NL Analytics Engine", "Natural Language Business Intelligence Query Assistant", "COMPLETED"],
+        ["/knowledge-base (page.tsx)", "Knowledge Library", "Document Ingestion Modal, Library Grid, Grounded Vector RAG Console", "COMPLETED"],
+        ["/api/knowledge (route.ts)", "RAG Ingestion API", "Pre-Flight Prompt Injection Sanitizer, Chunker, & Vector Indexer", "COMPLETED"],
+        ["/api/knowledge/query", "Vector Query API", "Sub-Millisecond Cosine Similarity Search, Citations, & Hallucination Defense", "COMPLETED"],
+        ["knowledgeTool.ts", "Swarm Retrieval Tool", "Domain-Aware Context Specialization for 15-Agent Swarm with Audit Log", "COMPLETED"],
+        ["proactiveInsightsService.ts", "Proactive Intelligence", "Autonomous Threshold Breach Scanner, Anomaly Detection, dedupHash", "COMPLETED"],
+        ["/api/insights & action", "Insights & Action API", "Proactive Insight Retrieval, Status Transition, & Governed Action Dispatch", "COMPLETED"],
+        ["schema.prisma", "Prisma Database Models", "6 New Relational Models (KnowledgeDocument, Chunk, Insight, History, etc.)", "COMPLETED"],
+    ]
+    add_styled_table(doc, w6_headers, w6_data, col_widths=[1.8, 1.7, 2.7, 1.0], title="Table 4.6. Week 6 Data Studio, RAG Knowledge Hub & Proactive Insights Specifications")
 
     # =========================================================================
     # SECTION 10: UML DIAGRAMS & SYSTEM MODELING
@@ -431,6 +461,16 @@ def create_document():
     output_docx_path = r"c:\Capstone\FlowMind_AI_8_Week_Project_Progress_Report.docx"
     doc.save(output_docx_path)
     print(f"Report document successfully updated at: {output_docx_path}")
+
+    # Also sync to the brain artifact directory
+    artifact_docx = r"C:\Users\furkh\.gemini\antigravity\brain\c7490880-ff79-4a0d-8d40-b570a9b30c72\FlowMind_AI_8_Week_Project_Progress_Report.docx"
+    try:
+        import shutil
+        shutil.copyfile(output_docx_path, artifact_docx)
+        print(f"Successfully synced Word document to artifact directory: {artifact_docx}")
+    except Exception as e:
+        print(f"Warning: could not copy docx to artifact directory: {e}")
+
     return output_docx_path
 
 if __name__ == "__main__":

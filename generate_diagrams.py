@@ -302,9 +302,9 @@ weeks = [
     ("W2", "Multilingual\nChatbot", "COMPLETED", "#065F46"),
     ("W3", "15-Agent Mesh\n& Governance", "COMPLETED", "#065F46"),
     ("W4", "NL Workflow\nDAG Engine", "COMPLETED", "#065F46"),
-    ("W5", "PostgreSQL DB &\nPrisma ORM Layer", "COMPLETED", "#065F46"),
-    ("W6", "Business Suite\nIntegration", "PLANNED", "#1E40AF"),
-    ("W7", "Proactive AI &\nSecurity Hardening", "PLANNED", "#1E40AF"),
+    ("W5", "Business Suite &\nPostgreSQL DB", "COMPLETED", "#065F46"),
+    ("W6", "Data Studio &\nRAG Knowledge", "COMPLETED", "#065F46"),
+    ("W7", "Security Hardening\n& Enterprise Polishing", "PLANNED", "#1E40AF"),
     ("W8", "Dynamic Cloud\nDeployment & Demo", "PLANNED", "#1E40AF"),
 ]
 
@@ -326,11 +326,11 @@ for i, (w_code, title, status, bg_color) in enumerate(weeks):
 
 rect_leg1 = patches.FancyBboxPatch((0.25, 0.10), 0.22, 0.12, boxstyle="round,pad=0.01", linewidth=0, facecolor="#065F46")
 ax.add_patch(rect_leg1)
-ax.text(0.36, 0.16, "WEEKS 1-5: COMPLETED IMPLEMENTATION", fontsize=7.5, fontweight='bold', color='white', ha='center', va='center')
+ax.text(0.36, 0.16, "WEEKS 1-6: COMPLETED IMPLEMENTATION", fontsize=7.5, fontweight='bold', color='white', ha='center', va='center')
 
 rect_leg2 = patches.FancyBboxPatch((0.53, 0.10), 0.22, 0.12, boxstyle="round,pad=0.01", linewidth=0, facecolor="#1E40AF")
 ax.add_patch(rect_leg2)
-ax.text(0.64, 0.16, "WEEKS 6-8: PLANNED ROADMAP (NOV)", fontsize=7.5, fontweight='bold', color='white', ha='center', va='center')
+ax.text(0.64, 0.16, "WEEKS 7-8: PLANNED ROADMAP (NOV 2026)", fontsize=7.5, fontweight='bold', color='white', ha='center', va='center')
 
 ax.set_title("Figure 9. Eight-Week FlowMind AI Progressive Development Roadmap", fontsize=11, fontweight='bold', pad=15, color='#0F172A')
 plt.tight_layout()
@@ -378,4 +378,37 @@ plt.tight_layout()
 plt.savefig(os.path.join(output_dir, "fig10_postgresql_database_schema.png"))
 plt.close()
 
-print("All 10 diagrams generated successfully in c:\\Capstone\\report_diagrams!")
+
+# --- Figure 11: RAG Knowledge Vector Engine & Data Studio Architecture ---
+fig, ax = plt.subplots(figsize=(10.5, 7.2), dpi=300)
+ax.axis('off')
+
+rag_boxes = [
+    ("DOCUMENT INGESTION & DEFENSE LAYER\n- Formats: PDF, DOCX, TXT, MD, CSV\n- Pre-flight Prompt-Injection Sanitizer\n- Metadata & Access Scope Classifier (Org/Restricted)", 0.03, 0.70, 0.44, 0.22, "#0F172A", "#38BDF8"),
+    ("DENSE SEMANTIC EMBEDDING ENGINE\n- Sliding-Window Chunker (Paragraph/Header)\n- 384-Dim Normalized Vectors (||v|| = 1.0)\n- N-gram Frequency Hashing & Stop-word Filter", 0.53, 0.70, 0.44, 0.22, "#1E1B4B", "#818CF8"),
+
+    ("GROUNDED VECTOR RETRIEVAL & DEFENSE\n- Native PostgreSQL Json Vector Persistence\n- Cosine Similarity + BM25 Overlap Score\n- Hallucination Threshold (< 0.20 Refusal)", 0.03, 0.38, 0.44, 0.22, "#311042", "#EC4899"),
+    ("KNOWLEDGE-AWARE AGENT MESH\n- Swarm Retrieval Tool (knowledgeTool.ts)\n- Domain Query Specialization (Sales/Fin/HR/Supp)\n- Exact Source Citations (Doc, Section, Chunk)", 0.53, 0.38, 0.44, 0.22, "#064E3B", "#34D399"),
+
+    ("AI DATA STUDIO & EXECUTIVE VISUALS\n- Real-time Multi-Tenant KPI Ribbon\n- Interactive Recharts (Area, Bar, Donut)\n- NL Business Assistant & CSV Exporter", 0.03, 0.06, 0.44, 0.22, "#1E293B", "#A855F7"),
+    ("PROACTIVE ANOMALY & GOVERNED ACTIONS\n- Autonomous Threshold Scanners (Finance/Stock)\n- Domain-Keyed Dedup Hashing (dedupHash)\n- Action Governance HITL Approval Queue", 0.53, 0.06, 0.44, 0.22, "#450A0A", "#F59E0B"),
+]
+
+for label, x, y, w, h, bg, border in rag_boxes:
+    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.01", linewidth=1.3, edgecolor=border, facecolor=bg)
+    ax.add_patch(rect)
+    ax.text(x + w/2, y + h/2, label, fontsize=8, fontweight='bold', color='white', ha='center', va='center')
+
+# Connectors
+ax.annotate('', xy=(0.53, 0.81), xytext=(0.47, 0.81), arrowprops=dict(arrowstyle="->", color="#38BDF8", lw=1.5))
+ax.annotate('', xy=(0.25, 0.60), xytext=(0.25, 0.70), arrowprops=dict(arrowstyle="->", color="#EC4899", lw=1.5))
+ax.annotate('', xy=(0.53, 0.49), xytext=(0.47, 0.49), arrowprops=dict(arrowstyle="->", color="#EC4899", lw=1.5))
+ax.annotate('', xy=(0.25, 0.28), xytext=(0.25, 0.38), arrowprops=dict(arrowstyle="->", color="#A855F7", lw=1.5))
+ax.annotate('', xy=(0.53, 0.17), xytext=(0.47, 0.17), arrowprops=dict(arrowstyle="->", color="#F59E0B", lw=1.5))
+
+ax.set_title("Figure 11. FlowMind AI Week 6 Data Studio, RAG Knowledge Engine & Proactive Insights Architecture", fontsize=11, fontweight='bold', pad=15, color='#0F172A')
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, "fig11_rag_and_analytics_architecture.png"))
+plt.close()
+
+print("All 11 diagrams generated successfully in c:\\Capstone\\report_diagrams!")

@@ -411,4 +411,71 @@ plt.tight_layout()
 plt.savefig(os.path.join(output_dir, "fig11_rag_and_analytics_architecture.png"))
 plt.close()
 
-print("All 11 diagrams generated successfully in c:\\Capstone\\report_diagrams!")
+
+# --- Figure 12: Week 7 BYOK Envelope Encryption & Dynamic AI Provider Routing ---
+fig, ax = plt.subplots(figsize=(10.5, 7.5), dpi=300)
+ax.axis('off')
+
+sec_boxes = [
+    ("TENANT ADMIN BYOK CONSOLE (/settings/ai-providers)\n- Admin-Only RBAC Guard (role === 'ADMIN')\n- Password-Masked Inputs (sk-••••••••877)\n- Live Connectivity Probes with Latency Tracking", 0.03, 0.70, 0.44, 0.22, "#0F172A", "#38BDF8"),
+    ("AES-256-GCM ENVELOPE ENCRYPTION ENGINE\n- 256-bit ENCRYPTION_MASTER_KEY Derivation\n- Cryptographic 96-bit Unique Nonce/IV per Secret\n- 128-bit Authentication Tag (Tamper-Resistant)", 0.53, 0.70, 0.44, 0.22, "#1E1B4B", "#818CF8"),
+
+    ("POSTGRESQL 18 SECURE CIPHERTEXT PERSISTENCE\n- Prisma Model: ai_provider_configs\n- Fields: encryptedApiKey, iv, authTag, keyVersion\n- Zero Raw Key or Ciphertext Leakage to Clients", 0.03, 0.38, 0.44, 0.22, "#311042", "#EC4899"),
+    ("SERVER-ONLY RUNTIME DECRYPTION LAYER\n- Ephemeral In-Memory Decryption (No Disk/Log writes)\n- Deep Object Scrubbing (sanitizeRecord)\n- Audit Logging of Access (AuditLoggerService)", 0.53, 0.38, 0.44, 0.22, "#064E3B", "#34D399"),
+
+    ("UNIFIED DYNAMIC AI ROUTING (aiProviderService.ts)\n- Server-Controlled Allowlists (Gemini 1.5 & GPT-4o)\n- 15-Second Bounded AbortController Timeouts\n- Exponential Backoff with Jitter (2 Retries)", 0.03, 0.06, 0.44, 0.22, "#1E293B", "#A855F7"),
+    ("SWARM & GOVERNANCE ORCHESTRATION\n- Deterministic Rule Engine Fallback (Zero Downtime)\n- Cross-Layer RAG, Workflow & Swarm Integration\n- Token Budget & Privacy Telemetry Monitoring", 0.53, 0.06, 0.44, 0.22, "#450A0A", "#F59E0B"),
+]
+
+for label, x, y, w, h, bg, border in sec_boxes:
+    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.01", linewidth=1.3, edgecolor=border, facecolor=bg)
+    ax.add_patch(rect)
+    ax.text(x + w/2, y + h/2, label, fontsize=8, fontweight='bold', color='white', ha='center', va='center')
+
+# Connectors
+ax.annotate('', xy=(0.53, 0.81), xytext=(0.47, 0.81), arrowprops=dict(arrowstyle="->", color="#38BDF8", lw=1.5))
+ax.annotate('', xy=(0.25, 0.60), xytext=(0.25, 0.70), arrowprops=dict(arrowstyle="->", color="#818CF8", lw=1.5))
+ax.annotate('', xy=(0.53, 0.49), xytext=(0.47, 0.49), arrowprops=dict(arrowstyle="->", color="#EC4899", lw=1.5))
+ax.annotate('', xy=(0.25, 0.28), xytext=(0.25, 0.38), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.53, 0.17), xytext=(0.47, 0.17), arrowprops=dict(arrowstyle="->", color="#A855F7", lw=1.5))
+
+ax.set_title("Figure 12. FlowMind AI Week 7 Bring-Your-Own-Key (BYOK) AES-256-GCM Envelope Encryption & Routing", fontsize=11, fontweight='bold', pad=15, color='#0F172A')
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, "fig12_byok_encryption_architecture.png"))
+plt.close()
+
+
+# --- Figure 13: Week 7 End-to-End Jest Testing & Web Security Hardening Matrix ---
+fig, ax = plt.subplots(figsize=(10.5, 7.2), dpi=300)
+ax.axis('off')
+
+test_boxes = [
+    ("TEST SUITE 1: UNIT ENCRYPTION (7/7 PASS)\n- tests/unit/encryption.test.ts\n- AES-256-GCM Nonce Uniqueness & Integrity\n- Tampered Ciphertext & AuthTag Detection", 0.03, 0.70, 0.44, 0.22, "#064E3B", "#34D399"),
+    ("TEST SUITE 2: BYOK CONFIG & RBAC (6/6 PASS)\n- tests/integration/byokConfig.test.ts\n- Admin Persistence & Masked Response Validation\n- Employee Rejection (403 ACCESS_DENIED)", 0.53, 0.70, 0.44, 0.22, "#064E3B", "#34D399"),
+
+    ("TEST SUITE 3: AI ROUTING & TELEMETRY (4/4 PASS)\n- tests/integration/aiProviderRouting.test.ts\n- Gemini/OpenAI Model Allowlist Verification\n- Deterministic Fallback & Zero Prompt Leakage", 0.03, 0.38, 0.44, 0.22, "#064E3B", "#34D399"),
+    ("TEST SUITE 4: RBAC & ANTI-TAMPERING (9/9 PASS)\n- tests/integration/rbacSecurity.test.ts\n- Column-Level Salary Masking (Employee gets 0)\n- Anti-Self-Approval Enforcement Rule", 0.53, 0.38, 0.44, 0.22, "#064E3B", "#34D399"),
+
+    ("TEST SUITE 5: BUSINESS & DAG E2E (7/7 PASS)\n- tests/e2e/businessWorkflows.test.ts\n- CRM Lead Pipeline & Finance 18% GST Invoice\n- Kahn DAG Cycle Rejection & Prompt Injection Shield", 0.03, 0.06, 0.44, 0.22, "#064E3B", "#34D399"),
+    ("WEB APP HARDENING & HTTP HEADERS\n- Content-Security-Policy (Strict Whitelists)\n- Strict-Transport-Security (HSTS 2-Year)\n- X-Frame-Options: DENY & X-Content-Type-Options", 0.53, 0.06, 0.44, 0.22, "#1E1B4B", "#818CF8"),
+]
+
+for label, x, y, w, h, bg, border in test_boxes:
+    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.01", linewidth=1.3, edgecolor=border, facecolor=bg)
+    ax.add_patch(rect)
+    ax.text(x + w/2, y + h/2, label, fontsize=8, fontweight='bold', color='white', ha='center', va='center')
+
+# Connectors
+ax.annotate('', xy=(0.53, 0.81), xytext=(0.47, 0.81), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.25, 0.60), xytext=(0.25, 0.70), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.53, 0.49), xytext=(0.47, 0.49), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.25, 0.28), xytext=(0.25, 0.38), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.53, 0.17), xytext=(0.47, 0.17), arrowprops=dict(arrowstyle="->", color="#818CF8", lw=1.5))
+
+ax.set_title("Figure 13. FlowMind AI Comprehensive Jest Test Suite (33/33 Passing) & Production Security Matrix", fontsize=11, fontweight='bold', pad=15, color='#0F172A')
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, "fig13_jest_testing_and_security_matrix.png"))
+plt.close()
+
+print("All 13 diagrams generated successfully in c:\\Capstone\\report_diagrams!")
+

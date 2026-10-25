@@ -29,12 +29,20 @@ export const Navbar: React.FC = () => {
     { id: 'workflows', label: t.workflows },
     { id: 'data-analyst', label: t.dataStudio },
     { id: 'knowledge', label: t.knowledgeBase },
+    { id: 'byok', label: 'BYOK Keys' },
     { id: 'crm', label: t.crmLeads },
   ];
 
   const handleNavClick = (id: string) => {
     if (id === 'dashboard') {
       window.location.href = '/';
+      return;
+    }
+
+    if (id === 'byok') {
+      if (window.location.pathname !== '/settings/ai-providers') {
+        window.location.href = '/settings/ai-providers';
+      }
       return;
     }
 

@@ -10,6 +10,7 @@ import {
   User,
 } from '@/types';
 import { auditLogger } from '@/lib/security/auditLogger';
+import { aiProviderService } from '@/lib/ai/aiProviderService';
 
 // Initial Seed Documents for Enterprise Knowledge Base
 const SEED_DOCUMENTS: Array<{
@@ -579,15 +580,35 @@ export class RagService {
     const primaryEvidence = topChunks[0].content;
     const secondaryEvidence = topChunks[1] ? topChunks[1].content : '';
 
-    let groundedAnswer = `Based on corporate policy documentation (**${topChunks[0].documentTitle}**, ${topChunks[0].sectionTitle}):\n\n`;
-    groundedAnswer += `${primaryEvidence}\n\n`;
+    let defaultGrounded = `Based on corporate policy documentation (**${topChunks[0].documentTitle}**, ${topChunks[0].sectionTitle}):\n\n`;
+    defaultGrounded += `${primaryEvidence}\n\n`;
     if (secondaryEvidence && topChunks[1].similarityScore && topChunks[1].similarityScore > 0.25) {
-      groundedAnswer += `Additionally, according to **${topChunks[1].documentTitle}** (${topChunks[1].sectionTitle}):\n${secondaryEvidence}`;
+      defaultGrounded += `Additionally, according to **${topChunks[1].documentTitle}** (${topChunks[1].sectionTitle}):\n${secondaryEvidence}`;
     }
+
+    const ragPrompt = `You are the FlowMind Enterprise RAG Knowledge Assistant.
+Answer the user's question strictly grounded on the corporate policy excerpts below.
+Cite the document titles and section titles explicitly. Never speculate or hallucinate outside the given text.
+
+User Question: ${query}
+
+Excerpts:
+1. [${topChunks[0].documentTitle} - ${topChunks[0].sectionTitle}]: ${primaryEvidence}
+${secondaryEvidence ? `2. [${topChunks[1].documentTitle} - ${topChunks[1].sectionTitle}]: ${secondaryEvidence}` : ''}
+`;
+
+    const aiRes = await aiProviderService.generateCompletion({
+      organizationId: orgId,
+      capability: 'RAG',
+      prompt: ragPrompt,
+      systemPrompt: 'You are FlowMind AI RAG Assistant. Ground all statements strictly in the provided documents.',
+      fallbackText: defaultGrounded,
+      temperature: 0.1,
+    });
 
     return {
       query,
-      answer: groundedAnswer,
+      answer: aiRes.content,
       sources: citations,
       insufficientEvidence: false,
       timestamp: new Date().toISOString(),

@@ -17,6 +17,7 @@ import {
   Bell,
   ShieldCheck,
   ChevronDown,
+  KeyRound,
 } from 'lucide-react';
 import { clsx } from 'clsx';
 
@@ -157,6 +158,25 @@ export const Sidebar: React.FC = () => {
               );
             })}
           </div>
+        </div>
+
+        {/* Enterprise Security & BYOK */}
+        <div>
+          <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+            Security & Governance
+          </p>
+          <a
+            href="/settings/ai-providers"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-purple-300 hover:bg-purple-950/40 border border-purple-500/20 transition-all duration-200"
+          >
+            <div className="flex items-center gap-2.5">
+              <KeyRound className="w-4 h-4 text-purple-400" />
+              <span>BYOK AI Keys</span>
+            </div>
+            <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[9px] px-1.5 py-0.5 rounded-full font-semibold">
+              AES-256
+            </span>
+          </a>
         </div>
       </div>
 

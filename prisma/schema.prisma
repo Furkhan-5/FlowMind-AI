@@ -93,6 +93,7 @@ model Organization {
   auditLogs          AuditLog[]
   artifacts          Artifact[]
   conversations      Conversation[]
+  aiProviderConfigs  AiProviderConfig[]
 
   @@map("organizations")
 }
@@ -813,3 +814,37 @@ model SavedAnalyticsView {
   @@index([organizationId])
   @@map("saved_analytics_views")
 }
+
+enum AiProviderType {
+  GEMINI
+  OPENAI
+}
+
+enum ProviderConfigStatus {
+  ACTIVE
+  DISABLED
+  ERROR
+}
+
+model AiProviderConfig {
+  id              String               @id @default(uuid())
+  organizationId  String
+  organization    Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  provider        AiProviderType
+  encryptedApiKey String               // AES-256-GCM ciphertext (hex)
+  iv              String               // 12-byte initialization vector (hex)
+  authTag         String               // 16-byte GCM authentication tag (hex)
+  keyVersion      Int                  @default(1)
+  preferredModel  String?
+  status          ProviderConfigStatus @default(ACTIVE)
+  lastValidatedAt DateTime?
+  createdById     String?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  @@unique([organizationId, provider])
+  @@index([organizationId])
+  @@index([provider])
+  @@map("ai_provider_configs")
+}
+

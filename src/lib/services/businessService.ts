@@ -725,7 +725,10 @@ export class BusinessService {
   }
 
   public async createInvoice(invData: Partial<Invoice>, user: User): Promise<Invoice> {
-    const subtotal = invData.subtotal || invData.total || 100000;
+    const computedItemsSubtotal = invData.items && invData.items.length > 0
+      ? invData.items.reduce((acc, it) => acc + (it.amount || it.quantity * it.unitPrice), 0)
+      : undefined;
+    const subtotal = invData.subtotal || computedItemsSubtotal || invData.total || 100000;
     const tax = Math.round(subtotal * 0.18);
     const total = subtotal + tax;
 

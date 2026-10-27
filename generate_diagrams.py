@@ -477,5 +477,71 @@ plt.tight_layout()
 plt.savefig(os.path.join(output_dir, "fig13_jest_testing_and_security_matrix.png"))
 plt.close()
 
-print("All 13 diagrams generated successfully in c:\\Capstone\\report_diagrams!")
+
+# --- Figure 14: Enterprise REST API Architecture & Endpoints Subsystem ---
+fig, ax = plt.subplots(figsize=(10.5, 7.5), dpi=300)
+ax.axis('off')
+
+api_boxes = [
+    ("CLIENT INBOUND TRAFFIC\n- Next.js Web Application & Layman Chatbot\n- External ERP / Inbound Webhook Callers\n- Mobile & Tablet Touchpoints", 0.03, 0.70, 0.44, 0.22, "#0F172A", "#38BDF8"),
+    ("EDGE SECURITY & AUTHENTICATION\n- Stateless Jose JWT Token Verification\n- Prompt Injection Shield Pre-Filter\n- Rate Limiting & HTTP Security Headers", 0.53, 0.70, 0.44, 0.22, "#1E1B4B", "#818CF8"),
+
+    ("RBAC AUTHORIZATION INTERCEPTOR\n- 3-Tier Role Validation (Admin/Mgr/Emp)\n- Column-Level Masking (HR Compensation)\n- Anti-Self-Approval Enforcement Rule", 0.03, 0.38, 0.44, 0.22, "#311042", "#EC4899"),
+    ("CORE DOMAIN CONTROLLERS & SERVICES\n- /api/analytics & /api/knowledge (RAG)\n- /api/settings/ai-providers (BYOK)\n- /api/workflows & /api/insights (Anomaly)", 0.53, 0.38, 0.44, 0.22, "#064E3B", "#34D399"),
+
+    ("PERSISTENCE & DATA SERVICES TIER\n- PostgreSQL 18 via Prisma ORM (29 Models)\n- 384-Dim Normalized Dense Vector Chunks\n- Immutable Audit Logs (audit_logs table)", 0.03, 0.06, 0.44, 0.22, "#1C1917", "#F59E0B"),
+    ("DYNAMIC AI PROVIDER RUNTIME\n- Google Gemini v1beta & OpenAI v1\n- AES-256-GCM Ephemeral Runtime Decryption\n- Jittered Exponential Backoff Retries", 0.53, 0.06, 0.44, 0.22, "#450A0A", "#06B6D4"),
+]
+
+for label, x, y, w, h, bg, border in api_boxes:
+    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.01", linewidth=1.3, edgecolor=border, facecolor=bg)
+    ax.add_patch(rect)
+    ax.text(x + w/2, y + h/2, label, fontsize=8, fontweight='bold', color='white', ha='center', va='center')
+
+# Connectors
+ax.annotate('', xy=(0.53, 0.81), xytext=(0.47, 0.81), arrowprops=dict(arrowstyle="->", color="#38BDF8", lw=1.5))
+ax.annotate('', xy=(0.25, 0.60), xytext=(0.25, 0.70), arrowprops=dict(arrowstyle="->", color="#818CF8", lw=1.5))
+ax.annotate('', xy=(0.53, 0.49), xytext=(0.47, 0.49), arrowprops=dict(arrowstyle="->", color="#EC4899", lw=1.5))
+ax.annotate('', xy=(0.25, 0.28), xytext=(0.25, 0.38), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.53, 0.17), xytext=(0.47, 0.17), arrowprops=dict(arrowstyle="->", color="#F59E0B", lw=1.5))
+
+ax.set_title("Figure 14. FlowMind AI Comprehensive REST API Architecture, Security Gateways & Persistence Subsystem", fontsize=11, fontweight='bold', pad=15, color='#0F172A')
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, "fig14_rest_api_architecture.png"))
+plt.close()
+
+
+# --- Figure 15: Enterprise RBAC Matrix & Dual-Control Action Governance Flow ---
+fig, ax = plt.subplots(figsize=(10.5, 7.5), dpi=300)
+ax.axis('off')
+
+gov_boxes = [
+    ("TIER 1: LOW RISK (< ₹10,000 / Read-Only)\n- Automated Swarm Execution\n- Read Metrics & General RAG Search\n- Authorized for: EMPLOYEE, MANAGER, ADMIN", 0.03, 0.70, 0.44, 0.22, "#064E3B", "#34D399"),
+    ("TIER 2: MEDIUM RISK (₹10,000 – ₹1,00,000)\n- Standard Leave Approvals & Invoices\n- Single Manager Approval via Action Card\n- Authorized for: MANAGER, ADMIN", 0.53, 0.70, 0.44, 0.22, "#78350F", "#F59E0B"),
+
+    ("TIER 3: HIGH RISK (₹1,00,000 – ₹5,00,000)\n- Staff Onboarding & Commercial Contracts\n- Dual-Control Confirmation Required\n- Department Manager + Finance Officer Sign-off", 0.03, 0.38, 0.44, 0.22, "#831843", "#EC4899"),
+    ("TIER 4: CRITICAL RISK (≥ ₹5,00,000 / Security)\n- Role Escalation, Staff Termination, BYOK Keys\n- Mandatory Executive Admin Confirmation\n- Anti-Self-Approval Enforced (Requester != Approver)", 0.53, 0.38, 0.44, 0.22, "#450A0A", "#EF4444"),
+
+    ("ACTION CONFIRMATION CARD (HITL)\n- Real-Time Operational State Simulation\n- Side-by-Side Before/After Diffs\n- Approve / Reject / Edit Parameter Controls", 0.03, 0.06, 0.44, 0.22, "#1E1B4B", "#6366F1"),
+    ("IMMUTABLE AUDIT TRAIL & LOGGING\n- Full Forensic Recording in PostgreSQL\n- User ID, IP, Action Type, Timestamp, Status\n- Zero Secret Leakage (Sanitized Payloads)", 0.53, 0.06, 0.44, 0.22, "#0F172A", "#38BDF8"),
+]
+
+for label, x, y, w, h, bg, border in gov_boxes:
+    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.01", linewidth=1.3, edgecolor=border, facecolor=bg)
+    ax.add_patch(rect)
+    ax.text(x + w/2, y + h/2, label, fontsize=8, fontweight='bold', color='white', ha='center', va='center')
+
+# Connectors
+ax.annotate('', xy=(0.53, 0.81), xytext=(0.47, 0.81), arrowprops=dict(arrowstyle="->", color="#34D399", lw=1.5))
+ax.annotate('', xy=(0.25, 0.60), xytext=(0.25, 0.70), arrowprops=dict(arrowstyle="->", color="#F59E0B", lw=1.5))
+ax.annotate('', xy=(0.53, 0.49), xytext=(0.47, 0.49), arrowprops=dict(arrowstyle="->", color="#EC4899", lw=1.5))
+ax.annotate('', xy=(0.25, 0.28), xytext=(0.25, 0.38), arrowprops=dict(arrowstyle="->", color="#EF4444", lw=1.5))
+ax.annotate('', xy=(0.53, 0.17), xytext=(0.47, 0.17), arrowprops=dict(arrowstyle="->", color="#6366F1", lw=1.5))
+
+ax.set_title("Figure 15. FlowMind AI Role-Based Access Control (RBAC) & 4-Tier Action Governance Lifecycle", fontsize=11, fontweight='bold', pad=15, color='#0F172A')
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, "fig15_rbac_and_governance_matrix.png"))
+plt.close()
+
+print("All 15 diagrams generated successfully in c:\\Capstone\\report_diagrams!")
 

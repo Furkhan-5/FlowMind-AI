@@ -16,7 +16,7 @@ describe('BYOK Config Service — Integration & Access Control', () => {
         name: 'Test BYOK Organization',
         slug: 'test-org-byok',
       },
-    });
+    }).catch(() => {});
   });
 
   afterAll(async () => {

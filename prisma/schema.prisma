@@ -354,6 +354,8 @@ model Conversation {
   userId         String?
   user           User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
   title          String?
+  agentId        String?
+  summary        String?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
@@ -378,6 +380,7 @@ model Message {
   actionCard        Json?
   confidenceLevel   String?
   riskLevel         String?
+  metadata          Json?
   timestamp         DateTime     @default(now())
 
   @@index([conversationId])
@@ -846,5 +849,48 @@ model AiProviderConfig {
   @@index([organizationId])
   @@index([provider])
   @@map("ai_provider_configs")
+}
+
+// ================================================================
+// WEEK 7 — PERSISTENT MEMORY MODELS
+// ================================================================
+
+model UserMemory {
+  id             String    @id @default(uuid())
+  organizationId String
+  userId         String
+  memoryKey      String    // e.g. "sales_tool_preference", "crm_preference"
+  content        String    // The memory content
+  source         String    @default("CONVERSATION") // CONVERSATION, EXPLICIT, SYSTEM
+  scope          String    @default("PRIVATE") // PRIVATE, ORG_SHARED
+  confidence     Float     @default(0.8)
+  tags           String[]
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([scope])
+  @@map("user_memories")
+}
+
+model OrgMemory {
+  id             String    @id @default(uuid())
+  organizationId String
+  memoryKey      String
+  content        String
+  source         String    @default("SYSTEM")
+  category       String    @default("GENERAL") // POLICY, CRM_CONTEXT, WORKFLOW, GENERAL
+  confidence     Float     @default(0.9)
+  tags           String[]
+  createdById    String?
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([organizationId])
+  @@index([category])
+  @@map("org_memories")
 }
 

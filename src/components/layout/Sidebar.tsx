@@ -18,6 +18,8 @@ import {
   ShieldCheck,
   ChevronDown,
   KeyRound,
+  Brain,
+  Activity,
 } from 'lucide-react';
 import { clsx } from 'clsx';
 
@@ -157,6 +159,29 @@ export const Sidebar: React.FC = () => {
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* AI Intelligence */}
+        <div>
+          <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+            AI Intelligence
+          </p>
+          <div className="space-y-1">
+            <a
+              href="/memory"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-900/80 hover:text-white transition-all duration-200"
+            >
+              <Brain className="w-4 h-4 text-purple-400" />
+              <span>AI Memory</span>
+            </a>
+            <a
+              href="/activity"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-900/80 hover:text-white transition-all duration-200"
+            >
+              <Activity className="w-4 h-4 text-cyan-400" />
+              <span>Activity Timeline</span>
+            </a>
           </div>
         </div>
 

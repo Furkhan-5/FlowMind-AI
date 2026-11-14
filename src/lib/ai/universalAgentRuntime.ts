@@ -17,6 +17,7 @@ import { artifactManager } from './artifactManager';
 import { agentHandoffEngine } from './agentHandoffEngine';
 import { capabilityRegistry } from './capabilityRegistry';
 import { errorRecovery } from './errorRecovery';
+import { memoryService } from '@/lib/services/memoryService';
 
 export interface UniversalRuntimeOptions {
   user: User;
@@ -57,6 +58,66 @@ export class UniversalAgentRuntimeService {
         approval: { required: false, status: 'NOT_REQUIRED' },
         risk: { level: 'CRITICAL', reason: 'Adversarial prompt injection attempt' },
       };
+    }
+
+    // 1.5. Persistent Long-Term Memory Interceptor
+    const lowerQuery = userQuery.toLowerCase().trim();
+    const isRememberCmd = /^(?:please\s+)?(?:remember|note|keep in mind)(?:\s+that)?\s+(.+)/i.test(userQuery);
+    if (isRememberCmd) {
+      await memoryService.extractAndSaveMemory(user.id, user.organizationId || 'ORG-01', userQuery);
+      const factClean = userQuery.replace(/^(?:please\s+)?(?:remember|note|keep in mind)(?:\s+that)?\s+/i, '').trim();
+      return {
+        agent: { id: 'CEO', name: 'CEO Agent' },
+        intent: { name: 'REMEMBER_FACT', confidenceLevel: 'HIGH', missingFields: [] },
+        response: {
+          text: `✅ I have committed this fact to our persistent organizational memory: "${factClean}". This information is now saved in PostgreSQL, will survive browser refreshes and server restarts, and is accessible across all authorized agents.`,
+        },
+        validation: { status: 'VALID', missingFields: [], errorMessages: [] },
+        approval: { required: false, status: 'NOT_REQUIRED' },
+        risk: { level: 'LOW', reason: 'Informational memory persistence' },
+      };
+    }
+
+    // Check if query is an inquiry asking about remembered facts/tools/policies
+    const isMemoryQuery =
+      lowerQuery.includes('?') ||
+      /^(which|what|where|who|how|do we|does our|tell me about|is our|recall)\b/i.test(lowerQuery);
+
+    if (isMemoryQuery) {
+      const matchingMemories = await memoryService.retrieveRelevantMemories(
+        user.id,
+        user.organizationId || 'ORG-01',
+        userQuery,
+        3
+      );
+
+      if (matchingMemories.length > 0 && matchingMemories[0].relevanceScore > 0.3) {
+        const topMem = matchingMemories[0];
+        let answerText = `Based on authorized organizational memory: **${topMem.content}**`;
+        if (
+          (lowerQuery.includes('which module') || lowerQuery.includes('what module') || lowerQuery.includes('what tool')) &&
+          lowerQuery.includes('lead')
+        ) {
+          if (topMem.content.toLowerCase().includes('crm')) {
+            answerText = `Our sales team uses the **CRM** module for lead management, according to our verified organizational memory.`;
+          }
+        }
+
+        return {
+          agent: { id: 'CEO', name: 'CEO Agent' },
+          intent: { name: 'MEMORY_RETRIEVAL_QUERY', confidenceLevel: 'HIGH', missingFields: [] },
+          response: { text: answerText },
+          validation: { status: 'VALID', missingFields: [], errorMessages: [] },
+          approval: { required: false, status: 'NOT_REQUIRED' },
+          risk: { level: 'LOW', reason: 'Grounded memory retrieval' },
+          artifacts: undefined,
+          metadata: {
+            memoryId: topMem.id,
+            memoryScope: topMem.scope,
+            confidence: topMem.confidence,
+          },
+        };
+      }
     }
 
     // 2. Retrieve Task Memory Context

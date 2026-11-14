@@ -11,6 +11,8 @@ describe('Business Suite E2E & Workflow Engine Hardening', () => {
     name: 'Chief Administrator',
     email: 'admin@flowmind.ai',
     role: 'ADMIN',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+    preferredLanguage: 'en',
   };
 
   describe('1. CRM Pipeline Lifecycle & History Tracking', () => {
@@ -51,11 +53,11 @@ describe('Business Suite E2E & Workflow Engine Hardening', () => {
     test('should calculate subtotal, 18% GST tax, and total amount with arithmetic precision', async () => {
       const invoice = await businessService.createInvoice(
         {
-          clientName: 'Tata Consultancy Enterprise',
-          clientGstin: '27AABCT3518Q1ZS',
+          customerName: 'Tata Consultancy Enterprise',
           items: [
             {
               id: 'item-1',
+              invoiceId: 'temp',
               description: 'FlowMind AI Automation Engine License',
               quantity: 1,
               unitPrice: 100000,
@@ -63,6 +65,7 @@ describe('Business Suite E2E & Workflow Engine Hardening', () => {
             },
             {
               id: 'item-2',
+              invoiceId: 'temp',
               description: 'Custom Workflow DAG Setup & Integration',
               quantity: 2,
               unitPrice: 25000,
@@ -89,10 +92,11 @@ describe('Business Suite E2E & Workflow Engine Hardening', () => {
         id: 'WF-VALID-01',
         organizationId: 'ORG-01',
         name: 'Inbound Lead Routing DAG',
+        description: 'Inbound lead workflow',
         version: 1,
         status: 'VALIDATED',
         naturalTrigger: 'When new lead arrives, enrich and notify',
-        trigger: { type: 'event' },
+        trigger: { type: 'event', config: {} },
         nodes: [
           { id: 'node_trigger', type: 'TRIGGER', name: 'New Lead Event', config: {} },
           { id: 'node_enrich', type: 'ACTION', name: 'Enrich Lead', config: {} },
@@ -117,10 +121,11 @@ describe('Business Suite E2E & Workflow Engine Hardening', () => {
         id: 'WF-CYCLIC-01',
         organizationId: 'ORG-01',
         name: 'Infinite Loop DAG',
+        description: 'Looping task',
         version: 1,
         status: 'DRAFT',
         naturalTrigger: 'Looping task',
-        trigger: { type: 'manual' },
+        trigger: { type: 'manual', config: {} },
         nodes: [
           { id: 'node_a', type: 'ACTION', name: 'Action A', config: {} },
           { id: 'node_b', type: 'ACTION', name: 'Action B', config: {} },

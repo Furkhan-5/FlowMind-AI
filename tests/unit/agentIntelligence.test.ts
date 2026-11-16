@@ -80,6 +80,17 @@ describe('Universal AI Agent Intelligence & Intent Accuracy Suite', () => {
       expect(intent.entities.client).toContain('Apex Tech');
     });
 
+    test('understands "generate a pdf for the invoice of 50,000 for ACME CORP" and extracts amount and company', () => {
+      const intent = intentEngine.analyzeIntent('generate a pdf for the invoice of 50,000 for ACME CORP', {
+        selectedAgentOverride: 'Sales',
+      });
+      expect(intent.primaryIntent).toBe('FINANCE_CREATE_INVOICE');
+      expect(intent.operationType).toBe('ACTION_MUTATION');
+      expect(intent.targetAgent).toBe('Sales');
+      expect(intent.entities.client).toBe('ACME CORP');
+      expect(intent.entities.amount).toBe(50000);
+    });
+
     test('identifies multi-domain cross-department query (overdue invoices + support tickets)', () => {
       const intent = intentEngine.analyzeIntent(
         'Show me customers who have both overdue invoices and unresolved support tickets'

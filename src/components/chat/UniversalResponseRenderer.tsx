@@ -95,7 +95,7 @@ export const UniversalResponseRenderer: React.FC<UniversalResponseRendererProps>
 
         {/* Response Text Box */}
         <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800/80 shadow-md text-xs text-slate-200 leading-relaxed font-sans rounded-tl-none space-y-2">
-          <p>{message.content}</p>
+          <p className="whitespace-pre-wrap">{message.content}</p>
         </div>
 
         {/* Action Card */}

@@ -313,4 +313,28 @@ describe('FLOWMIND AI — 15 REAL USER REQUESTS BENCHMARK SUITE (PHASE 12)', () 
     expect(res.artifacts![0].type).toBe('INVOICE');
     expect(res.artifacts![0].downloadFilename).toContain('.html');
   });
+
+  // 18. User exact prompt: "generate a pdf for the invoice of 50,000 for ACME CORP" on Sales Agent
+  test('Request 18: "generate a pdf for the invoice of 50,000 for ACME CORP" creates invoice with 18% GST and PDF artifact', async () => {
+    const res = await universalAgentRuntime.executeUserRequest('generate a pdf for the invoice of 50,000 for ACME CORP', {
+      user: adminUser,
+      language: 'en',
+      selectedAgentOverride: 'Sales',
+    });
+
+    expect(res.intent.name).toBe('FINANCE_CREATE_INVOICE');
+    expect(res.agent.id).toBe('Sales');
+    expect(res.response.text).toContain('GST Tax Invoice Draft Generated');
+    expect(res.response.text).toContain('ACME CORP');
+    expect(res.response.text).toContain('₹50,000'); // Subtotal
+    expect(res.response.text).toContain('₹9,000'); // 18% GST on 50,000
+    expect(res.response.text).toContain('₹59,000'); // Total
+    expect(res.artifacts).toBeDefined();
+    expect(res.artifacts!.length).toBeGreaterThan(0);
+    expect(res.artifacts![0].type).toBe('INVOICE');
+    expect(res.artifacts![0].title).toContain('ACME CORP');
+    expect(res.artifacts![0].data.pdfAvailable).toBe(true);
+    expect(res.action).toBeDefined();
+    expect(res.action!.required).toBe(true);
+  });
 });

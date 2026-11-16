@@ -180,11 +180,13 @@ export class IntentEngine {
         };
       }
 
-      // 7.2 Download or Export Invoice PDF
+      // 7.2 Download or Export Existing Invoice PDF (explicit retrieval)
       if (
-        /download\s+(?:the\s+)?(?:invoice|pdf)|export\s+(?:the\s+)?(?:invoice|pdf)|(?:invoice\s+pdf|pdf\s+invoice)/i.test(
+        /(?:download|export|print|get)\s+(?:the\s+)?(?:invoice|pdf)|(?:invoice\s+pdf|pdf\s+invoice)|(?:pdf\s+(?:copy|version)\s+of\s+(?:the\s+)?invoice)/i.test(
           lower
-        )
+        ) &&
+        !/(?:create|generate|draft|issue|make|bill)\s+(?:a\s+)?(?:new\s+)?(?:pdf\s+(?:for|of)\s+(?:the\s+)?)?invoice/i.test(lower) &&
+        !/\b(?:of|for)\s+[\d,]{3,}\b/i.test(lower)
       ) {
         const client = this.extractCompanyName(text);
         const invMatch = text.match(/INV-[\w-]+/i);
@@ -203,9 +205,9 @@ export class IntentEngine {
         };
       }
 
-      // 7.3 Action Mutation (Create / Draft Invoice)
+      // 7.3 Action Mutation (Create / Draft / Generate Invoice or Invoice PDF)
       if (
-        /create\s+(?:a\s+)?(?:new\s+)?invoice|generate\s+(?:a\s+)?(?:new\s+)?invoice|draft\s+(?:a\s+)?(?:new\s+)?(?:client\s+)?invoice|issue\s+(?:a\s+)?(?:new\s+)?invoice|make\s+(?:an?\s+)?invoice|bill\s+(?:client|customer)|invoice\s+for/i.test(
+        /(?:create|generate|draft|issue|make|bill)\s+(?:a\s+)?(?:new\s+)?(?:pdf\s+(?:for|of)\s+(?:the\s+)?)?(?:client\s+)?invoice|invoice\s+(?:for|of)\s+[\d,]+|invoice\s+for\s+[A-Za-z]|(?:generate|create|make|issue|draft)\s+(?:a\s+)?pdf\s+(?:for|of)\s+(?:the\s+)?invoice/i.test(
           lower
         )
       ) {
@@ -496,26 +498,60 @@ export class IntentEngine {
   // --- Entity Extraction Helpers ---
 
   private extractCompanyName(text: string): string {
-    const match =
-      text.match(/(?:for\s+client|client|for\s+company|customer)\s+([A-Za-z0-9&]+(?:\s+[A-Za-z0-9&]+){0,4})/i) ||
-      text.match(/(?:for)\s+([A-Z][A-Za-z0-9&]+(?:\s+[A-Z][A-Za-z0-9&]+){0,3})/);
-
-    if (match && match[1]) {
-      const clean = match[1].replace(/\b(?:of|with|amount|and|for)\b.*$/i, '').trim();
-      if (clean.length > 2) return clean;
+    // 1. Explicit client/customer/company phrasing
+    const explicit = text.match(
+      /(?:for\s+client|client|for\s+company|customer|account)\s+([A-Za-z0-9&]+(?:\s+[A-Za-z0-9&]+){0,4})/i
+    );
+    if (explicit && explicit[1]) {
+      const clean = explicit[1].replace(/\b(?:of|with|amount|and|for)\b.*$/i, '').trim();
+      if (clean.length > 1 && !/^(?:the\s+)?(?:invoice|pdf|bill)$/i.test(clean)) return clean;
     }
+
+    // 2. Scan all 'for [Company]' or 'to [Company]' occurrences from end to start
+    const allForMatches = [...text.matchAll(/(?:for|to)\s+([A-Za-z0-9&]+(?:\s+[A-Za-z0-9&]+){0,3})/gi)];
+    for (let i = allForMatches.length - 1; i >= 0; i--) {
+      const candidate = allForMatches[i][1].replace(/\b(?:of|with|amount|and|for)\b.*$/i, '').trim();
+      if (candidate.length > 1 && !/^(?:the\s+)?(?:invoice|pdf|bill|new\s+invoice)$/i.test(candidate)) {
+        return candidate;
+      }
+    }
+
     return 'Acme Corp';
   }
 
   private extractAmount(text: string): number {
-    const match = text.match(/(?:₹|rs\.?|inr|\$)\s*([\d,]+(?:\.\d+)?)/i) ||
-                  text.match(/(\d+)\s*(?:thousand|k|lakh|cr)/i);
-    if (!match) return 50000;
-    const cleanNum = match[1].replace(/,/g, '');
-    let val = parseFloat(cleanNum);
-    if (text.toLowerCase().includes('lakh')) val *= 100000;
-    if (text.toLowerCase().includes('thousand') || text.toLowerCase().includes('k')) val *= 1000;
-    return val || 50000;
+    // 1. Check currency prefixed: ₹50,000, $50,000, Rs 50000, INR 50000
+    const currMatch = text.match(/(?:₹|rs\.?|inr|\$)\s*([\d,]+(?:\.\d+)?)/i);
+    if (currMatch) return parseFloat(currMatch[1].replace(/,/g, ''));
+
+    // 2. Check contextual numbers following 'of', 'for', 'amount', 'worth'
+    const contextMatch = text.match(
+      /(?:of|for|amount|worth|value|total|sum)\s+(?:the\s+)?(?:sum\s+of\s+)?([\d,]{2,}(?:\.\d+)?)/i
+    );
+    if (contextMatch) {
+      const cleanNum = contextMatch[1].replace(/,/g, '');
+      const val = parseFloat(cleanNum);
+      if (!isNaN(val) && val > 0) return val;
+    }
+
+    // 3. Check standalone number with comma or 4+ digits: 50,000 or 50000
+    const plainMatch = text.match(/\b(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d{4,}(?:\.\d+)?)\b/);
+    if (plainMatch) {
+      const cleanNum = plainMatch[1].replace(/,/g, '');
+      const val = parseFloat(cleanNum);
+      if (!isNaN(val) && val > 0) return val;
+    }
+
+    // 4. Check word multipliers: 50k, 2 lakh, 1 cr, 50 thousand
+    const wordMatch = text.match(/(\d+)\s*(?:thousand|k|lakh|cr)/i);
+    if (wordMatch) {
+      let val = parseFloat(wordMatch[1]);
+      if (text.toLowerCase().includes('lakh')) val *= 100000;
+      if (text.toLowerCase().includes('thousand') || text.toLowerCase().includes('k')) val *= 1000;
+      return val;
+    }
+
+    return 50000;
   }
 
   private extractDateTime(text: string): string | null {

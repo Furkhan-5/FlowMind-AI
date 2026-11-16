@@ -63,6 +63,23 @@ describe('Universal AI Agent Intelligence & Intent Accuracy Suite', () => {
       expect(intent.requiredTools.length).toBe(0); // Informational requests do not invoke mutation tools
     });
 
+    test('understands "Draft invoice for client Apex Tech Solutions" and routes appropriately', () => {
+      const intent = intentEngine.analyzeIntent('Draft invoice for client Apex Tech Solutions', {
+        selectedAgentOverride: 'Sales',
+      });
+      expect(intent.primaryIntent).toBe('FINANCE_CREATE_INVOICE');
+      expect(intent.operationType).toBe('ACTION_MUTATION');
+      expect(intent.targetAgent).toBe('Sales');
+      expect(intent.entities.client).toContain('Apex Tech');
+    });
+
+    test('understands "Download invoice PDF for Apex Tech Solutions" as PDF artifact export', () => {
+      const intent = intentEngine.analyzeIntent('Download invoice PDF for Apex Tech Solutions');
+      expect(intent.primaryIntent).toBe('FINANCE_DOWNLOAD_INVOICE_PDF');
+      expect(intent.operationType).toBe('DATA_RETRIEVAL');
+      expect(intent.entities.client).toContain('Apex Tech');
+    });
+
     test('identifies multi-domain cross-department query (overdue invoices + support tickets)', () => {
       const intent = intentEngine.analyzeIntent(
         'Show me customers who have both overdue invoices and unresolved support tickets'

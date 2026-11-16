@@ -267,6 +267,7 @@ describe('FLOWMIND AI — 15 REAL USER REQUESTS BENCHMARK SUITE (PHASE 12)', () 
           sender: 'AGENT',
           content: 'Identified 1 at-risk customer account TechCorp India with overdue invoice INV-2026-002 and open support ticket TICK-101.',
           timestamp: new Date().toISOString(),
+          language: 'en' as const,
         },
       ],
     });
@@ -274,5 +275,42 @@ describe('FLOWMIND AI — 15 REAL USER REQUESTS BENCHMARK SUITE (PHASE 12)', () 
     expect(res.intent.name).toBe('EXPLAIN_SIMPLER');
     expect(res.response.text).toContain('Plain-English Summary');
     expect(res.action).toBeUndefined(); // Does not create mutation action cards
+  });
+
+  // 16. Sales Invoice Generation & GST Math
+  test('Request 16: Sales Agent generates client invoice with 18% GST calculation and PDF artifact', async () => {
+    const res = await universalAgentRuntime.executeUserRequest('Draft invoice of ₹75,000 for client Apex Tech Solutions', {
+      user: adminUser,
+      language: 'en',
+      selectedAgentOverride: 'Sales',
+    });
+
+    expect(res.intent.name).toBe('FINANCE_CREATE_INVOICE');
+    expect(res.response.text).toContain('GST Tax Invoice Draft Generated');
+    expect(res.response.text).toContain('Apex Tech Solutions');
+    expect(res.response.text).toContain('18%');
+    expect(res.response.text).toContain('₹88,500'); // 75000 + 13500 (18% GST)
+    expect(res.artifacts).toBeDefined();
+    expect(res.artifacts!.length).toBeGreaterThan(0);
+    expect(res.artifacts![0].type).toBe('INVOICE');
+    expect(res.artifacts![0].data.pdfAvailable).toBe(true);
+    expect(res.action).toBeDefined();
+    expect(res.action!.required).toBe(true);
+    expect(res.approval.status).toBe('PENDING');
+  });
+
+  // 17. Download Invoice PDF
+  test('Request 17: Download invoice PDF generates downloadable artifact with print-ready HTML/PDF', async () => {
+    const res = await universalAgentRuntime.executeUserRequest('Download invoice PDF for Apex Tech Solutions', {
+      user: adminUser,
+      language: 'en',
+    });
+
+    expect(res.intent.name).toBe('FINANCE_DOWNLOAD_INVOICE_PDF');
+    expect(res.response.text).toContain('Invoice PDF Generated');
+    expect(res.response.text).toContain('Apex Tech Solutions');
+    expect(res.artifacts).toBeDefined();
+    expect(res.artifacts![0].type).toBe('INVOICE');
+    expect(res.artifacts![0].downloadFilename).toContain('.html');
   });
 });

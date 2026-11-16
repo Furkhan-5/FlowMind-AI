@@ -12,6 +12,7 @@ export class IntentEngine {
       language?: LanguageCode;
       recentMessages?: ChatMessage[];
       userRole?: string;
+      selectedAgentOverride?: AgentType | null;
     } = {}
   ): InterpretedIntent {
     const text = (userMessage || '').trim();
@@ -179,21 +180,47 @@ export class IntentEngine {
         };
       }
 
-      // 7.2 Action Mutation (Create Invoice)
+      // 7.2 Download or Export Invoice PDF
       if (
-        /create\s+(?:a\s+)?(?:new\s+)?invoice|generate\s+(?:a\s+)?(?:new\s+)?invoice|bill\s+(?:client|customer)/i.test(lower)
+        /download\s+(?:the\s+)?(?:invoice|pdf)|export\s+(?:the\s+)?(?:invoice|pdf)|(?:invoice\s+pdf|pdf\s+invoice)/i.test(
+          lower
+        )
+      ) {
+        const client = this.extractCompanyName(text);
+        const invMatch = text.match(/INV-[\w-]+/i);
+        const targetAgent: AgentType = options.selectedAgentOverride === 'Sales' || lower.includes('sales') ? 'Sales' : 'Finance';
+        return {
+          primaryIntent: 'FINANCE_DOWNLOAD_INVOICE_PDF',
+          operationType: 'DATA_RETRIEVAL',
+          businessDomain: 'FINANCE',
+          targetAgent,
+          requiredTools: ['finance_get_invoices'],
+          entities: { client, invoiceNumber: invMatch ? invMatch[0].toUpperCase() : undefined },
+          parameters: { client, invoiceNumber: invMatch ? invMatch[0].toUpperCase() : undefined },
+          confidence: 0.98,
+          confidenceLevel: 'HIGH',
+          expectedResponseFormat: 'RECORD',
+        };
+      }
+
+      // 7.3 Action Mutation (Create / Draft Invoice)
+      if (
+        /create\s+(?:a\s+)?(?:new\s+)?invoice|generate\s+(?:a\s+)?(?:new\s+)?invoice|draft\s+(?:a\s+)?(?:new\s+)?(?:client\s+)?invoice|issue\s+(?:a\s+)?(?:new\s+)?invoice|make\s+(?:an?\s+)?invoice|bill\s+(?:client|customer)|invoice\s+for/i.test(
+          lower
+        )
       ) {
         const client = this.extractCompanyName(text);
         const amount = this.extractAmount(text);
+        const targetAgent: AgentType = options.selectedAgentOverride === 'Sales' || lower.includes('sales') ? 'Sales' : 'Finance';
         return {
           primaryIntent: 'FINANCE_CREATE_INVOICE',
           operationType: 'ACTION_MUTATION',
           businessDomain: 'FINANCE',
-          targetAgent: 'Finance',
+          targetAgent,
           requiredTools: ['finance_create_invoice'],
           entities: { client, amount },
           parameters: { client, amount, taxRate: '18% GST' },
-          confidence: 0.95,
+          confidence: 0.96,
           confidenceLevel: 'HIGH',
           expectedResponseFormat: 'CONFIRMATION_CARD',
         };
@@ -469,9 +496,15 @@ export class IntentEngine {
   // --- Entity Extraction Helpers ---
 
   private extractCompanyName(text: string): string {
-    const match = text.match(/(?:for|with|client|customer|company)\s+([A-Z][A-Za-z0-9&\s]+(?:Technologies|Tech|Solutions|Pvt|Ltd|Limited|Corp|Corporation|Enterprises|Logistics|Pharma|Energy))/i) ||
-                  text.match(/(?:for|company)\s+([A-Z0-9][A-Za-z0-9\s]{2,25})/);
-    return match ? match[1].trim() : 'ABC Technologies';
+    const match =
+      text.match(/(?:for\s+client|client|for\s+company|customer)\s+([A-Za-z0-9&]+(?:\s+[A-Za-z0-9&]+){0,4})/i) ||
+      text.match(/(?:for)\s+([A-Z][A-Za-z0-9&]+(?:\s+[A-Z][A-Za-z0-9&]+){0,3})/);
+
+    if (match && match[1]) {
+      const clean = match[1].replace(/\b(?:of|with|amount|and|for)\b.*$/i, '').trim();
+      if (clean.length > 2) return clean;
+    }
+    return 'Acme Corp';
   }
 
   private extractAmount(text: string): number {

@@ -7,12 +7,11 @@ export interface PromptInjectionAnalysis {
 }
 
 const INJECTION_PATTERNS = [
-  { pattern: /ignore\s+(all\s+)?(previous|system|above)\s+instructions/i, type: 'INSTRUCTION_OVERRIDE', reason: 'Attempted instruction override' },
-  { pattern: /reveal\s+(your\s+)?(system\s+prompt|hidden\s+instructions|system\s+instructions)/i, type: 'PROMPT_LEAK', reason: 'Attempted prompt leak' },
-  { pattern: /show\s+(me\s+)?(your\s+)?(system\s+prompt|hidden\s+instructions|secret\s+keys)/i, type: 'PROMPT_LEAK', reason: 'Attempted prompt leak' },
+  { pattern: /ignore\s+(all\s+)?(previous|system|above|prior)\s+(instructions|guidelines|rules|prompts)/i, type: 'INSTRUCTION_OVERRIDE', reason: 'Attempted instruction override' },
+  { pattern: /(?:show|reveal|print|get|extract|leak)\b.*(?:api\s*key|secret\s*key|raw\s*key|password|env\b|master\s*key|environment\s*variables)/i, type: 'SECRET_LEAK', reason: 'Attempted secret extraction' },
+  { pattern: /(?:reveal|show)\s+(?:me\s+)?(?:your\s+)?(?:system\s+prompt|hidden\s+instructions|system\s+instructions|internal\s+prompts?)/i, type: 'PROMPT_LEAK', reason: 'Attempted prompt leak' },
   { pattern: /act\s+as\s+(the\s+)?system|bypass\s+(user\s+)?approval/i, type: 'POLICY_BYPASS', reason: 'Attempted policy bypass' },
-  { pattern: /print\s+(the\s+)?environment\s+variables|show\s+api\s+keys/i, type: 'SECRET_LEAK', reason: 'Attempted secret extraction' },
-  { pattern: /you\s+are\s+now\s+in\s+developer\s+mode/i, type: 'MODE_JAILBREAK', reason: 'Attempted developer mode jailbreak' },
+  { pattern: /you\s+are\s+now\s+in\s+developer\s+mode|dan\s+mode|jailbreak/i, type: 'MODE_JAILBREAK', reason: 'Attempted developer mode jailbreak' },
 ];
 
 export const promptInjectionShield = {

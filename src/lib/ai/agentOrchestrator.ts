@@ -8,6 +8,7 @@ export interface OrchestrationOptions {
   language: LanguageCode;
   selectedAgentOverride?: AgentType | null;
   messageHistory?: ChatMessage[];
+  memoryContext?: string;
 }
 
 export interface OrchestratorResult {
@@ -29,7 +30,7 @@ export class MasterAgentOrchestrator {
     userQuery: string,
     options: OrchestrationOptions
   ): Promise<OrchestratorResult> {
-    const { user, language, selectedAgentOverride, messageHistory = [] } = options;
+    const { user, language, selectedAgentOverride, messageHistory = [], memoryContext } = options;
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     // 1. Optimize conversation history context window
@@ -41,6 +42,7 @@ export class MasterAgentOrchestrator {
       language,
       selectedAgentOverride,
       messageHistory,
+      memoryContext,
     });
 
     const isBlocked = univRes.intent.name === 'SECURITY_BLOCKED';

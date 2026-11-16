@@ -169,10 +169,11 @@ export const ChatInterface: React.FC = () => {
       : '';
 
     try {
-      const result = await agentOrchestrator.processRequest(query + memoryContext, {
+      const result = await agentOrchestrator.processRequest(query, {
         user,
         language: targetLang,
         messageHistory: messages,
+        memoryContext: memoryContext ? memoryContext.trim() : undefined,
       });
 
       setActiveAgent(result.targetAgent);

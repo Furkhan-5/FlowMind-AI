@@ -6,9 +6,14 @@ export interface MemoryWindowOptions {
   preserveSystemInitial?: boolean;
 }
 
+export interface MemoryBudgetOptions {
+  maxTokens?: number; // Approximate token budget (1 token ~ 4 chars)
+  maxItems?: number;
+}
+
 export const conversationMemory = {
   /**
-   * Tier A: Short-term conversation sliding window
+   * Tier A: Short-term conversation sliding window with token budgeting
    */
   getOptimizedContext(
     messages: ChatMessage[],
@@ -20,7 +25,7 @@ export const conversationMemory = {
 
     // Always preserve system initialization messages if requested
     const initialSystemMsgs = options.preserveSystemInitial
-      ? messages.filter((m) => m.sender === 'SYSTEM' || (m.id === 'MSG-01' || m.id === 'MSG-02'))
+      ? messages.filter((m) => m.sender === 'SYSTEM' || m.id === 'MSG-01' || m.id === 'MSG-02')
       : [];
 
     // Filter non-system conversation turns
@@ -65,19 +70,59 @@ export const conversationMemory = {
   },
 
   /**
-   * Retrieves relevant long-term user memories and organizational context
+   * Retrieves relevant long-term user memories and organizational context with:
+   * - Token Budgeting (prevents context window bloat)
+   * - Context Ranking (recency + confidence + semantic score)
+   * - Source Attribution (traceability)
+   * - Conflict Resolution (current user prompt takes precedence over memory)
    */
   async getRelevantMemoryContext(
     userId: string,
     organizationId: string,
-    query: string
+    query: string,
+    budget: MemoryBudgetOptions = { maxTokens: 400, maxItems: 4 }
   ): Promise<string> {
-    const memories = await memoryService.retrieveRelevantMemories(userId, organizationId, query, 4);
-    return memoryService.buildMemoryContext(memories);
+    const maxItems = budget.maxItems || 4;
+    const maxChars = (budget.maxTokens || 400) * 4;
+
+    const memories = await memoryService.retrieveRelevantMemories(userId, organizationId, query, maxItems * 2);
+
+    if (!memories || memories.length === 0) return '';
+
+    // Rank memories: Confidence (50%) + Recency/RelevanceScore (50%)
+    const ranked = [...memories].sort((a, b) => {
+      const scoreA = (a.confidence || 0.8) * 0.5 + (a.relevanceScore || 0.8) * 0.5;
+      const scoreB = (b.confidence || 0.8) * 0.5 + (b.relevanceScore || 0.8) * 0.5;
+      return scoreB - scoreA;
+    });
+
+    // Assemble budgeted context with source attribution & conflict resolution
+    const includedLines: string[] = [];
+    let currentLength = 0;
+
+    for (const mem of ranked.slice(0, maxItems)) {
+      const scopeLabel = mem.scope === 'ORG_SHARED' ? 'ORGANIZATIONAL' : 'USER_PRIVATE';
+      const createdDate = mem.createdAt ? new Date(mem.createdAt).toLocaleDateString() : 'Active';
+      const line = `- [${scopeLabel}] ${mem.content} (Recorded: ${createdDate}, Confidence: ${Math.round(
+        (mem.confidence || 0.8) * 100
+      )}%)`;
+
+      if (currentLength + line.length > maxChars) break;
+      includedLines.push(line);
+      currentLength += line.length;
+    }
+
+    if (includedLines.length === 0) return '';
+
+    return (
+      `### 🧠 Enterprise Persistent Memory Context\n` +
+      `**Conflict Resolution Rule:** The user's active prompt ALWAYS overrides historical memories if contradictory.\n\n` +
+      includedLines.join('\n')
+    );
   },
 
   /**
-   * Get raw retrieved memory items
+   * Get raw retrieved memory items with strict tenant/user isolation
    */
   async getMemories(
     userId: string,

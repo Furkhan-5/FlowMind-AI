@@ -20,6 +20,7 @@ import { toolRegistry } from './toolRegistry';
 import { multiAgentCoordinator } from './multiAgentCoordinator';
 import { responseQualityValidator } from './responseQualityValidator';
 import { agentDiagnosticTracer } from './agentDiagnosticTracer';
+import { aiReasoningEngine } from './aiReasoningEngine';
 import {
   AgentTaskEnvelope,
   AgentResponseEnvelope,
@@ -185,9 +186,31 @@ export class UniversalAgentRuntimeService {
     // Determine target agent
     let targetAgentId: AgentType = selectedAgentOverride || intent.targetAgent || 'CEO';
 
-    // Build Thought Stream
+    // Execute Hybrid AI Reasoning / Deterministic Planning
+    const reasoningPlan = await aiReasoningEngine.analyzeAndPlan(userQuery, {
+      user,
+      targetAgent: targetAgentId,
+      memoryContext,
+      messageHistory,
+      selectedAgentOverride,
+      requestId,
+    });
+
+    if (reasoningPlan.targetAgent && !selectedAgentOverride) {
+      targetAgentId = reasoningPlan.targetAgent;
+    }
+
+    // Build Thought Stream with explicit Engine & Model transparency
     const thoughtSteps: ThoughtStep[] = [
-      { agent: 'CEO', action: `Intent identified: ${intent.primaryIntent} (${intent.operationType})`, timestamp: timeStr, status: 'DONE' },
+      {
+        agent: 'CEO',
+        action:
+          reasoningPlan.mode === 'LLM_REASONING'
+            ? `AI Reasoning Engine (${reasoningPlan.provider} - ${reasoningPlan.model}): Plan formulated for ${intent.primaryIntent}`
+            : `Deterministic Operational Engine: Verified rules binding for ${intent.primaryIntent}`,
+        timestamp: timeStr,
+        status: 'DONE',
+      },
       { agent: targetAgentId, action: `Routed request to ${targetAgentId} Agent`, timestamp: timeStr, status: 'DONE' },
     ];
 
@@ -855,6 +878,10 @@ export class UniversalAgentRuntimeService {
         requestId,
         qualityScore: qualityEval.score,
         toolExecutions,
+        reasoningMode: reasoningPlan.mode,
+        aiProvider: reasoningPlan.provider,
+        aiModel: reasoningPlan.model,
+        limitationsNote: reasoningPlan.limitationsNote,
       },
     };
   }

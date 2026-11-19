@@ -37,21 +37,21 @@ export const Sidebar: React.FC = () => {
   const t = UI_TRANSLATIONS[language] || UI_TRANSLATIONS.en;
 
   const mainNavItems = [
-    { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
-    { id: 'chat', label: t.laymanMvp, icon: MessageSquare, badge: 'Core MVP' },
-    { id: 'agents', label: t.activeAgents, icon: Bot, count: 15 },
-    { id: 'workflows', label: t.workflows, icon: GitFork },
-    { id: 'data-analyst', label: t.dataStudio, icon: FileSpreadsheet },
-    { id: 'knowledge', label: t.knowledgeBase, icon: BookOpen },
-    { id: 'proactive', label: t.proactiveMonitor, icon: Bell, count: 2 },
+    { id: 'dashboard', label: t['navigation.dashboard'] || t.dashboard, icon: LayoutDashboard },
+    { id: 'chat', label: t['agents.chatTitle'] || t.laymanMvp, icon: MessageSquare, badge: 'Core MVP' },
+    { id: 'agents', label: t['navigation.agents'] || t.activeAgents, icon: Bot, count: 15 },
+    { id: 'workflows', label: t['navigation.workflows'] || t.workflows, icon: GitFork },
+    { id: 'data-analyst', label: t['navigation.analytics'] || t.dataStudio, icon: FileSpreadsheet },
+    { id: 'knowledge', label: t['navigation.knowledge'] || t.knowledgeBase, icon: BookOpen },
+    { id: 'proactive', label: t['dashboard.proactiveAlerts'] || t.proactiveMonitor, icon: Bell, count: 2 },
   ];
 
   const businessSuiteItems = [
-    { id: 'crm', label: t.crmAndLeads, icon: Users },
-    { id: 'finance', label: t.financeInvoicing, icon: DollarSign },
-    { id: 'hr', label: t.hrEmployees, icon: Briefcase },
-    { id: 'inventory', label: t.inventoryStock, icon: Package },
-    { id: 'support', label: t.customerSupport, icon: Headphones },
+    { id: 'crm', label: t['navigation.crm'] || t.crmAndLeads, icon: Users },
+    { id: 'finance', label: t['navigation.finance'] || t.financeInvoicing, icon: DollarSign },
+    { id: 'hr', label: t['navigation.hr'] || t.hrEmployees, icon: Briefcase },
+    { id: 'inventory', label: t['navigation.inventory'] || t.inventoryStock, icon: Package },
+    { id: 'support', label: t['navigation.support'] || t.customerSupport, icon: Headphones },
   ];
 
   return (

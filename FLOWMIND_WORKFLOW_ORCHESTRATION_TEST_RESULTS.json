@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-11-18T10:12:18.538Z",
+  "allPassed": true,
+  "results": {
+    "TEST_A": {
+      "passed": true,
+      "workflowId": "WF-1794996706285",
+      "name": "Weekly Finance Review",
+      "nodesCount": 6,
+      "targetAgent": "Workflow"
+    },
+    "TEST_B": {
+      "passed": true,
+      "nodes": [
+        "START",
+        "RETRIEVE_OVERDUE_INVOICES",
+        "CALCULATE_OUTSTANDING_BALANCE",
+        "GENERATE_FINANCIAL_SUMMARY",
+        "PREPARE_FINANCE_EMAIL",
+        "END"
+      ],
+      "edgesCount": 5,
+      "plannerInvoked": true
+    },
+    "TEST_C": {
+      "passed": true,
+      "id": "WF-1794996706285",
+      "name": "Weekly Finance Review",
+      "organizationId": "ORG-01",
+      "status": "ACTIVE",
+      "version": 1,
+      "nodesCount": 6
+    },
+    "TEST_D": {
+      "passed": true,
+      "id": "WF-1794996706285",
+      "name": "Weekly Finance Review",
+      "status": "ACTIVE",
+      "nodesCount": 6
+    },
+    "TEST_E": {
+      "passed": true,
+      "cronExpression": "0 9 * * 1",
+      "timezone": "Asia/Kolkata",
+      "nextRunAt": "Tomorrow at 09:00 AM IST"
+    },
+    "TEST_F": {
+      "passed": true,
+      "containsWorkflowId": true,
+      "containsName": true
+    },
+    "TEST_G": {
+      "passed": true,
+      "newVersion": 2,
+      "newCron": "0 10 * * 1",
+      "newScheduledTime": "monday 10 am IST",
+      "newNextRunAt": "Next Monday (2026-11-23) at 10:00 AM IST"
+    },
+    "TEST_H": {
+      "passed": true,
+      "executionId": "EXEC-1794996729397-374",
+      "status": "COMPLETED",
+      "overdueCount": 1,
+      "totalBalance": 236000,
+      "emailDraftStatus": "DRAFT_CREATED",
+      "autoSent": false
+    },
+    "TEST_I": {
+      "passed": true,
+      "plannerFailureHandled": true,
+      "dbFailureHandled": true,
+      "plannerError": "[DAG_VALIDATION_FAILED] DAG_VALIDATION_FAILED: Planner invocation terminated by simulation flag",
+      "dbError": "[WORKFLOW_PERSISTENCE_FAILED] WORKFLOW_PERSISTENCE_FAILED: Simulated PostgreSQL database transaction failure."
+    },
+    "TEST_J": {
+      "passed": true,
+      "isolatedTenantReadBlocked": true,
+      "isolatedTenantUpdateBlocked": true,
+      "getStatus": 404,
+      "patchStatus": 403
+    }
+  }
+}

@@ -1,3 +1,8 @@
+if (typeof (process as any).loadEnvFile === 'function') {
+  try {
+    (process as any).loadEnvFile('.env');
+  } catch {}
+}
 import { prisma } from '@/lib/prisma';
 import { memoryService } from '@/lib/services/memoryService';
 import { businessService } from '@/lib/services/businessService';

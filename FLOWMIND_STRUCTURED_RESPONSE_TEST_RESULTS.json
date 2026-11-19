@@ -1,0 +1,353 @@
+{
+  "timestamp": "2026-11-17T15:17:05.529Z",
+  "totalAgents": 15,
+  "passedAgents": 15,
+  "failedAgents": 0,
+  "passRatePct": 100,
+  "results": [
+    {
+      "agent": "Sales",
+      "query": "Explain our current sales pipeline and identify the strongest opportunities.",
+      "status": "PASSED",
+      "latencyMs": 20326,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Sales Pipeline Overview",
+        "Pipeline Breakdown",
+        "Strongest Opportunities",
+        "Recommended Actions"
+      ],
+      "matchedSections": [
+        "Sales Pipeline Overview",
+        "Pipeline Breakdown",
+        "Strongest Opportunities",
+        "Recommended Actions"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Sales Pipeline Overview\n\nThe FlowMind **Sales Agent** successfully queried the live CRM database and evaluated a total of **50 active leads**. The aggregate pipeline valuation stands at **₹96,50,000**. \n\nThe current ..."
+    },
+    {
+      "agent": "Finance",
+      "query": "Find customers with overdue invoices and calculate the total outstanding amount.",
+      "status": "PASSED",
+      "latencyMs": 25899,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Financial Overview",
+        "Overdue Invoice Breakdown",
+        "Total Outstanding Amount",
+        "Calculations & Audit Trail"
+      ],
+      "matchedSections": [
+        "Financial Overview",
+        "Overdue Invoice Breakdown",
+        "Total Outstanding Amount",
+        "Calculations & Audit Trail"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Financial Overview — High-level summary of billing, receivables, and cash collection posture. (Overdue Customer Invoices)\nThe PostgreSQL ledger audit indicates a critical cash collection requirement. A total of **5 i..."
+    },
+    {
+      "agent": "CEO",
+      "query": "Provide an executive summary of cross-departmental operations and critical company risks.",
+      "status": "PASSED",
+      "latencyMs": 33391,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Executive Summary",
+        "Cross-Departmental Performance & Risk Analysis",
+        "Critical Operational Risks",
+        "30-Day Strategic Action Plan"
+      ],
+      "matchedSections": [
+        "Executive Summary",
+        "Cross-Departmental Performance & Risk Analysis",
+        "Critical Operational Risks",
+        "30-Day Strategic Action Plan"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Executive Summary — Synthesized high-level posture across sales, finance, operations, and workforce.\n\nAs the **CEO Master Agent**, I coordinate our multi-agent enterprise mesh across Sales, Finance, HR, Inventory, Su..."
+    },
+    {
+      "agent": "Marketing",
+      "query": "Draft a targeted marketing campaign for enterprise fintech customers with channel strategy and projected KPIs.",
+      "status": "PASSED",
+      "latencyMs": 31292,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Campaign Overview & Objectives",
+        "Target Audience & Persona Segmentation",
+        "Channel Strategy & Budget Allocation",
+        "Projected Performance & KPIs"
+      ],
+      "matchedSections": [
+        "Campaign Overview & Objectives",
+        "Target Audience & Persona Segmentation",
+        "Channel Strategy & Budget Allocation",
+        "Projected Performance & KPIs"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Campaign Overview & Objectives — Target messaging, core proposition, and growth initiatives.\n\n**Verified Database Facts:**\n- The current pipeline scope is strictly bounded by the live tool execution result: **50 targ..."
+    },
+    {
+      "agent": "HR",
+      "query": "Provide workforce directory status, employees on leave, and salary governance policies.",
+      "status": "PASSED",
+      "latencyMs": 7686,
+      "isGemini": false,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": false,
+      "expectedSections": [
+        "Workforce Directory & Team Status",
+        "Leave & Attendance Governance",
+        "Salary Governance & Data Masking",
+        "Policy Recommendations"
+      ],
+      "matchedSections": [
+        "Workforce Directory & Team Status",
+        "Leave & Attendance Governance",
+        "Salary Governance & Data Masking",
+        "Policy Recommendations"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Workforce Directory & Team Status\n\nThe **HR Agent** checked our employee attendance and identified **Employees Currently on Leave** across active departments:\n\nNo staff members are currently flagged as `ON_LEAVE` in ..."
+    },
+    {
+      "agent": "Support",
+      "query": "List unresolved high-priority customer support tickets and assess SLA breaches.",
+      "status": "PASSED",
+      "latencyMs": 14300,
+      "isGemini": true,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Support Ticket Summary",
+        "SLA Breach & Escalation Watch",
+        "Priority Resolution Queue",
+        "Root Cause Analysis"
+      ],
+      "matchedSections": [
+        "Support Ticket Summary",
+        "SLA Breach & Escalation Watch",
+        "Priority Resolution Queue",
+        "Root Cause Analysis"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Support Ticket Summary\n\nThe **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priority Support Tickets**):\n\n### SLA Breach & Escalation Watch\n\n| Ticket # |..."
+    },
+    {
+      "agent": "Analytics",
+      "query": "Analyze our conversion funnels, business metrics, and recent performance trends.",
+      "status": "PASSED",
+      "latencyMs": 14271,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Business Intelligence Summary",
+        "Metric Performance & Conversion Funnels",
+        "Trend Analysis",
+        "Strategic Recommendations"
+      ],
+      "matchedSections": [
+        "Business Intelligence Summary",
+        "Metric Performance & Conversion Funnels",
+        "Trend Analysis",
+        "Strategic Recommendations"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Business Intelligence Summary — Macro performance indicators and operational efficiency index.\n\nThe **FlowMind Analytics Agent** has aggregated and processed real-time operational metrics across live enterprise ledge..."
+    },
+    {
+      "agent": "Database",
+      "query": "Inspect our database tables, stock thresholds, and low inventory items.",
+      "status": "PASSED",
+      "latencyMs": 10659,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Inventory & Database Health Report",
+        "Stock Threshold Analysis",
+        "Table Schema & Record Verification"
+      ],
+      "matchedSections": [
+        "Inventory & Database Health Report",
+        "Stock Threshold Analysis",
+        "Table Schema & Record Verification"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Inventory & Database Health Report — PostgreSQL schema status, table volumes, and query health. (Inventory Threshold Alert) (LOW_STOCK)\n- **PostgreSQL Schema Status:** The core database tables (`products`, `invoices`..."
+    },
+    {
+      "agent": "Workflow",
+      "query": "Describe our workflow DAG topology, triggers, and error recovery policies.",
+      "status": "PASSED",
+      "latencyMs": 39336,
+      "isGemini": true,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Workflow DAG Topology & Status",
+        "Trigger & Execution Conditions",
+        "Error Handling & Reliability Strategy"
+      ],
+      "matchedSections": [
+        "Workflow DAG Topology & Status",
+        "Trigger & Execution Conditions",
+        "Error Handling & Reliability Strategy"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Workflow DAG Topology & Status (Workflow Retrieved)\n\nBased on the FlowMind AI operating system database records, there are **23 active instances** of the **Automated Invoice Overdue Recovery Workflow** (`ORG-01`). Al..."
+    },
+    {
+      "agent": "Scheduler",
+      "query": "Schedule team meeting for tomorrow at 3 PM and check our task timeline.",
+      "status": "PASSED",
+      "latencyMs": 19829,
+      "isGemini": true,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Calendar & Task Schedule Summary",
+        "Upcoming Triggers & Timeline",
+        "Cron Specifications & Conflicts"
+      ],
+      "matchedSections": [
+        "Calendar & Task Schedule Summary",
+        "Upcoming Triggers & Timeline",
+        "Cron Specifications & Conflicts"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Calendar & Task Schedule Summary — Upcoming appointments, board meetings, and cadence.\n\nAs the FlowMind Scheduler Agent, I have reviewed the live system databases and calendar logs. \n\n| Appointment ID | Meeting Title..."
+    },
+    {
+      "agent": "Document",
+      "query": "Generate and export our financial operations summary report artifact.",
+      "status": "PASSED",
+      "latencyMs": 22886,
+      "isGemini": false,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": false,
+      "expectedSections": [
+        "Document Generation Artifact Summary",
+        "Metadata & Compliance Sign-off",
+        "Export Links & Format Details"
+      ],
+      "matchedSections": [
+        "Document Generation Artifact Summary",
+        "Metadata & Compliance Sign-off",
+        "Export Links & Format Details"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Document Generation Artifact Summary\n\nThe **Document Agent** extracted records across Finance (52 invoices) and Sales (50 leads) and compiled a standardized document artifact:\n\n- **Document Title:** `Enterprise Opera..."
+    },
+    {
+      "agent": "Email",
+      "query": "Draft an urgent payment reminder email for overdue client accounts.",
+      "status": "PASSED",
+      "latencyMs": 21264,
+      "isGemini": false,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": false,
+      "expectedSections": [
+        "Email Communication Draft",
+        "Recipient, Subject, and Tone Specification",
+        "Call to Action & Follow-up Trigger"
+      ],
+      "matchedSections": [
+        "Email Communication Draft",
+        "Recipient, Subject, and Tone Specification",
+        "Call to Action & Follow-up Trigger"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Email Communication Draft\n\nThe **Email Agent** prepared an official communication draft:\n\n> **Subject:** Urgent: Account Statement & Outstanding Invoice Settlement\n> **Greeting:** Dear Accounts Team,\n> **Body:** This..."
+    },
+    {
+      "agent": "Knowledge",
+      "query": "Search our knowledge base for travel reimbursement policy guidelines.",
+      "status": "PASSED",
+      "latencyMs": 19336,
+      "isGemini": true,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Knowledge Retrieval & Vector Citations",
+        "Document Sources & Verification Confidence",
+        "Policy Summary & Guidance"
+      ],
+      "matchedSections": [
+        "Knowledge Retrieval & Vector Citations",
+        "Document Sources & Verification Confidence",
+        "Policy Summary & Guidance"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Knowledge Retrieval & Vector Citations\n\nThe **Knowledge Agent** queried corporate repositories for matching **Policy** documentation based on the user request. However, the retrieval execution yielded the following r..."
+    },
+    {
+      "agent": "Reporting",
+      "query": "Generate our regulatory compliance audit report and executive metrics.",
+      "status": "PASSED",
+      "latencyMs": 30325,
+      "isGemini": true,
+      "hasIndianCurrency": true,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Compliance & Audit Report",
+        "Executive Metrics & Log Analysis",
+        "Verification Sign-off"
+      ],
+      "matchedSections": [
+        "Compliance & Audit Report",
+        "Executive Metrics & Log Analysis",
+        "Verification Sign-off"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Compliance & Audit Report — Regulatory posture (SOC2, ISO27001, GST compliance) and audit events.\n\nThe **FlowMind Reporting Agent** has completed the cross-departmental compliance and audit assessment based on live o..."
+    },
+    {
+      "agent": "Security",
+      "query": "Audit our RBAC user permissions, prompt injection shield status, and governance policies.",
+      "status": "PASSED",
+      "latencyMs": 29262,
+      "isGemini": true,
+      "hasIndianCurrency": false,
+      "hasMarkdownTable": true,
+      "expectedSections": [
+        "Security & RBAC Policy Audit",
+        "Prompt Injection Shield Telemetry",
+        "Governance Safeguards & Threat Assessment"
+      ],
+      "matchedSections": [
+        "Security & RBAC Policy Audit",
+        "Prompt Injection Shield Telemetry",
+        "Governance Safeguards & Threat Assessment"
+      ],
+      "missingSections": [],
+      "sectionCoveragePct": 100,
+      "preview": "### Security & RBAC Policy Audit — Role permission boundaries, user privilege levels, and active sessions.\n\nAs the FlowMind Security Agent, I have audited the current access control policies and cryptographic defenses fo..."
+    }
+  ]
+}

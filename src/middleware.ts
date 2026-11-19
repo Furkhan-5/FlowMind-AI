@@ -12,6 +12,8 @@ const PUBLIC_PATHS = [
   '/api/auth/signup',
   '/api/auth/forgot-password',
   '/api/auth/reset-password',
+  '/api/workflows/cron',
+  '/api/workflows/webhook',
 ];
 
 export async function middleware(request: NextRequest) {

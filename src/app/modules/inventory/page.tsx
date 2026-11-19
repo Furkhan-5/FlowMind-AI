@@ -96,7 +96,7 @@ export default function InventoryModulePage() {
               <span className="text-xs text-slate-300">/</span>
               <span className="text-xs font-bold text-emerald-700">Inventory & Supply Chain</span>
             </div>
-            <h1 className="text-2xl font-black text-bloom-dark tracking-tight flex items-center gap-2">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               <Box className="w-6 h-6 text-emerald-600" />
               Inventory & Stock Management Hub
             </h1>
@@ -121,7 +121,7 @@ export default function InventoryModulePage() {
 
         {/* Product Catalog Grid / Table */}
         <section className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-bloom space-y-4">
-          <h2 className="text-base font-extrabold text-bloom-dark">Product Catalog ({products.length})</h2>
+          <h2 className="text-base font-extrabold text-slate-900">Product Catalog ({products.length})</h2>
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
@@ -141,7 +141,7 @@ export default function InventoryModulePage() {
                 {products.map((p) => (
                   <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="p-3 font-mono font-bold text-emerald-700">{p.sku}</td>
-                    <td className="p-3 font-bold text-bloom-dark">{p.name}</td>
+                    <td className="p-3 font-bold text-slate-900">{p.name}</td>
                     <td className="p-3 text-slate-600">{p.category}</td>
                     <td className="p-3 font-black text-slate-800">{p.quantity} units</td>
                     <td className="p-3 text-slate-500">{p.reorderLevel} units</td>
@@ -174,7 +174,7 @@ export default function InventoryModulePage() {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
             <form onSubmit={handleAdjustStock} className="bg-white w-full max-w-md rounded-[28px] border border-slate-200 p-6 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <h3 className="text-base font-extrabold text-bloom-dark">Adjust Stock ({selectedProd.name})</h3>
+                <h3 className="text-base font-extrabold text-slate-900">Adjust Stock ({selectedProd.name})</h3>
                 <button type="button" onClick={() => setShowStockModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -186,7 +186,7 @@ export default function InventoryModulePage() {
                   <select
                     value={movementType}
                     onChange={(e) => setMovementType(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-semibold mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold mt-1"
                   >
                     <option value="STOCK_IN">Stock Receipt (+ Increase)</option>
                     <option value="STOCK_OUT">Stock Issue (- Decrease)</option>
@@ -200,7 +200,7 @@ export default function InventoryModulePage() {
                     required
                     value={stockDelta}
                     onChange={(e) => setStockDelta(Number(e.target.value))}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -209,7 +209,7 @@ export default function InventoryModulePage() {
                     type="text"
                     value={reference}
                     onChange={(e) => setReference(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
               </div>

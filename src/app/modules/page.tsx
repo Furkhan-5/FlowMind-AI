@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { businessService } from '@/lib/services/businessService';
 import { BusinessInsight, Lead, Invoice, Employee, Product, SupportTicket } from '@/types';
+import { useTranslation } from '@/lib/i18n/useTranslation';
 import {
   Building2,
   Users,
@@ -31,6 +32,7 @@ import {
 
 export default function BusinessModulesHubPage() {
   const { user, addToast } = useAppStore();
+  const { t, formatCurrency } = useTranslation();
 
   const [insights, setInsights] = useState<BusinessInsight[]>([]);
   const [stats, setStats] = useState({
@@ -134,7 +136,7 @@ export default function BusinessModulesHubPage() {
               <Badge variant="purple">Week 5 Release</Badge>
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight text-white">
-              Business Command Center
+              {t('navigation.businessSuite')}
             </h1>
             <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
               Unified PostgreSQL persistence, role-based governance, and real-time AI agent swarm integration across CRM, HR, Finance, Inventory, and Support.
@@ -149,7 +151,7 @@ export default function BusinessModulesHubPage() {
               className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold rounded-full flex items-center gap-1.5"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Export Suite JSON</span>
+              <span>{t('common.export')} JSON</span>
             </Button>
           </div>
         </div>

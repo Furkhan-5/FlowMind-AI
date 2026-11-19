@@ -28,7 +28,15 @@ export interface SaveProviderConfigInput {
 export const PROVIDER_ALLOWLISTS: Record<AiProviderType, { defaultModel: string; models: string[] }> = {
   GEMINI: {
     defaultModel: 'gemini-1.5-flash',
-    models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-1.0-pro'],
+    models: [
+      'gemini-flash-lite-latest',
+      'gemini-flash-latest',
+      'gemini-3.1-flash-lite',
+      'gemini-pro-latest',
+      'gemini-1.5-flash',
+      'gemini-1.5-pro',
+      'gemini-2.5-flash',
+    ],
   },
   OPENAI: {
     defaultModel: 'gpt-4o-mini',
@@ -61,29 +69,56 @@ export class AiProviderConfigService {
       records = Array.from(this.fallbackStore.values()).filter((r: any) => r.organizationId === organizationId);
     }
 
-    return records.map((record) => {
+    const configs: SanitizedProviderConfig[] = records.map((record) => {
       let keySuffix = '••••••••';
-      try {
-        const decrypted = encryptionService.decryptSecret(
-          record.encryptedApiKey,
-          record.iv,
-          record.authTag
-        );
-        keySuffix = encryptionService.maskApiKey(decrypted);
-      } catch {
-        keySuffix = '••••[UNVERIFIABLE]';
+      const isGemini = record.provider === 'GEMINI';
+      const isOpenAi = record.provider === 'OPENAI';
+
+      // Check environment override precedence for masked key presentation
+      if (isGemini && process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 10) {
+        keySuffix = encryptionService.maskApiKey(process.env.GEMINI_API_KEY.trim());
+      } else if (isOpenAi && process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.trim().length > 10) {
+        keySuffix = encryptionService.maskApiKey(process.env.OPENAI_API_KEY.trim());
+      } else {
+        try {
+          const decrypted = encryptionService.decryptSecret(
+            record.encryptedApiKey,
+            record.iv,
+            record.authTag
+          );
+          keySuffix = encryptionService.maskApiKey(decrypted);
+        } catch {
+          keySuffix = '••••[UNVERIFIABLE]';
+        }
       }
+
+      const hasEnvKey = (isGemini && !!process.env.GEMINI_API_KEY) || (isOpenAi && !!process.env.OPENAI_API_KEY);
 
       return {
         id: record.id,
         provider: record.provider as AiProviderType,
-        status: record.status as ProviderConfigStatus,
+        status: hasEnvKey ? 'ACTIVE' : (record.status as ProviderConfigStatus),
         preferredModel: record.preferredModel || PROVIDER_ALLOWLISTS[record.provider as AiProviderType].defaultModel,
         keySuffix,
         lastValidatedAt: record.lastValidatedAt ? (record.lastValidatedAt instanceof Date ? record.lastValidatedAt.toISOString() : record.lastValidatedAt) : null,
         updatedAt: record.updatedAt instanceof Date ? record.updatedAt.toISOString() : (record.updatedAt || new Date().toISOString()),
       };
     });
+
+    // If Gemini is provided via environment secret but no database record exists, inject synthesized configuration
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 10 && !configs.some((c) => c.provider === 'GEMINI')) {
+      configs.unshift({
+        id: `ENV-BYOK-${organizationId}-GEMINI`,
+        provider: 'GEMINI',
+        status: 'ACTIVE',
+        preferredModel: process.env.GEMINI_MODEL || PROVIDER_ALLOWLISTS.GEMINI.defaultModel,
+        keySuffix: encryptionService.maskApiKey(process.env.GEMINI_API_KEY.trim()),
+        lastValidatedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    }
+
+    return configs;
   }
 
   /**
@@ -355,6 +390,44 @@ export class AiProviderConfigService {
     organizationId: string = 'ORG-01',
     provider: AiProviderType
   ): Promise<{ apiKey: string; preferredModel: string } | null> {
+    // 1. ENVIRONMENT VARIABLE PRECEDENCE
+    // Server-level environment secrets (process.env.GEMINI_API_KEY from .env.local) take precedence
+    // as the primary authoritative infrastructure credentials.
+    if (provider === 'GEMINI' && process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 10) {
+      let preferredModel = process.env.GEMINI_MODEL || PROVIDER_ALLOWLISTS.GEMINI.defaultModel;
+      try {
+        const dbRec = await prisma.aiProviderConfig.findUnique({
+          where: { organizationId_provider: { organizationId, provider } },
+        });
+        if (dbRec?.preferredModel && PROVIDER_ALLOWLISTS.GEMINI.models.includes(dbRec.preferredModel)) {
+          preferredModel = dbRec.preferredModel;
+        }
+      } catch {}
+
+      return {
+        apiKey: process.env.GEMINI_API_KEY.trim(),
+        preferredModel,
+      };
+    }
+
+    if (provider === 'OPENAI' && process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.trim().length > 10) {
+      let preferredModel = process.env.OPENAI_MODEL || PROVIDER_ALLOWLISTS.OPENAI.defaultModel;
+      try {
+        const dbRec = await prisma.aiProviderConfig.findUnique({
+          where: { organizationId_provider: { organizationId, provider } },
+        });
+        if (dbRec?.preferredModel && PROVIDER_ALLOWLISTS.OPENAI.models.includes(dbRec.preferredModel)) {
+          preferredModel = dbRec.preferredModel;
+        }
+      } catch {}
+
+      return {
+        apiKey: process.env.OPENAI_API_KEY.trim(),
+        preferredModel,
+      };
+    }
+
+    // 2. ENCRYPTED DATABASE PRECEDENCE (Tenant BYOK)
     let record: any = null;
     try {
       record = await prisma.aiProviderConfig.findUnique({

@@ -6,7 +6,7 @@ export function detectLanguageScript(text: string): LanguageCode {
 
   // Telugu Unicode range: 0C00–0C7F
   if (/[\u0C00-\u0C7F]/.test(text)) return 'te';
-  // Devanagari (Hindi) Unicode range: 0900–097F
+  // Devanagari (Hindi / Marathi) Unicode range: 0900–097F
   if (/[\u0900-\u097F]/.test(text)) return 'hi';
   // Tamil Unicode range: 0B80–0BFF
   if (/[\u0B80-\u0BFF]/.test(text)) return 'ta';
@@ -14,15 +14,25 @@ export function detectLanguageScript(text: string): LanguageCode {
   if (/[\u0C80-\u0CFF]/.test(text)) return 'kn';
   // Malayalam Unicode range: 0D00–0D7F
   if (/[\u0D00-\u0D7F]/.test(text)) return 'ml';
-
   // Odia Unicode range: 0B00–0B7F
   if (/[\u0B00-\u0B7F]/.test(text)) return 'or';
+  // Bengali Unicode range: 0980–09FF
+  if (/[\u0980-\u09FF]/.test(text)) return 'bn';
+  // Arabic / Urdu Unicode range: 0600–06FF
+  if (/[\u0600-\u06FF]/.test(text)) return 'ar';
+  // Japanese (Hiragana, Katakana, Kanji)
+  if (/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text)) return 'ja';
+
+  // Common European accented characters
+  if (/[¿¡ñáéíóú]/i.test(text)) return 'es';
+  if (/[çèêëàâœ]/i.test(text)) return 'fr';
+  if (/[äöüß]/i.test(text)) return 'de';
 
   return 'en';
 }
 
 // Map language codes to BCP 47 speech synthesis tags
-export const VOICE_LANG_TAGS: Record<LanguageCode, string> = {
+export const VOICE_LANG_TAGS: Record<string, string> = {
   en: 'en-US',
   or: 'or-IN',
   te: 'te-IN',
@@ -30,6 +40,14 @@ export const VOICE_LANG_TAGS: Record<LanguageCode, string> = {
   ta: 'ta-IN',
   kn: 'kn-IN',
   ml: 'ml-IN',
+  bn: 'bn-IN',
+  mr: 'mr-IN',
+  ur: 'ur-PK',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  de: 'de-DE',
+  ar: 'ar-SA',
+  ja: 'ja-JP',
 };
 
 // Web Speech TTS Synthesis helper

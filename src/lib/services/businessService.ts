@@ -332,6 +332,13 @@ let productStore: Product[] = [...SEED_PRODUCTS];
 let stockMovementStore: StockMovement[] = [];
 let ticketStore: SupportTicket[] = [...SEED_TICKETS];
 
+// Idempotency Cache to prevent rapid duplicate invoice mutations
+interface IdempotentInvoiceEntry {
+  invoice: Invoice;
+  timestamp: number;
+}
+const invoiceIdempotencyCache = new Map<string, IdempotentInvoiceEntry>();
+
 export class BusinessService {
   // ================================================================
   // 1. CRM MODULE SERVICES
@@ -701,7 +708,7 @@ export class BusinessService {
     try {
       const dbInvoices = await prisma.invoice.findMany({
         where: { organizationId: orgId },
-        include: { items: true },
+        include: { items: true, payments: true },
         orderBy: { createdAt: 'desc' },
       });
       if (dbInvoices.length > 0) {
@@ -716,6 +723,10 @@ export class BusinessService {
           createdAt: inv.createdAt.toISOString(),
           updatedAt: inv.updatedAt.toISOString(),
           items: inv.items.map((i) => ({ ...i })),
+          payments: (inv.payments || []).map((p) => ({
+            ...p,
+            createdAt: p.createdAt.toISOString(),
+          })),
         }));
       }
     } catch {
@@ -725,19 +736,33 @@ export class BusinessService {
   }
 
   public async createInvoice(invData: Partial<Invoice>, user: User): Promise<Invoice> {
+    const orgId = user.organizationId || 'ORG-01';
+    const customerName = invData.customerName || 'Enterprise Customer';
     const computedItemsSubtotal = invData.items && invData.items.length > 0
       ? invData.items.reduce((acc, it) => acc + (it.amount || it.quantity * it.unitPrice), 0)
       : undefined;
     const subtotal = invData.subtotal || computedItemsSubtotal || invData.total || 100000;
+
+    // Idempotency check: prevent duplicate invoice creation within 15 seconds
+    const idempotencyKey = `${orgId}:${customerName.toLowerCase().trim()}:${subtotal}`;
+    const cached = invoiceIdempotencyCache.get(idempotencyKey);
+    const now = Date.now();
+    if (cached && now - cached.timestamp < 15000) {
+      return cached.invoice;
+    }
+
     const tax = Math.round(subtotal * 0.18);
     const total = subtotal + tax;
+    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const randSuffix = Math.floor(1000 + Math.random() * 9000);
+    const invoiceNumber = invData.invoiceNumber || `INV-${dateStr}-${randSuffix}`;
 
     const newInv: Invoice = {
       id: `INV-${Date.now()}`,
-      organizationId: user.organizationId || 'ORG-01',
-      invoiceNumber: `INV-2026-${Math.floor(100 + Math.random() * 900)}`,
-      customerName: invData.customerName || 'Enterprise Customer',
-      customerEmail: invData.customerEmail || 'billing@customer.com',
+      organizationId: orgId,
+      invoiceNumber,
+      customerName,
+      customerEmail: invData.customerEmail || `billing@${customerName.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
       createdById: user.id,
       status: 'PENDING',
       subtotal,
@@ -748,7 +773,7 @@ export class BusinessService {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       items: invData.items || [
-        { id: 'item-1', description: 'FlowMind AI Automation Service', quantity: 1, unitPrice: subtotal, amount: subtotal },
+        { id: `item-${Date.now()}`, description: 'FlowMind AI Automation Service', quantity: 1, unitPrice: subtotal, amount: subtotal },
       ],
     };
 
@@ -768,9 +793,13 @@ export class BusinessService {
           dueDate: new Date(newInv.dueDate),
         },
       });
+      invoiceStore.unshift(newInv);
     } catch {
       invoiceStore.unshift(newInv);
     }
+
+    // Cache created invoice for idempotency protection
+    invoiceIdempotencyCache.set(idempotencyKey, { invoice: newInv, timestamp: now });
 
     logBusinessAudit(user, 'CREATE_INVOICE', 'FINANCE', newInv.id, { invoiceNumber: newInv.invoiceNumber, total: newInv.total });
     emitBusinessEvent('invoice.created', { invoiceId: newInv.id, total: newInv.total });

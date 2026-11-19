@@ -1,0 +1,12 @@
+{
+  "releaseStatus": "RELEASE_READY",
+  "gateVerdicts": {
+    "typeCheck": "PASS",
+    "productionBuild": "PASS",
+    "conversationalIntroSuite": "PASS",
+    "flaggedAgentRemediation": "PASS",
+    "multilingualSuite": "PASS",
+    "financeArithmeticMultiTurn": "PASS",
+    "chatLifecycleUX": "PASS"
+  }
+}

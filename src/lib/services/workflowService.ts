@@ -1,138 +1,50 @@
 import { prisma } from '@/lib/prisma';
 import { workflowStorage } from '@/lib/workflow/workflowStorage';
+import { workflowOrchestrationService } from '@/lib/workflows/workflowOrchestrationService';
 import { WorkflowDefinition, WorkflowExecution } from '@/types/workflowDSL';
 
 export const workflowService = {
   async getAllWorkflows(organizationId: string = 'ORG-01'): Promise<WorkflowDefinition[]> {
-    try {
-      const workflows = await prisma.workflow.findMany({
-        where: {
-          OR: [{ organizationId }, { organizationId: 'ORG-01' }],
-        },
-        include: {
-          versions: {
-            orderBy: { versionNumber: 'desc' },
-            take: 1,
-          },
-        },
-        orderBy: { updatedAt: 'desc' },
-      });
-
-      if (workflows && workflows.length > 0) {
-        return workflows.map((wf: any) => {
-          const latestVersion = wf.versions[0];
-          return {
-            id: wf.id,
-            organizationId: wf.organizationId,
-            name: wf.name,
-            description: wf.description || '',
-            version: latestVersion ? latestVersion.versionNumber : 1,
-            status: wf.status as any,
-            naturalTrigger: wf.naturalTrigger || '',
-            trigger: (wf.triggerConfig as any) || { type: wf.triggerType, config: {} },
-            nodes: (latestVersion?.dagNodes as any) || [],
-            edges: (latestVersion?.dagEdges as any) || [],
-            createdBy: wf.createdById || 'Admin',
-            createdAt: wf.createdAt.toISOString(),
-            updatedAt: wf.updatedAt.toISOString(),
-          };
-        });
-      }
-    } catch (err) {
-      console.warn('[workflowService] Prisma query failed, using in-memory workflow storage:', err);
-    }
-
-    return workflowStorage.getAllWorkflows(organizationId);
+    return workflowOrchestrationService.listWorkflows(organizationId);
   },
 
   async getWorkflowById(workflowId: string): Promise<WorkflowDefinition | undefined> {
-    try {
-      const wf = await prisma.workflow.findUnique({
-        where: { id: workflowId },
-        include: {
-          versions: {
-            orderBy: { versionNumber: 'desc' },
-            take: 1,
-          },
-        },
-      });
-
-      if (wf) {
-        const latestVersion = wf.versions[0];
-        return {
-          id: wf.id,
-          organizationId: wf.organizationId,
-          name: wf.name,
-          description: wf.description || '',
-          version: latestVersion ? latestVersion.versionNumber : 1,
-          status: wf.status as any,
-          naturalTrigger: wf.naturalTrigger || '',
-          trigger: (wf.triggerConfig as any) || { type: wf.triggerType, config: {} },
-          nodes: (latestVersion?.dagNodes as any) || [],
-          edges: (latestVersion?.dagEdges as any) || [],
-          createdBy: wf.createdById || 'Admin',
-          createdAt: wf.createdAt.toISOString(),
-          updatedAt: wf.updatedAt.toISOString(),
-        };
-      }
-    } catch (err) {
-      console.warn('[workflowService] Prisma fetch workflow failed, falling back:', err);
-    }
-
-    return workflowStorage.getLatestWorkflow(workflowId);
+    const wf = await workflowOrchestrationService.getWorkflow(workflowId);
+    return wf || undefined;
   },
 
-  async saveWorkflow(wfData: WorkflowDefinition): Promise<WorkflowDefinition> {
-    try {
-      const orgId = wfData.organizationId || 'ORG-01';
-
-      const dbWf = await prisma.workflow.upsert({
-        where: { id: wfData.id },
-        update: {
+  async saveWorkflow(wfData: WorkflowDefinition, user?: any): Promise<WorkflowDefinition> {
+    const existing = await workflowOrchestrationService.getWorkflow(wfData.id, wfData.organizationId);
+    if (existing) {
+      return workflowOrchestrationService.updateWorkflow(
+        wfData.id,
+        {
           name: wfData.name,
           description: wfData.description,
+          status: wfData.status,
           naturalTrigger: wfData.naturalTrigger,
-          triggerType: wfData.trigger?.type || 'manual',
-          triggerConfig: wfData.trigger as any,
-          status: (wfData.status as any) || 'ACTIVE',
+          trigger: wfData.trigger,
+          nodes: wfData.nodes,
+          edges: wfData.edges,
         },
-        create: {
-          id: wfData.id,
-          organizationId: orgId,
-          name: wfData.name,
-          description: wfData.description,
-          naturalTrigger: wfData.naturalTrigger,
-          triggerType: wfData.trigger?.type || 'manual',
-          triggerConfig: wfData.trigger as any,
-          status: (wfData.status as any) || 'ACTIVE',
-          isTemplate: false,
-        },
-      });
-
-      await prisma.workflowVersion.upsert({
-        where: {
-          workflowId_versionNumber: {
-            workflowId: dbWf.id,
-            versionNumber: wfData.version || 1,
-          },
-        },
-        update: {
-          dagNodes: wfData.nodes as any,
-          dagEdges: wfData.edges as any,
-        },
-        create: {
-          workflowId: dbWf.id,
-          versionNumber: wfData.version || 1,
-          dagNodes: wfData.nodes as any,
-          dagEdges: wfData.edges as any,
-          isPublished: true,
-        },
-      });
-    } catch (err) {
-      console.warn('[workflowService] Prisma save workflow error, saving to workflowStorage:', err);
+        user || { id: wfData.createdBy || 'Admin', organizationId: wfData.organizationId || 'ORG-01' }
+      );
     }
 
-    return workflowStorage.saveWorkflow(wfData);
+    return workflowOrchestrationService.createWorkflow(
+      {
+        id: wfData.id,
+        name: wfData.name,
+        description: wfData.description,
+        naturalTrigger: wfData.naturalTrigger,
+        trigger: wfData.trigger,
+        triggerType: wfData.trigger?.type || 'manual',
+        status: wfData.status,
+        nodes: wfData.nodes || [],
+        edges: wfData.edges || [],
+      },
+      user || { id: wfData.createdBy || 'Admin', organizationId: wfData.organizationId || 'ORG-01' }
+    );
   },
 
   async saveExecution(execution: WorkflowExecution): Promise<WorkflowExecution> {

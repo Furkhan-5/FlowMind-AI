@@ -1,0 +1,1062 @@
+{
+  "timestamp": "2026-11-18T16:17:40.195Z",
+  "localesValidation": {
+    "en": {
+      "name": "English",
+      "exists": true,
+      "validJson": true,
+      "keyCount": 372,
+      "passed": true
+    },
+    "hi": {
+      "name": "Hindi",
+      "exists": true,
+      "validJson": true,
+      "keyCount": 372,
+      "passed": true
+    },
+    "te": {
+      "name": "Telugu",
+      "exists": true,
+      "validJson": true,
+      "keyCount": 372,
+      "passed": true
+    },
+    "ta": {
+      "name": "Tamil",
+      "exists": true,
+      "validJson": true,
+      "keyCount": 372,
+      "passed": true
+    },
+    "kn": {
+      "name": "Kannada",
+      "exists": true,
+      "validJson": true,
+      "keyCount": 372,
+      "passed": true
+    },
+    "ml": {
+      "name": "Malayalam",
+      "exists": true,
+      "validJson": true,
+      "keyCount": 372,
+      "passed": true
+    }
+  },
+  "uiPagesValidation": {},
+  "agentLanguageMatrix": [
+    {
+      "agent": "CEO",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **CEO Master Agent**, your strategic partner for executive governance and multi-agen"
+    },
+    {
+      "agent": "CEO",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind CEO मास्टर एजेंट** हूँ। मेरी भूमिका आपके व्यावसायिक संचालन में रणनीतिक नेतृत्"
+    },
+    {
+      "agent": "CEO",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind CEO మాస్టర్ ఏజెంట్**ని.  నా బాధ్యత మీ వ్యాపార కార్యకలాపాలను పర్యవేక్షించడం"
+    },
+    {
+      "agent": "CEO",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **CEO தலைமை முகவர்** (நிர்வாக உத்தி). உங்கள் வணிக செயல்பாடுகளை தானியக்கமாக்க நான் தயார"
+    },
+    {
+      "agent": "CEO",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind CEO ಮಾಸ್ಟರ್ ಏಜೆಂಟ್**.  ನನ್ನ ಮುಖ್ಯ ಪಾತ್ರವು ನಿಮ್ಮ ವ್ಯವಹಾರದ ವಿವಿಧ ವಿಭಾಗಗಳನ್ನು "
+    },
+    {
+      "agent": "CEO",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **CEO മാസ്റ്റർ ഏജന്റ്** (എക്സിക്യൂട്ടീവ് സ്ട്രാറ്റജി) ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് പ്രവർത്"
+    },
+    {
+      "agent": "Sales",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **FlowMind Sales Agent**. My role is to manage your enterprise CRM, track lead pipel"
+    },
+    {
+      "agent": "Sales",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind सेल्स एजेंट** हूँ। मेरी भूमिका आपके एंटरप्राइज CRM और लीड पाइपलाइन को कुशलताप"
+    },
+    {
+      "agent": "Sales",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **సేల్స్ ఏజెంట్** (సేల్స్ & CRM). మీ వ్యాపార కార్యకలాపాలు మరియు ప్రక్రియలను ఆటోమేట్ చ"
+    },
+    {
+      "agent": "Sales",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind Sales Agent**. உங்கள் நிறுவனத்தின் வாடிக்கையாளர் உறவு மேலாண்மை (CRM) மற்றும"
+    },
+    {
+      "agent": "Sales",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind Sales Agent**. ಎಂಟರ್‌ಪ್ರೈಸ್ CRM ಮತ್ತು ಲೀಡ್ ಪೈಪ್‌ಲೈನ್ ನಿರ್ವಹಣೆಯಲ್ಲಿ ನಾನು ನಿಮ"
+    },
+    {
+      "agent": "Sales",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **FlowMind Sales Agent** ആണ്. നിങ്ങളുടെ എന്റർപ്രൈസ് CRM കൈകാര്യം ചെയ്യുന്നതിനും, ലീഡ് "
+    },
+    {
+      "agent": "Finance",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am your **FlowMind Finance Agent**. I specialize in managing your invoicing, accounting ope"
+    },
+    {
+      "agent": "Finance",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **फाइनेंस एजेंट** हूँ (वित्त और लेखा)। मैं आपके व्यावसायिक कार्यों और प्रक्रियाओं को स्व"
+    },
+    {
+      "agent": "Finance",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind ఫైనాన్స్ ఏజెంట్**. మీ వ్యాపారానికి సంబంధించిన ఇన్వాయిసింగ్, అకౌంటింగ్ మరియ"
+    },
+    {
+      "agent": "Finance",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind Finance Agent**. உங்கள் வணிகத்தின் கணக்கியல் மற்றும் ஜிஎஸ்டி (GST) தொடர்பான"
+    },
+    {
+      "agent": "Finance",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind Finance Agent**. ನಿಮ್ಮ ವ್ಯವಹಾರದ ಇನ್‌ವಾಯ್ಸಿಂಗ್, ಅಕೌಂಟಿಂಗ್ ಮತ್ತು ಭಾರತೀಯ ಜಿಎಸ್"
+    },
+    {
+      "agent": "Finance",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ **FlowMind Finance Agent** ആണ്. ഇൻവോയ്സിംഗ്, അക്കൗണ്ടിംഗ്, ഇന്ത്യൻ ജിഎസ്ടി ("
+    },
+    {
+      "agent": "HR",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the FlowMind HR Agent. My role is to oversee attendance, manage workforce governance, an"
+    },
+    {
+      "agent": "HR",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind HR एजेंट** हूँ। मेरी मुख्य जिम्मेदारी मानव संसाधन प्रबंधन, उपस्थिति ट्रैकिंग "
+    },
+    {
+      "agent": "HR",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind HR ఏజెంట్**ని. మానవ వనరుల నిర్వహణ, హాజరు పర్యవేక్షణ మరియు కార్యాలయ పాలనలో "
+    },
+    {
+      "agent": "HR",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind HR முகவர்**. மனித வள மேலாண்மை, வருகைப் பதிவு மற்றும் பணியாளர் நிர்வாகம் தொட"
+    },
+    {
+      "agent": "HR",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind HR ಏಜೆಂಟ್**. ಮಾನವ ಸಂಪನ್ಮೂಲ ನಿರ್ವಹಣೆ, ಹಾಜರಾತಿ ಟ್ರ್ಯಾಕಿಂಗ್ ಮತ್ತು ಉದ್ಯೋಗಿಗಳ ದಾ"
+    },
+    {
+      "agent": "HR",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **FlowMind HR ഏജന്റ്** ആണ്. നിങ്ങളുടെ സ്ഥാപനത്തിലെ മനുഷ്യവിഭവശേഷി (HR), ഹാജർ നില, തൊഴി"
+    },
+    {
+      "agent": "Support",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **Support Agent**. I monitor customer service tickets, track SLA compliance, and hel"
+    },
+    {
+      "agent": "Support",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind** का ग्राहक सहायता एजेंट और हेल्पडेस्क एस्केलेशन विशेषज्ञ हूँ।  मेरी मुख्य भू"
+    },
+    {
+      "agent": "Support",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind సపోర్ట్ ఏజెంట్**. నేను కస్టమర్ సక్సెస్ లీడ్ మరియు హెల్ప్‌డెస్క్ ఎస్కలేషన్ "
+    },
+    {
+      "agent": "Support",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind ஆதரவு முகவர்** (Customer Success Lead & Helpdesk Escalation Specialist).  வ"
+    },
+    {
+      "agent": "Support",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind Support Agent**. ನಾನು ಗ್ರಾಹಕರ ಯಶಸ್ಸು ಮತ್ತು ಹೆಲ್ಪ್‌ಡೆಸ್ಕ್ ಎಸ್ಕಲೇಷನ್ ಸ್ಪೆಷಲಿಸ"
+    },
+    {
+      "agent": "Support",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **FlowMind Support Agent** ആണ്. നിങ്ങളുടെ കസ്റ്റമർ സക്സസ് ലീഡ്, ഹെൽപ്പ്‌ഡെസ്ക് എസ്കലേഷ"
+    },
+    {
+      "agent": "Marketing",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hey there! I am your **FlowMind Marketing Agent**. My role is to help you design high-impact outreac"
+    },
+    {
+      "agent": "Marketing",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं आपका **मार्केटिंग एजेंट** हूँ। मेरी भूमिका आपके मार्केटिंग अभियानों को प्रभावी ढंग से सं"
+    },
+    {
+      "agent": "Marketing",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind మార్కెటింగ్ ఏజెంట్**. మీ వ్యాపార వృద్ధికి అవసరమైన ఆమ్నిఛానల్ క్యాంపెయిన్‌ల"
+    },
+    {
+      "agent": "Marketing",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **சந்தைப்படுத்தல் முகவர்** (சந்தைப்படுத்தல்). உங்கள் வணிக செயல்பாடுகளை தானியக்கமாக்க ந"
+    },
+    {
+      "agent": "Marketing",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ **FlowMind ಮಾರ್ಕೆಟಿಂಗ್ ಏಜೆಂಟ್**.  ನನ್ನ ಮುಖ್ಯ ಜವಾಬ್ದಾರಿಗಳು ಹೀಗಿವೆ: *   **ಪ್ರಚಾರ ಅ"
+    },
+    {
+      "agent": "Marketing",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ **ഫ്ലോമൈൻഡ് മാർക്കറ്റിംഗ് ഏജന്റ്** (FlowMind Marketing Agent) ആണ്. ഓമ്‌നിചാന"
+    },
+    {
+      "agent": "Analytics",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **FlowMind Analytics Agent**, your Cross-Departmental Business Intelligence Architec"
+    },
+    {
+      "agent": "Analytics",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind Analytics Agent** हूँ, जो आपका क्रॉस-डिपार्टमेंटल बिजनेस इंटेलिजेंस आर्किटेक्"
+    },
+    {
+      "agent": "Analytics",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind Analytics Agent** ని. మీ వ్యాపారానికి సంబంధించిన డేటాను విశ్లేషించే బిజినె"
+    },
+    {
+      "agent": "Analytics",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind Analytics Agent**. வணிக நுண்ணறிவு மற்றும் தரவு பகுப்பாய்வு கட்டமைப்பாளராக ("
+    },
+    {
+      "agent": "Analytics",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **ಡೇಟಾ ವಿಶ್ಲೇಷಕ ಏಜೆಂಟ್** (ವಿಶ್ಲೇಷಣೆ ಮತ್ತು BI). ನಿಮ್ಮ ವ್ಯವಹಾರ ಕಾರ್ಯಾಚರಣೆಗಳನ್ನು ಸ್ವಯಂಚಾಲ"
+    },
+    {
+      "agent": "Analytics",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ **FlowMind Analytics Agent** ആണ്. ബിസിനസ്സ് ഇന്റലിജൻസ് ആർക്കിടെക്റ്റ് എന്ന ന"
+    },
+    {
+      "agent": "Workflow",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **FlowMind Workflow Planner**. My role is to act as your Enterprise Automation & DAG"
+    },
+    {
+      "agent": "Workflow",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **वर्कफ़्लो प्लानर एजेंट** हूँ (वर्कफ़्लो आर्किटेक्चर)। मैं आपके व्यावसायिक कार्यों और प"
+    },
+    {
+      "agent": "Workflow",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind వర్క్‌ఫ్లో ప్లానర్**. ఎంటర్‌ప్రైజ్ ఆటోమేషన్ మరియు DAG (Directed Acyclic Gr"
+    },
+    {
+      "agent": "Workflow",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind Workflow Planner**. நிறுவனத்தின் தானியங்கி செயல்பாடுகளை வடிவமைக்கும் ஒரு பண"
+    },
+    {
+      "agent": "Workflow",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind Workflow Planner**. ನಾನು ಎಂಟರ್‌ಪ್ರೈಸ್ ಆಟೊಮೇಷನ್ ಮತ್ತು DAG (Directed Acyclic "
+    },
+    {
+      "agent": "Workflow",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **ഫ്ലോമൈൻഡ് വർക്ക്ഫ്ലോ പ്ലാനർ** (FlowMind Workflow Planner) ആണ്. എന്റർപ്രൈസ് ഓട്ടോമേഷൻ"
+    },
+    {
+      "agent": "Scheduler",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Good day! I am the **FlowMind Scheduler Agent**. I specialize in managing your team calendars, coord"
+    },
+    {
+      "agent": "Scheduler",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind शेड्यूलर एजेंट** हूँ। मेरी मुख्य भूमिका आपके व्यावसायिक कार्यों को व्यवस्थित "
+    },
+    {
+      "agent": "Scheduler",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **షెడ్యూలర్ ఏజెంట్** (ఆటోమేషన్ & క్రాన్). మీ వ్యాపార కార్యకలాపాలు మరియు ప్రక్రియలను ఆ"
+    },
+    {
+      "agent": "Scheduler",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind Scheduler Agent**. உங்கள் கால அட்டவணையை நிர்வகிப்பதிலும், கூட்டங்களை (Meeti"
+    },
+    {
+      "agent": "Scheduler",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ **FlowMind Scheduler Agent**.  ನನ್ನ ಮುಖ್ಯ ಜವಾಬ್ದಾರಿಗಳು ಹೀಗಿವೆ: - **ಸಭೆಗಳ ನಿರ್ವಹಣ"
+    },
+    {
+      "agent": "Scheduler",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ **ഷെഡ്യൂളർ ഏജന്റ്** ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് മീറ്റിംഗുകൾ, എക്സിക്യൂട്ടീവ് സി"
+    },
+    {
+      "agent": "Document",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **FlowMind Document Agent**. My role is to assist you with enterprise document proce"
+    },
+    {
+      "agent": "Document",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind दस्तावेज़ एजेंट** हूँ।  मेरी मुख्य भूमिका आपके उद्यम के दस्तावेज़ों को संसाधि"
+    },
+    {
+      "agent": "Document",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind డాక్యుమెంట్ ఏజెంట్**ని. ఎంటర్‌ప్రైజ్ డాక్యుమెంట్ ప్రాసెసింగ్ మరియు ఫైల్ ఎగ"
+    },
+    {
+      "agent": "Document",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind ஆவண முகவர்** (Document Agent). நிறுவனத்தின் ஆவணங்களை நிர்வகிப்பதிலும், அவற்"
+    },
+    {
+      "agent": "Document",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **ದಾಖಲೆ ಏಜೆಂಟ್** (ಡಾಕ್ಯುಮೆಂಟ್ AI). ನಿಮ್ಮ ವ್ಯವಹಾರ ಕಾರ್ಯಾಚರಣೆಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತಗೊಳಿಸಲು ಮತ"
+    },
+    {
+      "agent": "Document",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **ഡോക്യുമെന്റ് ഏജന്റ്** (ഡോക്യുമെന്റ് AI) ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് പ്രവർത്തനങ്ങൾ ഓട്ടോ"
+    },
+    {
+      "agent": "Email",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **FlowMind Email Agent**, your dedicated Transactional & Notification Dispatch Speci"
+    },
+    {
+      "agent": "Email",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind ईमेल एजेंट** हूँ। मेरी मुख्य भूमिका आपके व्यावसायिक संचार को सुव्यवस्थित और स"
+    },
+    {
+      "agent": "Email",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind ఈమెయిల్ ఏజెంట్‌**ని. మీ వ్యాపారానికి సంబంధించిన లావాదేవీలు మరియు నోటిఫికేష"
+    },
+    {
+      "agent": "Email",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind மின்னஞ்சல் முகவர்** (Email Agent). உங்கள் வணிகத் தொடர்புகளை எளிமையாகவும், வ"
+    },
+    {
+      "agent": "Email",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind ಇಮೇಲ್ ಏಜೆಂಟ್**. ವ್ಯವಹಾರಿಕ ಸಂವಹನ ಮತ್ತು ಅಧಿಸೂಚನೆಗಳನ್ನು ನಿರ್ವಹಿಸುವುದು ನನ್ನ ಮುಖ"
+    },
+    {
+      "agent": "Email",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **FlowMind Email Agent** ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് ആവശ്യങ്ങൾക്കായി ഇമെയിൽ ആശയവിനിമയങ്ങൾ"
+    },
+    {
+      "agent": "Knowledge",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **Knowledge Agent**, your specialized semantic search and grounded retrieval assista"
+    },
+    {
+      "agent": "Knowledge",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **FlowMind नॉलेज RAG एजेंट** हूँ। मेरी भूमिका आपके संगठनात्मक दस्तावेजों में सटीक अर्थ-आ"
+    },
+    {
+      "agent": "Knowledge",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind నాలెడ్జ్ RAG ఏజెంట్**.  నా ప్రధాన బాధ్యత సంస్థాగత పత్రాల నుండి సమాచారాన్ని"
+    },
+    {
+      "agent": "Knowledge",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind Knowledge RAG Agent** ஆகச் செயல்படுகிறேன். நிறுவனத்தின் ஆவணங்கள் மற்றும் தர"
+    },
+    {
+      "agent": "Knowledge",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind Knowledge RAG ಏಜೆಂಟ್**.  ನನ್ನ ಮುಖ್ಯ ಪಾತ್ರವೆಂದರೆ ನಿಮ್ಮ ಸಾಂಸ್ಥಿಕ ದಾಖಲೆಗಳಲ್ಲಿರ"
+    },
+    {
+      "agent": "Knowledge",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **FlowMind Knowledge RAG ഏജന്റ്** ആണ്. നിങ്ങളുടെ സ്ഥാപനത്തിലെ രേഖകളിൽ നിന്നും വിവരങ്ങള"
+    },
+    {
+      "agent": "Reporting",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the FlowMind Reporting Agent. My role is to serve as your Executive Audit and PDF Report"
+    },
+    {
+      "agent": "Reporting",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **फ्लोमाइंड रिपोर्टिंग एजेंट** (FlowMind Reporting Agent) हूँ।  मेरी भूमिका आपके उद्यम क"
+    },
+    {
+      "agent": "Reporting",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind రిపోర్టింగ్ ఏజెంట్**ని.  నా ప్రధాన బాధ్యత మీ సంస్థకు సంబంధించిన సేల్స్, ఫై"
+    },
+    {
+      "agent": "Reporting",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind அறிக்கை முகவர்** (Reporting Agent). நிறுவனத்தின் விற்பனை, நிதி, மனித வளம் ம"
+    },
+    {
+      "agent": "Reporting",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind Reporting Agent** (ವರದಿ ಮಾಡುವ ಏಜೆಂಟ್).  ನನ್ನ ಮುಖ್ಯ ಜವಾಬ್ದಾರಿಯು ನಿಮ್ಮ ಸಂಸ್ಥೆ"
+    },
+    {
+      "agent": "Reporting",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **FlowMind Reporting Agent** ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് പ്രവർത്തനങ്ങളെ ഏകോപിപ്പിക്കാനും,"
+    },
+    {
+      "agent": "Security",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **FlowMind Security Agent**. My role is to serve as your DevSecOps, RBAC, and prompt"
+    },
+    {
+      "agent": "Security",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **सुरक्षा एजेंट** हूँ (सुरक्षा और अनुपालन)। मैं आपके व्यावसायिक कार्यों और प्रक्रियाओं क"
+    },
+    {
+      "agent": "Security",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **FlowMind సెక్యూరిటీ ఏజెంట్**.   నా ప్రధాన బాధ్యత మీ సిస్టమ్ మరియు డేటా భద్రతను పర్య"
+    },
+    {
+      "agent": "Security",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **FlowMind பாதுகாப்பு முகவர்** (Security Agent). எனது முதன்மைப் பணிகள் பின்வருமாறு:  *"
+    },
+    {
+      "agent": "Security",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **FlowMind ಸೆಕ್ಯುರಿಟಿ ಏಜೆಂಟ್**.   ನನ್ನ ಮುಖ್ಯ ಜವಾಬ್ದಾರಿಗಳು ಹೀಗಿವೆ:  *   **ಸುರಕ್ಷತೆ ಮತ್ತ"
+    },
+    {
+      "agent": "Security",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **സെക്യൂരിറ്റി ഏജന്റ്** (സുരക്ഷ & നിയമങ്ങൾ) ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് പ്രവർത്തനങ്ങൾ ഓട്"
+    },
+    {
+      "agent": "Inventory",
+      "language": "en",
+      "languageName": "English",
+      "expectedScript": "Latin",
+      "detectedScript": "Latin",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "Hello! I am the **CEO Master Agent**, responsible for cross-departmental executive governance, strat"
+    },
+    {
+      "agent": "Inventory",
+      "language": "hi",
+      "languageName": "Hindi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "नमस्ते! मैं **CEO मास्टर एजेंट** हूँ (कार्यकारी रणनीति)। मैं आपके व्यावसायिक कार्यों और प्रक्रियाओं "
+    },
+    {
+      "agent": "Inventory",
+      "language": "te",
+      "languageName": "Telugu",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "నమస్కారం! నేను **CEO మాస్టర్ ఏజెంట్** (కార్యనిర్వాహక వ్యూహం). మీ వ్యాపార కార్యకలాపాలు మరియు ప్రక్రియ"
+    },
+    {
+      "agent": "Inventory",
+      "language": "ta",
+      "languageName": "Tamil",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "வணக்கம்! நான் **CEO தலைமை முகவர்** (நிர்வாக உத்தி). உங்கள் வணிக செயல்பாடுகளை தானியக்கமாக்க நான் தயார"
+    },
+    {
+      "agent": "Inventory",
+      "language": "kn",
+      "languageName": "Kannada",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "ನಮಸ್ಕಾರ! ನಾನು **CEO ಮಾಸ್ಟರ್ ಏಜೆಂಟ್** (ಕಾರ್ಯನಿರ್ವಾಹಕ ತಂತ್ರಜ್ಞಾನ). ನಿಮ್ಮ ವ್ಯವಹಾರ ಕಾರ್ಯಾಚರಣೆಗಳನ್ನು ಸ್ವಯ"
+    },
+    {
+      "agent": "Inventory",
+      "language": "ml",
+      "languageName": "Malayalam",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "scriptMatches": true,
+      "status": "PASSED",
+      "responseSnippet": "നമസ്കാരം! ഞാൻ **CEO മാസ്റ്റർ ഏജന്റ്** (എക്സിക്യൂട്ടീവ് സ്ട്രാറ്റജി) ആണ്. നിങ്ങളുടെ ബിസിനസ്സ് പ്രവർത്"
+    }
+  ],
+  "businessOperationsTests": [
+    {
+      "language": "en",
+      "query": "Show overdue invoices and calculate total pending balance",
+      "containsRupee": true,
+      "containsInvoiceId": true,
+      "detectedScript": "Latin",
+      "passed": true,
+      "snippet": "### Financial Overview  The **Finance Agent** audited our PostgreSQL ledger and identified **Overdue Customer Invoices**"
+    },
+    {
+      "language": "hi",
+      "query": "अतिदेय चालान दिखाएं और कुल बकाया राशि की गणना करें",
+      "containsRupee": true,
+      "containsInvoiceId": true,
+      "detectedScript": "Devanagari",
+      "passed": true,
+      "snippet": "### वित्तीय समीक्षा (Financial Overview)  **वित्त एजेंट (Finance Agent)** ने हमारे पोस्टग्रेएसक्यूएल लेज़र का ऑडिट किया "
+    },
+    {
+      "language": "te",
+      "query": "గడువు ముగిసిన ఇన్వాయిస్‌లను చూపించి మొత్తం బకాయి లెక్కించండి",
+      "containsRupee": true,
+      "containsInvoiceId": true,
+      "detectedScript": "Telugu",
+      "passed": true,
+      "snippet": "### ఆర్థిక సమీక్ష (Financial Overview)  **ఫైనాన్స్ ఏజెంట్ (Finance Agent)** మన పోస్ట్‌గ్రేఎస్క్యూఎల్ లెడ్జర్‌ను ఆడిట్ చే"
+    },
+    {
+      "language": "ta",
+      "query": "காலாவதியான விலைப்பட்டியல்களைக் காட்டி மொத்த நிலுவைத் தொகையைக் கணக்கிடுங்கள்",
+      "containsRupee": true,
+      "containsInvoiceId": true,
+      "detectedScript": "Tamil",
+      "passed": true,
+      "snippet": "### நிதி கண்ணோட்டம் (Financial Overview)  **நிதி முகவர் (Finance Agent)** நமது போஸ்ட்கிரெஸ்கியூஎல் லெட்ஜரை தணிக்கை செய்த"
+    },
+    {
+      "language": "kn",
+      "query": "ಅವಧಿ ಮೀರಿದ ಇನ್‌ವಾಯ್ಸ್‌ಗಳನ್ನು ತೋರಿಸಿ ಒಟ್ಟು ಬಾಕಿ ಮೊತ್ತವನ್ನು ಲೆಕ್ಕ ಹಾಕಿ",
+      "containsRupee": true,
+      "containsInvoiceId": true,
+      "detectedScript": "Kannada",
+      "passed": true,
+      "snippet": "### ಹಣಕಾಸು ಅವಲೋಕನ (Financial Overview)  **ಹಣಕಾಸು ಏಜೆಂಟ್ (Finance Agent)** ನಮ್ಮ ಪೋಸ್ಟ್‌ಗ್ರೆಸ್‌ಕ್ಯೂಎಲ್ ಲೆಡ್ಜರ್ ಅನ್ನು ಆಡಿಟ್"
+    },
+    {
+      "language": "ml",
+      "query": "കാലഹരണപ്പെട്ട ഇൻവോയ്സുകൾ കാണിച്ച് ആകെ കുടിശ്ശിക തുക കണക്കാക്കുക",
+      "containsRupee": true,
+      "containsInvoiceId": true,
+      "detectedScript": "Malayalam",
+      "passed": true,
+      "snippet": "### സാമ്പത്തിക അവലോകനം (Financial Overview)  **ധനകാര്യ ഏജന്റ് (Finance Agent)** നമ്മുടെ പോസ്റ്റ്ഗ്രെഎസ്ക്യുഎൽ ലെഡ്ജർ ഓഡി"
+    }
+  ],
+  "romanizedInputTests": [
+    {
+      "query": "Overdue invoices entha pending unnayi?",
+      "targetLanguage": "te",
+      "expectedScript": "Telugu",
+      "detectedScript": "Telugu",
+      "passed": true,
+      "snippet": "### ఆర్థిక సమీక్ష (Financial Overview)  **ఫైనాన్స్ ఏజెంట్ (Finance Agent)** మన పోస్ట్‌గ్రేఎస్క్యూఎల్"
+    },
+    {
+      "query": "mere pending invoices kitne hain?",
+      "targetLanguage": "hi",
+      "expectedScript": "Devanagari",
+      "detectedScript": "Devanagari",
+      "passed": true,
+      "snippet": "### वित्तीय समीक्षा (Financial Overview)  **वित्त एजेंट (Finance Agent)** ने हमारे पोस्टग्रेएसक्यूएल"
+    },
+    {
+      "query": "overdue invoices evvalavu irukku?",
+      "targetLanguage": "ta",
+      "expectedScript": "Tamil",
+      "detectedScript": "Tamil",
+      "passed": true,
+      "snippet": "### நிதி கண்ணோட்டம் (Financial Overview)  **நிதி முகவர் (Finance Agent)** நமது போஸ்ட்கிரெஸ்கியூஎல் ல"
+    },
+    {
+      "query": "overdue invoices eshtu ide?",
+      "targetLanguage": "kn",
+      "expectedScript": "Kannada",
+      "detectedScript": "Kannada",
+      "passed": true,
+      "snippet": "### ಹಣಕಾಸು ಅವಲೋಕನ (Financial Overview)  **ಹಣಕಾಸು ಏಜೆಂಟ್ (Finance Agent)** ನಮ್ಮ ಪೋಸ್ಟ್‌ಗ್ರೆಸ್‌ಕ್ಯೂಎಲ್"
+    },
+    {
+      "query": "overdue invoices ethra undu?",
+      "targetLanguage": "ml",
+      "expectedScript": "Malayalam",
+      "detectedScript": "Malayalam",
+      "passed": true,
+      "snippet": "### സാമ്പത്തിക അവലോകനം (Financial Overview)  **ധനകാര്യ ഏജന്റ് (Finance Agent)** നമ്മുടെ പോസ്റ്റ്ഗ്രെ"
+    }
+  ],
+  "crossAgentDelegation": {
+    "query": "ఆర్థిక రాబడులు మరియు సెలవులో ఉన్న HR ఉద్యోగులను సమీక్షించండి",
+    "language": "te",
+    "expectedScript": "Telugu",
+    "detectedScript": "Telugu",
+    "passed": true,
+    "snippet": "### కార్యనిర్వాహక సారాంశం (Executive Summary)  **CEO మాస్టర్ ఏజెంట్**గా, నేను సేల్స్, ఫైనాన్స్, హెచ్‌ఆర్, ఇన్వెంటరీ, సపో"
+  },
+  "summary": {
+    "totalTests": 108,
+    "passed": 108,
+    "failed": 0,
+    "passRate": "100.0%"
+  }
+}

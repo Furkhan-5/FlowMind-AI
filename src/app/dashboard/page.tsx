@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
     return (
       <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-        <div className="bg-white text-bloom-textDark w-full max-w-5xl max-h-[85vh] rounded-[28px] border border-slate-200 shadow-2xl flex flex-col overflow-hidden relative">
+        <div className="bg-white text-slate-900 w-full max-w-5xl max-h-[85vh] rounded-[28px] border border-slate-200 shadow-2xl flex flex-col overflow-hidden relative">
           <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between shrink-0">
             <span className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -75,8 +75,8 @@ export default function DashboardPage() {
             {activeModule === 'workflows' && (
               <div className="space-y-6 text-center py-8">
                 <GitFork className="w-16 h-16 text-purple-600 mx-auto animate-bounce" />
-                <h3 className="text-2xl font-bold text-bloom-dark">Visual Workflow DAG Automation Engine</h3>
-                <p className="text-xs text-bloom-textMuted max-w-xl mx-auto leading-relaxed">
+                <h3 className="text-2xl font-bold text-slate-900">Visual Workflow DAG Automation Engine</h3>
+                <p className="text-xs text-slate-600 max-w-xl mx-auto leading-relaxed">
                   Compile natural language prompts into executable Directed Acyclic Graphs (DAGs) verified via Kahn's Topological Sort algorithm with live execution tracing and retry policies.
                 </p>
                 <div className="pt-4 flex items-center justify-center gap-4">
@@ -99,8 +99,8 @@ export default function DashboardPage() {
                     <GlassCard key={agent.id} variant="white" className="space-y-3">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h4 className="text-xs font-bold text-bloom-dark tracking-wide">{getLocalizedAgentName(agent.id, language)}</h4>
-                          <p className="text-[10px] text-purple-600">{getLocalizedAgentDomain(agent.id, language)}</p>
+                          <h4 className="text-xs font-bold text-slate-900 tracking-wide">{getLocalizedAgentName(agent.id, language)}</h4>
+                          <p className="text-[10px] text-purple-600 font-semibold">{getLocalizedAgentDomain(agent.id, language)}</p>
                         </div>
                         <Badge variant={agent.status === 'ACTIVE' ? 'success' : 'default'}>
                           {agent.status}
@@ -121,11 +121,11 @@ export default function DashboardPage() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-bloom-dark flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                       <FileSpreadsheet className="w-5 h-5 text-purple-600" />
                       AI Data Studio & Automated Analytics
                     </h3>
-                    <p className="text-xs text-slate-500">Auto-clean CSV datasets, impute missing values, and generate recommended chart visualizers.</p>
+                    <p className="text-xs text-slate-600">Auto-clean CSV datasets, impute missing values, and generate recommended chart visualizers.</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant="success">Active Enterprise Module</Badge>
@@ -146,18 +146,18 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <GlassCard variant="white" className="space-y-2 text-center p-6">
                     <BarChart3 className="w-8 h-8 text-purple-600 mx-auto" />
-                    <h4 className="text-xs font-bold text-bloom-dark">Chart Recommendation</h4>
-                    <p className="text-[11px] text-slate-500">Auto-selects optimal bar, line, and pie charts based on dataset metrics.</p>
+                    <h4 className="text-xs font-bold text-slate-900">Chart Recommendation</h4>
+                    <p className="text-[11px] text-slate-600">Auto-selects optimal bar, line, and pie charts based on dataset metrics.</p>
                   </GlassCard>
                   <GlassCard variant="white" className="space-y-2 text-center p-6">
                     <Database className="w-8 h-8 text-emerald-600 mx-auto" />
-                    <h4 className="text-xs font-bold text-bloom-dark">Dataset Auto-Cleaner</h4>
-                    <p className="text-[11px] text-slate-500">Detects null rows, removes z-score outliers, and standardizes column schemas.</p>
+                    <h4 className="text-xs font-bold text-slate-900">Dataset Auto-Cleaner</h4>
+                    <p className="text-[11px] text-slate-600">Detects null rows, removes z-score outliers, and standardizes column schemas.</p>
                   </GlassCard>
                   <GlassCard variant="white" className="space-y-2 text-center p-6">
                     <FileText className="w-8 h-8 text-indigo-600 mx-auto" />
-                    <h4 className="text-xs font-bold text-bloom-dark">Executive PDF Summarizer</h4>
-                    <p className="text-[11px] text-slate-500">Generates downloadable executive performance digests in PDF/CSV format.</p>
+                    <h4 className="text-xs font-bold text-slate-900">Executive PDF Summarizer</h4>
+                    <p className="text-[11px] text-slate-600">Generates downloadable executive performance digests in PDF/CSV format.</p>
                   </GlassCard>
                 </div>
               </div>
@@ -167,11 +167,11 @@ export default function DashboardPage() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-bloom-dark flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                       <BookOpen className="w-5 h-5 text-purple-600" />
                       RAG Knowledge Hub & Vector Q&A Engine
                     </h3>
-                    <p className="text-xs text-slate-500">Indexed corporate documentation with vector similarity search for exact agent context retrieval.</p>
+                    <p className="text-xs text-slate-600">Indexed corporate documentation with vector similarity search for exact agent context retrieval.</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant="success">Active Enterprise Module</Badge>
@@ -212,11 +212,11 @@ export default function DashboardPage() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-bloom-dark flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                       <Users className="w-5 h-5 text-purple-600" />
                       CRM & Enterprise Business Operations Suite
                     </h3>
-                    <p className="text-xs text-slate-500">Manage leads, monitor pipeline status, and track GST tax invoicing.</p>
+                    <p className="text-xs text-slate-600">Manage leads, monitor pipeline status, and track GST tax invoicing.</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Link
@@ -236,7 +236,7 @@ export default function DashboardPage() {
 
                 <GlassCard variant="white" className="p-0 overflow-hidden space-y-3">
                   <div className="p-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-bloom-dark uppercase tracking-wider">Active Enterprise Pipeline Leads</h4>
+                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Active Enterprise Pipeline Leads</h4>
                     <span className="text-[11px] font-semibold text-emerald-600">Total Value: ₹5,50,000</span>
                   </div>
                   <div className="overflow-x-auto">
@@ -254,7 +254,7 @@ export default function DashboardPage() {
                         {MOCK_LEADS.map((lead) => (
                           <tr key={lead.id} className="border-b border-slate-100 hover:bg-slate-50">
                             <td className="p-3 font-mono text-purple-700 font-semibold">{lead.id}</td>
-                            <td className="p-3 font-semibold text-bloom-dark">{lead.name}</td>
+                            <td className="p-3 font-semibold text-slate-900">{lead.name}</td>
                             <td className="p-3 text-slate-600">{lead.company}</td>
                             <td className="p-3 font-bold text-emerald-600">₹{lead.value.toLocaleString()}</td>
                             <td className="p-3"><Badge variant="purple">{lead.status}</Badge></td>
@@ -299,7 +299,7 @@ export default function DashboardPage() {
               <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" /> Enterprise Platform Hub
               </span>
-              <h2 className="text-lg font-extrabold text-bloom-dark tracking-tight">
+              <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">
                 Primary Operational Workspaces
               </h2>
             </div>
@@ -319,7 +319,7 @@ export default function DashboardPage() {
                 <Badge variant="purple">Analytics</Badge>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-purple-700 transition-colors">
+                <h3 className="text-sm font-bold text-slate-900 group-hover:text-purple-700 transition-colors">
                   AI Data Studio
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -340,7 +340,7 @@ export default function DashboardPage() {
                 <Badge variant="success">Vector RAG</Badge>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-emerald-700 transition-colors">
+                <h3 className="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
                   RAG Knowledge Hub
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -361,7 +361,7 @@ export default function DashboardPage() {
                 <Badge variant="purple">Business Suite</Badge>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-blue-700 transition-colors">
+                <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
                   CRM & Business Suite
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -382,7 +382,7 @@ export default function DashboardPage() {
                 <Badge variant="purple">Topological DAG</Badge>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-indigo-700 transition-colors">
+                <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">
                   AI Workflows DAG
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -403,7 +403,7 @@ export default function DashboardPage() {
                 <Badge variant="purple">15 Agents</Badge>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-amber-700 transition-colors">
+                <h3 className="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition-colors">
                   15 Active Agents Mesh
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -424,7 +424,7 @@ export default function DashboardPage() {
                 <Badge variant="success">Layman Chat</Badge>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-bloom-dark group-hover:text-pink-700 transition-colors">
+                <h3 className="text-sm font-bold text-slate-900 group-hover:text-pink-700 transition-colors">
                   Layman Conversational MVP
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -438,13 +438,13 @@ export default function DashboardPage() {
         {/* Hero Section */}
         <section className="bg-white border border-slate-200/80 rounded-[32px] p-6 sm:p-10 shadow-bloom space-y-8 relative overflow-hidden">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-bloom-dark font-bold text-sm shadow-sm">
+            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-900 font-bold text-sm shadow-sm">
               +
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-bloom-dark tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
               {t.heroTitle}
             </h1>
-            <p className="text-xs sm:text-sm text-bloom-textMuted max-w-xl mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
               {t.heroSubtitle}
             </p>
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -474,7 +474,7 @@ export default function DashboardPage() {
         <section className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-3 max-w-md">
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-bloom-dark tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
                 {t.whatIsFlowMind}
               </h2>
               <Button
@@ -485,7 +485,7 @@ export default function DashboardPage() {
                 {t.exploreNow}
               </Button>
             </div>
-            <p className="text-xs sm:text-sm text-bloom-textMuted max-w-md leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm text-slate-300 max-w-md leading-relaxed font-medium">
               {t.flowmindDesc}
             </p>
           </div>
@@ -494,7 +494,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <GlassCard variant="lavender" className="md:col-span-6 flex flex-col justify-between min-h-[220px]">
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-bloom-dark">{t.intelligenceTitle}</h3>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t.intelligenceTitle}</h3>
                 <p className="text-xs text-slate-600 max-w-xs leading-relaxed">
                   {t.intelligenceDesc}
                 </p>
@@ -541,34 +541,34 @@ export default function DashboardPage() {
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               {t.backedBy}
             </span>
-            <span className="hover:text-slate-700 transition-colors">Google Workspace</span>
-            <span className="hover:text-slate-700 transition-colors">Slack</span>
-            <span className="hover:text-slate-700 transition-colors">Stripe</span>
-            <span className="hover:text-slate-700 transition-colors">Razorpay</span>
-            <span className="hover:text-slate-700 transition-colors">GitHub</span>
-            <span className="hover:text-slate-700 transition-colors">AWS</span>
-            <span className="hover:text-slate-700 transition-colors">Microsoft 365</span>
+            <span className="hover:text-slate-300 transition-colors">Google Workspace</span>
+            <span className="hover:text-slate-300 transition-colors">Slack</span>
+            <span className="hover:text-slate-300 transition-colors">Stripe</span>
+            <span className="hover:text-slate-300 transition-colors">Razorpay</span>
+            <span className="hover:text-slate-300 transition-colors">GitHub</span>
+            <span className="hover:text-slate-300 transition-colors">AWS</span>
+            <span className="hover:text-slate-300 transition-colors">Microsoft 365</span>
           </div>
         </section>
 
         {/* Use Cases Section */}
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-5 space-y-4">
-            <span className="text-[11px] font-bold text-purple-600 uppercase tracking-wider">
+            <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">
               {t.useCasesLabel}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-bloom-dark tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
               {t.useCasesTitle}
             </h2>
-            <p className="text-xs sm:text-sm text-bloom-textMuted leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {t.useCasesDesc}
             </p>
           </div>
 
           <GlassCard variant="white" className="md:col-span-7 space-y-6">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-bloom-dark">{t.businessTitle}</h3>
-              <p className="text-xs text-bloom-textMuted max-w-lg leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">{t.businessTitle}</h3>
+              <p className="text-xs text-slate-600 max-w-lg leading-relaxed">
                 {t.businessDesc}
               </p>
               <button

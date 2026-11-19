@@ -124,6 +124,7 @@ export interface Invoice {
   createdAt: string;
   updatedAt: string;
   items?: InvoiceItem[];
+  payments?: Payment[];
 }
 
 export interface Payment {

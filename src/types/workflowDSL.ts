@@ -52,6 +52,10 @@ export interface WorkflowTriggerDSL {
   config: {
     cronExpression?: string;
     scheduleDescription?: string;
+    scheduledTime?: string;
+    timezone?: string;
+    nextRunAt?: string;
+    nextRunFormatted?: string;
     webhookUrl?: string;
     webhookSecret?: string;
     eventType?: string;

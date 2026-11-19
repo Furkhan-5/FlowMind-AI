@@ -7,10 +7,10 @@
   --foreground: #f8fafc;
   --bloom-bg: #040209;
   --bloom-card: #131024;
-  --bloom-dark: #f8fafc;
+  --bloom-dark: #0f172a;
   --bloom-darkCard: #1c1836;
-  --bloom-textDark: #f8fafc;
-  --bloom-textMuted: #94a3b8;
+  --bloom-textDark: #0f172a;
+  --bloom-textMuted: #64748b;
   --bloom-subtleBorder: #26204a;
 }
 

@@ -18,6 +18,7 @@ import { workflowEngine } from '@/lib/workflow/workflowEngine';
 import { VisualDAGGraph } from '@/components/workflow/VisualDAGGraph';
 import { NodeConfigPanel } from '@/components/workflow/NodeConfigPanel';
 import { ExecutionRunnerConsole } from '@/components/workflow/ExecutionRunnerConsole';
+import { useTranslation } from '@/lib/i18n/useTranslation';
 import {
   GitFork,
   Play,
@@ -38,6 +39,7 @@ import {
 
 export default function WorkflowsPage() {
   const { user, addToast } = useAppStore();
+  const { t } = useTranslation();
 
   const [workflows, setWorkflows] = useState<WorkflowDefinition[]>([]);
   const [activeWorkflow, setActiveWorkflow] = useState<WorkflowDefinition | null>(null);
@@ -53,7 +55,22 @@ export default function WorkflowsPage() {
     refreshWorkflows();
   }, []);
 
-  const refreshWorkflows = () => {
+  const refreshWorkflows = async () => {
+    try {
+      const res = await fetch('/api/workflows');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.workflows && Array.isArray(data.workflows)) {
+          setWorkflows(data.workflows);
+          if (data.workflows.length > 0 && !activeWorkflow) {
+            setActiveWorkflow(data.workflows[0]);
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to fetch from /api/workflows, using local cache:', e);
+    }
     const list = workflowStorage.getAllWorkflows(user.organizationId || 'ORG-01');
     setWorkflows(list);
     if (list.length > 0 && !activeWorkflow) {
@@ -61,19 +78,34 @@ export default function WorkflowsPage() {
     }
   };
 
-  const handleGenerateWorkflow = () => {
+  const handleGenerateWorkflow = async () => {
     if (!nlInput.trim() || isPlanning) return;
     setIsPlanning(true);
 
     try {
-      const planRes = workflowPlanner.generateDAGFromNaturalLanguage(nlInput, user);
+      const planRes = await workflowPlanner.generateDAGFromNaturalLanguage(nlInput, user);
       if (planRes.success && planRes.workflow) {
-        workflowStorage.saveWorkflow(planRes.workflow);
-        setActiveWorkflow(planRes.workflow);
-        refreshWorkflows();
+        let savedWf = planRes.workflow;
+        try {
+          const res = await fetch('/api/workflows', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(planRes.workflow),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.workflow) savedWf = data.workflow;
+          }
+        } catch (apiErr) {
+          console.warn('API save workflow error, using local:', apiErr);
+          workflowStorage.saveWorkflow(planRes.workflow);
+        }
+
+        setActiveWorkflow(savedWf);
+        await refreshWorkflows();
         addToast({
           type: 'success',
-          title: 'DAG Workflow Planned',
+          title: 'DAG Workflow Planned & Persisted',
           message: planRes.naturalLanguageSummary,
         });
         setNlInput('');
@@ -144,14 +176,39 @@ export default function WorkflowsPage() {
     }
   };
 
-  const handleSaveNodeChanges = (updatedNode: WorkflowNodeDSL) => {
+  const handleSaveNodeChanges = async (updatedNode: WorkflowNodeDSL) => {
     if (!activeWorkflow) return;
 
     const updatedNodes = activeWorkflow.nodes.map((n) => (n.id === updatedNode.id ? updatedNode : n));
+    try {
+      const res = await fetch(`/api/workflows/${activeWorkflow.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nodes: updatedNodes,
+          changeLog: `Updated node '${updatedNode.name}'`,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.workflow) {
+          setActiveWorkflow(data.workflow);
+          await refreshWorkflows();
+          addToast({
+            type: 'success',
+            title: 'Workflow Version Created & Persisted',
+            message: `Updated node '${updatedNode.name}'. Created Version ${data.workflow.version}.`,
+          });
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to update via API:', e);
+    }
+
     const newVersion = workflowStorage.createNewVersion(activeWorkflow.id, {
       nodes: updatedNodes,
     });
-
     setActiveWorkflow(newVersion);
     refreshWorkflows();
     addToast({
@@ -188,10 +245,10 @@ export default function WorkflowsPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div className="space-y-1">
               <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider flex items-center gap-1.5">
-                <GitFork className="w-3.5 h-3.5" /> Zero-Code Natural Language Workflow Engine
+                <GitFork className="w-3.5 h-3.5" /> {t('workflows.subtitle')}
               </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-bloom-dark tracking-tight">
-                Visual Workflow DAG Automation
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#111827] tracking-tight">
+                {t('workflows.title')}
               </h1>
             </div>
             <div className="flex items-center gap-2">
@@ -200,7 +257,7 @@ export default function WorkflowsPage() {
                 className="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Overview</span>
+                <span>{t('navigation.overview')}</span>
               </Link>
               <Badge variant="purple">15 AGENTS LINKED</Badge>
               <Badge variant="success">TOPOLOGICAL DAG RUNNER</Badge>
@@ -212,7 +269,7 @@ export default function WorkflowsPage() {
             <div className="flex items-center justify-between text-xs text-purple-200 font-medium">
               <span className="flex items-center gap-1.5">
                 <Zap className="w-4 h-4 text-purple-400" />
-                Describe your business workflow in natural language:
+                {t('workflows.naturalLanguagePrompt')}
               </span>
               <span className="text-[10px] text-purple-300 font-mono">Workflow Planner Agent</span>
             </div>
@@ -223,7 +280,7 @@ export default function WorkflowsPage() {
                 value={nlInput}
                 onChange={(e) => setNlInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleGenerateWorkflow()}
-                placeholder='e.g., "When a new lead is created, check if value > 100000. If so, ask Sales Agent to process, notify manager, and generate invoice. Otherwise add to normal queue."'
+                placeholder={t('workflows.naturalLanguagePrompt')}
                 className="flex-1 bg-slate-900 border border-purple-500/40 rounded-full px-5 py-3 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-purple-400 font-medium"
               />
               <Button
@@ -234,7 +291,7 @@ export default function WorkflowsPage() {
                 icon={<Zap className="w-4 h-4" />}
                 className="bg-purple-600 hover:bg-purple-500 text-white font-bold"
               >
-                {isPlanning ? 'Planning DAG...' : 'Plan DAG Workflow'}
+                {isPlanning ? t('common.loading') : t('workflows.buildFromPrompt')}
               </Button>
             </div>
           </div>
@@ -246,13 +303,13 @@ export default function WorkflowsPage() {
           <div className="lg:col-span-4 space-y-4">
             <GlassCard variant="white" className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-bold text-bloom-dark uppercase tracking-wider">
+                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
                   Workflows Library ({filteredWorkflows.length})
                 </h3>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="text-[10px] bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 font-bold"
+                  className="text-[10px] bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-800"
                 >
                   <option value="ALL">All Status</option>
                   <option value="ACTIVE">Active</option>
@@ -269,7 +326,7 @@ export default function WorkflowsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search workflows..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-1.5 text-xs text-bloom-textDark focus:outline-none focus:border-purple-500 font-medium"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-purple-500 font-medium"
                 />
               </div>
 
@@ -288,7 +345,7 @@ export default function WorkflowsPage() {
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <h4 className="text-xs font-bold text-bloom-dark truncate max-w-[200px]">{wf.name}</h4>
+                        <h4 className="text-xs font-bold text-slate-900 truncate max-w-[200px]">{wf.name}</h4>
                         <Badge variant={wf.status === 'ACTIVE' ? 'success' : 'purple'} className="text-[9px]">
                           v{wf.version} &bull; {wf.status}
                         </Badge>
@@ -318,10 +375,10 @@ export default function WorkflowsPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h2 className="text-base font-bold text-bloom-dark">{activeWorkflow.name}</h2>
+                        <h2 className="text-base font-bold text-slate-900">{activeWorkflow.name}</h2>
                         <Badge variant="purple" className="text-[10px]">Version {activeWorkflow.version}</Badge>
                       </div>
-                      <p className="text-xs text-bloom-textMuted">{activeWorkflow.description}</p>
+                      <p className="text-xs text-slate-600">{activeWorkflow.description}</p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
@@ -364,9 +421,9 @@ export default function WorkflowsPage() {
               </>
             ) : (
               <GlassCard variant="white" className="p-12 text-center space-y-3">
-                <GitFork className="w-12 h-12 text-purple-400 mx-auto" />
-                <h3 className="text-base font-bold text-bloom-dark">No Workflow Selected</h3>
-                <p className="text-xs text-bloom-textMuted">Describe a new workflow in natural language above to get started.</p>
+                <GitFork className="w-12 h-12 text-purple-600 mx-auto" />
+                <h3 className="text-base font-bold text-slate-900">No Workflow Selected</h3>
+                <p className="text-xs text-slate-600">Describe a new workflow in natural language above to get started.</p>
               </GlassCard>
             )}
           </div>

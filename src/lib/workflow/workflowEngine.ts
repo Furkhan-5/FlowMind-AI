@@ -14,6 +14,7 @@ import { workflowService } from '@/lib/services/workflowService';
 import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { artifactManager } from '@/lib/ai/artifactManager';
 import { auditLogger } from '@/lib/security/auditLogger';
+import { prisma } from '@/lib/prisma';
 
 export class WorkflowEngineRunnerService {
   private activeExecutions: Map<string, WorkflowExecution> = new Map();
@@ -213,6 +214,65 @@ export class WorkflowEngineRunnerService {
 
       case 'AGENT':
       case 'ACTION': {
+        // Explicit Overdue Invoices Retrieval Node (TEST H execution)
+        if (node.id === 'RETRIEVE_OVERDUE_INVOICES' || node.actionType === 'GET_OVERDUE_INVOICES') {
+          const invoices = await prisma.invoice.findMany({
+            where: {
+              organizationId: workflow.organizationId,
+              status: 'OVERDUE',
+            },
+            orderBy: { dueDate: 'asc' },
+          });
+
+          return {
+            invoices,
+            count: invoices.length,
+            status: 'OVERDUE_INVOICES_RETRIEVED',
+            retrievedAt: new Date().toISOString(),
+          };
+        }
+
+        // Explicit Outstanding Balance Calculation Node (TEST H execution)
+        if (node.id === 'CALCULATE_OUTSTANDING_BALANCE' || node.actionType === 'CALCULATE_TOTAL_OUTSTANDING') {
+          const prev = execution.nodeOutputs['RETRIEVE_OVERDUE_INVOICES'] || execution.nodeOutputs['node_act_1'] || {};
+          const invoices = prev.invoices || [];
+          const totalOutstanding = invoices.reduce((sum: number, inv: any) => sum + (Number(inv.total) || 0), 0);
+
+          return {
+            totalOutstanding,
+            invoiceCount: invoices.length,
+            currency: 'INR',
+            calculatedAt: new Date().toISOString(),
+          };
+        }
+
+        // Explicit Financial Summary Generation Node (TEST H execution)
+        if (node.id === 'GENERATE_FINANCIAL_SUMMARY' || (node.actionType === 'GENERATE_SUMMARY' && node.agentId === 'Finance')) {
+          const prevInvoices = execution.nodeOutputs['RETRIEVE_OVERDUE_INVOICES']?.invoices || execution.nodeOutputs['node_act_1']?.invoices || [];
+          const prevBalance = execution.nodeOutputs['CALCULATE_OUTSTANDING_BALANCE']?.totalOutstanding ?? 0;
+
+          const customerBreakdown: Record<string, { count: number; total: number; dueDates: string[] }> = {};
+          for (const inv of prevInvoices) {
+            const name = inv.customerName || 'Unknown Customer';
+            if (!customerBreakdown[name]) {
+              customerBreakdown[name] = { count: 0, total: 0, dueDates: [] };
+            }
+            customerBreakdown[name].count += 1;
+            customerBreakdown[name].total += Number(inv.total) || 0;
+            if (inv.dueDate) {
+              customerBreakdown[name].dueDates.push(new Date(inv.dueDate).toISOString().split('T')[0]);
+            }
+          }
+
+          return {
+            title: 'Weekly Finance Review Summary',
+            invoiceCount: prevInvoices.length,
+            totalOutstandingBalance: prevBalance,
+            customerBreakdown,
+            generatedAt: new Date().toISOString(),
+          };
+        }
+
         const targetAgent = node.agentId || 'Sales';
         const orchestratorRes = await agentOrchestrator.processRequest(
           node.name || `Execute ${node.actionType || 'Action'}`,
@@ -233,12 +293,49 @@ export class WorkflowEngineRunnerService {
       case 'CONDITION':
         return { evaluated: true, expression: resolvedConfig.expression };
 
-      case 'NOTIFICATION':
+      case 'NOTIFICATION': {
+        // Explicit Finance Email Preparation Node (TEST H execution)
+        if (node.id === 'PREPARE_FINANCE_EMAIL' || (node.agentId === 'Email' && node.actionType === 'SEND_NOTIFICATION')) {
+          const summary = execution.nodeOutputs['GENERATE_FINANCIAL_SUMMARY'] || {};
+          const rawRecipient = resolvedConfig.recipient;
+          // finance-manager@flowmind.ai does not exist in system users; unconfigured recipients must remain unresolved
+          const isInvalidOrPlaceholder = !rawRecipient || rawRecipient === 'finance-manager@flowmind.ai' || !rawRecipient.includes('@');
+          const recipient = isInvalidOrPlaceholder ? null : rawRecipient;
+          const isMissingRecipient = recipient === null;
+
+          const subject = resolvedConfig.subject || `Weekly Finance Review: ${summary.invoiceCount || 0} Overdue Invoices`;
+          const body =
+            `Dear Finance Manager,\n\n` +
+            `Please find the weekly review of overdue accounts:\n\n` +
+            `- Total Overdue Invoices: ${summary.invoiceCount || 0}\n` +
+            `- Total Outstanding Balance: ₹${(summary.totalOutstandingBalance || 0).toLocaleString('en-IN')}\n\n` +
+            `Customer Breakdown:\n` +
+            Object.entries(summary.customerBreakdown || {})
+              .map(([cust, d]: [string, any]) => `• ${cust}: ₹${d.total.toLocaleString('en-IN')} (${d.count} invoice(s), Due: ${d.dueDates?.join(', ') || 'N/A'})`)
+              .join('\n') +
+            `\n\n[ACTION REQUIRED]: No verified Finance Manager recipient email is configured in Organization Settings. This notification has been prepared as a DRAFT. Please configure a verified recipient before sending.\n\n` +
+            `Best regards,\n` +
+            `FlowMind Automated Finance Agent`;
+
+          return {
+            to: recipient,
+            missingRecipient: isMissingRecipient,
+            recipientStatus: isMissingRecipient ? 'UNRESOLVED_REQUIRES_CONFIGURATION' : 'CONFIGURED',
+            subject,
+            body,
+            status: 'DRAFT_CREATED',
+            autoSent: false, // Explicit: do not send email automatically!
+            requiresConfiguration: isMissingRecipient,
+            warning: isMissingRecipient ? 'Finance Manager recipient email is unresolved. Notification saved as draft.' : undefined,
+          };
+        }
+
         return {
           sent: true,
           recipient: resolvedConfig.recipient || 'sales-manager@flowmind.ai',
           message: resolvedConfig.message || 'Notification dispatched',
         };
+      }
 
       case 'ARTIFACT': {
         const artRef = artifactManager.createArtifact(

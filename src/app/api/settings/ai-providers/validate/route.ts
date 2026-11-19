@@ -3,6 +3,7 @@ import { aiProviderConfigService } from '@/lib/services/aiProviderConfigService'
 import { getCurrentUserFromSession } from '@/lib/auth/session';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 30;
 
 export async function POST(request: NextRequest) {
   try {

@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { businessService } from '@/lib/services/businessService';
 import { downloadInvoiceFile, openInvoicePreview } from '@/lib/utils/invoiceGenerator';
 import { Invoice, InvoiceStatus } from '@/types';
+import { useTranslation } from '@/lib/i18n/useTranslation';
 import {
   DollarSign,
   Plus,
@@ -26,6 +27,7 @@ import {
 
 export default function FinanceModulePage() {
   const { user, addToast } = useAppStore();
+  const { t, formatCurrency } = useTranslation();
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -134,23 +136,23 @@ export default function FinanceModulePage() {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Link href="/modules" className="text-xs font-bold text-slate-500 hover:text-purple-700 flex items-center gap-1">
-                <ArrowLeft className="w-3.5 h-3.5" /> Modules
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('navigation.modules')}
               </Link>
               <span className="text-xs text-slate-300">/</span>
-              <span className="text-xs font-bold text-amber-700">Finance & Invoicing</span>
+              <span className="text-xs font-bold text-amber-700">{t('finance.title')}</span>
             </div>
-            <h1 className="text-2xl font-black text-bloom-dark tracking-tight flex items-center gap-2">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               <DollarSign className="w-6 h-6 text-amber-600" />
-              Finance & Tax Invoicing Suite
+              {t('finance.title')}
             </h1>
           </div>
 
           <div className="flex items-center gap-3">
             <Button onClick={handleExportCSV} variant="outline" size="sm" className="border border-slate-200 text-xs font-bold">
-              <Download className="w-3.5 h-3.5 mr-1" /> Export CSV
+              <Download className="w-3.5 h-3.5 mr-1" /> {t('common.export')} CSV
             </Button>
             <Button onClick={() => setShowAddModal(true)} variant="dark" size="sm" className="bg-amber-600 hover:bg-amber-500 font-bold text-xs">
-              <Plus className="w-4 h-4 mr-1" /> Create Invoice
+              <Plus className="w-4 h-4 mr-1" /> {t('finance.createInvoice')}
             </Button>
           </div>
         </div>
@@ -158,61 +160,61 @@ export default function FinanceModulePage() {
         {/* Financial Metrics Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <GlassCard variant="white" className="p-4 border-l-4 border-l-emerald-600">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Collected Revenue</span>
-            <div className="text-xl font-black text-emerald-600 mt-1">₹{totalRev.toLocaleString()}</div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t('finance.paidAmount')}</span>
+            <div className="text-xl font-black text-emerald-600 mt-1">{formatCurrency(totalRev)}</div>
           </GlassCard>
           <GlassCard variant="white" className="p-4 border-l-4 border-l-red-600">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Overdue Receivables</span>
-            <div className="text-xl font-black text-red-600 mt-1">₹{overdueRev.toLocaleString()}</div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t('finance.overdueInvoices')}</span>
+            <div className="text-xl font-black text-red-600 mt-1">{formatCurrency(overdueRev)}</div>
           </GlassCard>
           <GlassCard variant="white" className="p-4 border-l-4 border-l-amber-600">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Invoices</span>
-            <div className="text-xl font-black text-bloom-dark mt-1">{invoices.length} Bills</div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t('finance.allInvoices')}</span>
+            <div className="text-xl font-black text-slate-900 mt-1">{invoices.length}</div>
           </GlassCard>
         </div>
 
         {/* Invoices Lifecycle Table */}
         <section className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-bloom space-y-4">
-          <h2 className="text-base font-extrabold text-bloom-dark">Invoice Ledger ({invoices.length})</h2>
+          <h2 className="text-base font-extrabold text-slate-900">{t('finance.invoicesTable')} ({invoices.length})</h2>
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[10px]">
                 <tr>
-                  <th className="p-3">Invoice #</th>
-                  <th className="p-3">Customer</th>
-                  <th className="p-3">Subtotal</th>
+                  <th className="p-3">{t('finance.invoiceNumber')}</th>
+                  <th className="p-3">{t('finance.client')}</th>
+                  <th className="p-3">{t('finance.amount')}</th>
                   <th className="p-3">GST Tax (18%)</th>
-                  <th className="p-3">Total Amount</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Actions</th>
+                  <th className="p-3">{t('finance.balanceDue')}</th>
+                  <th className="p-3">{t('common.status')}</th>
+                  <th className="p-3">{t('common.actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {invoices.map((inv) => (
                   <tr key={inv.id} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="p-3 font-mono font-bold text-purple-700">{inv.invoiceNumber}</td>
-                    <td className="p-3 font-bold text-bloom-dark">{inv.customerName}</td>
-                    <td className="p-3 text-slate-600">₹{inv.subtotal.toLocaleString()}</td>
-                    <td className="p-3 text-slate-500">₹{inv.tax.toLocaleString()}</td>
-                    <td className="p-3 font-bold text-emerald-600">₹{inv.total.toLocaleString()}</td>
+                    <td className="p-3 font-bold text-slate-900">{inv.customerName}</td>
+                    <td className="p-3 text-slate-600">{formatCurrency(inv.subtotal)}</td>
+                    <td className="p-3 text-slate-500">{formatCurrency(inv.tax)}</td>
+                    <td className="p-3 font-bold text-emerald-600">{formatCurrency(inv.total)}</td>
                     <td className="p-3">
                       <Badge variant={inv.status === 'PAID' ? 'success' : inv.status === 'OVERDUE' ? 'warning' : 'purple'}>
-                        {inv.status}
+                        {inv.status === 'PAID' ? t('common.paid') : inv.status === 'OVERDUE' ? t('common.overdue') : t('common.pending')}
                       </Badge>
                     </td>
                     <td className="p-3">
                       <div className="flex items-center gap-2">
                         {inv.status !== 'PAID' && (
                           <button onClick={() => handleMarkPaid(inv.id)} className="text-emerald-600 hover:underline font-bold">
-                            Mark Paid
+                            {t('finance.markAsPaid')}
                           </button>
                         )}
                         <button onClick={() => handleDownloadPDF(inv)} className="text-purple-600 hover:underline font-bold flex items-center gap-1">
                           <Download className="w-3 h-3" /> PDF
                         </button>
                         <button onClick={() => handlePrintHTML(inv)} className="text-slate-600 hover:underline font-bold flex items-center gap-1">
-                          <Printer className="w-3 h-3" /> Print
+                          <Printer className="w-3 h-3" /> {t('common.view')}
                         </button>
                       </div>
                     </td>
@@ -228,7 +230,7 @@ export default function FinanceModulePage() {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
             <form onSubmit={handleCreateInvoice} className="bg-white w-full max-w-md rounded-[28px] border border-slate-200 p-6 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <h3 className="text-base font-extrabold text-bloom-dark">Create GST Tax Invoice</h3>
+                <h3 className="text-base font-extrabold text-slate-900">{t('finance.createInvoice')}</h3>
                 <button type="button" onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -243,7 +245,7 @@ export default function FinanceModulePage() {
                     value={custName}
                     onChange={(e) => setCustName(e.target.value)}
                     placeholder="e.g. Tata Digital Pvt Ltd"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -253,7 +255,7 @@ export default function FinanceModulePage() {
                     value={custEmail}
                     onChange={(e) => setCustEmail(e.target.value)}
                     placeholder="billing@tatadigital.com"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -262,7 +264,7 @@ export default function FinanceModulePage() {
                     type="text"
                     value={itemDesc}
                     onChange={(e) => setItemDesc(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -271,15 +273,15 @@ export default function FinanceModulePage() {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                   <span className="text-[10px] text-slate-500 mt-1 block">+18% GST tax (₹{Math.round(amount * 0.18).toLocaleString()}) will be added automatically.</span>
                 </div>
               </div>
 
               <div className="flex items-center justify-end gap-2 pt-2">
-                <Button type="button" onClick={() => setShowAddModal(false)} variant="outline" size="sm">Cancel</Button>
-                <Button type="submit" variant="dark" size="sm" className="bg-amber-600 hover:bg-amber-500 font-bold">Generate Invoice</Button>
+                <Button type="button" onClick={() => setShowAddModal(false)} variant="outline" size="sm">{t('common.cancel')}</Button>
+                <Button type="submit" variant="dark" size="sm" className="bg-amber-600 hover:bg-amber-500 font-bold">{t('finance.createInvoice')}</Button>
               </div>
             </form>
           </div>

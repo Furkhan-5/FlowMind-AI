@@ -1,0 +1,1572 @@
+{
+  "resA": {
+    "success": true,
+    "result": {
+      "targetAgent": "FlowMind Finance Agent",
+      "responseText": "### 💳 Overdue Customer Accounts & Outstanding Balances\n\nThe **Finance Agent** audited our PostgreSQL ledger and identified **5 overdue invoice(s)** across **2 customer account(s)**:\n\n| Customer Name | Overdue Count | Invoice Numbers | Due Date(s) | Outstanding Balance |\n| :--- | :---: | :--- | :--- | :--- |\n| **TechCorp India** | 1 | `INV-2026-002` | 2026-11-11 | **₹2,36,000** |\n| **Enterprise Customer** | 4 | `INV-2026-885, INV-2026-795, INV-2026-655, INV-2026-386` | 2026-11-09 | **₹6,49,000** |\n\n### 💰 Total Outstanding Amount: **₹8,85,000**\n\n*(Note: Amounts reflect verified balances inclusive of 18% GST without double-taxation.)*",
+      "thoughtStream": [
+        {
+          "agent": "CEO",
+          "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for FINANCE_GET_OVERDUE_INVOICES",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "FlowMind Finance Agent",
+          "action": "Routed request to FlowMind Finance Agent Agent",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Finance",
+          "action": "Retrieving overdue invoices from PostgreSQL ledger",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "events": [
+        {
+          "id": "EVT-1794911572769-1",
+          "type": "request_received",
+          "agentId": "CEO",
+          "agentName": "CEO Agent",
+          "message": "Request received and context validated",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "id": "EVT-1794911572769-2",
+          "type": "intent_detected",
+          "agentId": "FlowMind Finance Agent",
+          "agentName": "FlowMind Finance Agent Agent",
+          "message": "Intent Identified: FINANCE_GET_OVERDUE_INVOICES",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "securityBlocked": false,
+      "intentAction": "FINANCE_GET_OVERDUE_INVOICES",
+      "suggestedActions": [
+        {
+          "id": "d1",
+          "label": "💳 Check Overdue Payments",
+          "actionQuery": "Which customers have overdue payments?",
+          "targetAgent": "Finance"
+        },
+        {
+          "id": "d2",
+          "label": "👥 Sales Leads Overview",
+          "actionQuery": "Show my sales leads",
+          "targetAgent": "Sales"
+        },
+        {
+          "id": "d3",
+          "label": "⚠️ Cross-Domain Risk Accounts",
+          "actionQuery": "Show me customers who have both overdue invoices and unresolved support tickets",
+          "targetAgent": "CEO",
+          "primary": true
+        }
+      ],
+      "universalResponse": {
+        "agent": {
+          "id": "FlowMind Finance Agent",
+          "name": "FlowMind Finance Agent Agent"
+        },
+        "intent": {
+          "name": "FINANCE_GET_OVERDUE_INVOICES",
+          "confidenceLevel": "HIGH",
+          "missingFields": []
+        },
+        "response": {
+          "text": "### 💳 Overdue Customer Accounts & Outstanding Balances\n\nThe **Finance Agent** audited our PostgreSQL ledger and identified **5 overdue invoice(s)** across **2 customer account(s)**:\n\n| Customer Name | Overdue Count | Invoice Numbers | Due Date(s) | Outstanding Balance |\n| :--- | :---: | :--- | :--- | :--- |\n| **TechCorp India** | 1 | `INV-2026-002` | 2026-11-11 | **₹2,36,000** |\n| **Enterprise Customer** | 4 | `INV-2026-885, INV-2026-795, INV-2026-655, INV-2026-386` | 2026-11-09 | **₹6,49,000** |\n\n### 💰 Total Outstanding Amount: **₹8,85,000**\n\n*(Note: Amounts reflect verified balances inclusive of 18% GST without double-taxation.)*"
+        },
+        "validation": {
+          "status": "VALID",
+          "missingFields": []
+        },
+        "approval": {
+          "required": false,
+          "status": "NOT_REQUIRED"
+        },
+        "risk": {
+          "level": "LOW",
+          "reason": "Operational task execution"
+        },
+        "suggestedActions": [
+          {
+            "id": "d1",
+            "label": "💳 Check Overdue Payments",
+            "actionQuery": "Which customers have overdue payments?",
+            "targetAgent": "Finance"
+          },
+          {
+            "id": "d2",
+            "label": "👥 Sales Leads Overview",
+            "actionQuery": "Show my sales leads",
+            "targetAgent": "Sales"
+          },
+          {
+            "id": "d3",
+            "label": "⚠️ Cross-Domain Risk Accounts",
+            "actionQuery": "Show me customers who have both overdue invoices and unresolved support tickets",
+            "targetAgent": "CEO",
+            "primary": true
+          }
+        ],
+        "metadata": {
+          "thoughtSteps": [
+            {
+              "agent": "CEO",
+              "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for FINANCE_GET_OVERDUE_INVOICES",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "FlowMind Finance Agent",
+              "action": "Routed request to FlowMind Finance Agent Agent",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Finance",
+              "action": "Retrieving overdue invoices from PostgreSQL ledger",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            }
+          ],
+          "requestId": "REQ-1794911571265-458",
+          "qualityScore": 1,
+          "toolExecutions": [
+            {
+              "toolName": "finance_get_invoices",
+              "inputParameters": {
+                "status": "OVERDUE"
+              },
+              "executionStatus": "SUCCESS",
+              "durationMs": 2,
+              "resultData": [
+                {
+                  "id": "INV-2026-002",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-002",
+                  "customerName": "TechCorp India",
+                  "customerEmail": "aarav.sharma@techcorp.in",
+                  "status": "OVERDUE",
+                  "subtotal": 200000,
+                  "tax": 36000,
+                  "discount": 0,
+                  "total": 236000,
+                  "dueDate": "2026-11-11T17:44:06.045Z",
+                  "createdAt": "2026-11-16T17:44:06.046Z",
+                  "updatedAt": "2026-11-17T08:19:30.003Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792925380026",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-885",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 150000,
+                  "tax": 27000,
+                  "discount": 0,
+                  "total": 177000,
+                  "dueDate": "2026-11-09T10:49:40.026Z",
+                  "createdAt": "2026-10-25T10:49:40.027Z",
+                  "updatedAt": "2026-10-25T10:49:40.027Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792925069068",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-795",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 150000,
+                  "tax": 27000,
+                  "discount": 0,
+                  "total": 177000,
+                  "dueDate": "2026-11-09T10:44:29.068Z",
+                  "createdAt": "2026-10-25T10:44:29.069Z",
+                  "updatedAt": "2026-10-25T10:44:29.069Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792925052248",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-655",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 150000,
+                  "tax": 27000,
+                  "discount": 0,
+                  "total": 177000,
+                  "dueDate": "2026-11-09T10:44:12.248Z",
+                  "createdAt": "2026-10-25T10:44:12.249Z",
+                  "updatedAt": "2026-10-25T10:44:12.249Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792924988105",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-386",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 100000,
+                  "tax": 18000,
+                  "discount": 0,
+                  "total": 118000,
+                  "dueDate": "2026-11-09T10:43:08.105Z",
+                  "createdAt": "2026-10-25T10:43:08.106Z",
+                  "updatedAt": "2026-10-25T10:43:08.106Z",
+                  "items": [],
+                  "payments": []
+                }
+              ]
+            }
+          ],
+          "reasoningMode": "LLM_REASONING",
+          "aiProvider": "GEMINI",
+          "aiModel": "gemini-flash-lite-latest"
+        }
+      }
+    }
+  },
+  "resB": {
+    "success": true,
+    "result": {
+      "targetAgent": "Finance",
+      "responseText": "### 💳 Overdue Customer Accounts & Outstanding Balances\n\nThe **Finance Agent** audited our PostgreSQL ledger and identified **5 overdue invoice(s)** across **2 customer account(s)**:\n\n| Customer Name | Overdue Count | Invoice Numbers | Due Date(s) | Outstanding Balance |\n| :--- | :---: | :--- | :--- | :--- |\n| **TechCorp India** | 1 | `INV-2026-002` | 2026-11-11 | **₹2,36,000** |\n| **Enterprise Customer** | 4 | `INV-2026-885, INV-2026-795, INV-2026-655, INV-2026-386` | 2026-11-09 | **₹6,49,000** |\n\n### 💰 Total Outstanding Amount: **₹8,85,000**\n\n*(Note: Amounts reflect verified balances inclusive of 18% GST without double-taxation.)*",
+      "thoughtStream": [
+        {
+          "agent": "CEO",
+          "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for FINANCE_GET_OVERDUE_INVOICES",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Finance",
+          "action": "Routed request to Finance Agent",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Finance",
+          "action": "Retrieving overdue invoices from PostgreSQL ledger",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "events": [
+        {
+          "id": "EVT-1794911574294-1",
+          "type": "request_received",
+          "agentId": "CEO",
+          "agentName": "CEO Agent",
+          "message": "Request received and context validated",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "id": "EVT-1794911574294-2",
+          "type": "intent_detected",
+          "agentId": "Finance",
+          "agentName": "Finance Agent",
+          "message": "Intent Identified: FINANCE_GET_OVERDUE_INVOICES",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "securityBlocked": false,
+      "intentAction": "FINANCE_GET_OVERDUE_INVOICES",
+      "suggestedActions": [
+        {
+          "id": "f1",
+          "label": "⚠️ Multi-Domain Risk Check",
+          "actionQuery": "Show me customers who have both overdue invoices and unresolved support tickets",
+          "targetAgent": "CEO",
+          "primary": true
+        },
+        {
+          "id": "f2",
+          "label": "📧 Prepare Payment Reminder",
+          "actionQuery": "Create a workflow to notify customers about overdue invoices",
+          "targetAgent": "Workflow"
+        },
+        {
+          "id": "f3",
+          "label": "📊 View Sales Leads",
+          "actionQuery": "Show my sales leads",
+          "targetAgent": "Sales"
+        }
+      ],
+      "universalResponse": {
+        "agent": {
+          "id": "Finance",
+          "name": "Finance Agent"
+        },
+        "intent": {
+          "name": "FINANCE_GET_OVERDUE_INVOICES",
+          "confidenceLevel": "HIGH",
+          "missingFields": []
+        },
+        "response": {
+          "text": "### 💳 Overdue Customer Accounts & Outstanding Balances\n\nThe **Finance Agent** audited our PostgreSQL ledger and identified **5 overdue invoice(s)** across **2 customer account(s)**:\n\n| Customer Name | Overdue Count | Invoice Numbers | Due Date(s) | Outstanding Balance |\n| :--- | :---: | :--- | :--- | :--- |\n| **TechCorp India** | 1 | `INV-2026-002` | 2026-11-11 | **₹2,36,000** |\n| **Enterprise Customer** | 4 | `INV-2026-885, INV-2026-795, INV-2026-655, INV-2026-386` | 2026-11-09 | **₹6,49,000** |\n\n### 💰 Total Outstanding Amount: **₹8,85,000**\n\n*(Note: Amounts reflect verified balances inclusive of 18% GST without double-taxation.)*"
+        },
+        "validation": {
+          "status": "VALID",
+          "missingFields": []
+        },
+        "approval": {
+          "required": false,
+          "status": "NOT_REQUIRED"
+        },
+        "risk": {
+          "level": "LOW",
+          "reason": "Operational task execution"
+        },
+        "suggestedActions": [
+          {
+            "id": "f1",
+            "label": "⚠️ Multi-Domain Risk Check",
+            "actionQuery": "Show me customers who have both overdue invoices and unresolved support tickets",
+            "targetAgent": "CEO",
+            "primary": true
+          },
+          {
+            "id": "f2",
+            "label": "📧 Prepare Payment Reminder",
+            "actionQuery": "Create a workflow to notify customers about overdue invoices",
+            "targetAgent": "Workflow"
+          },
+          {
+            "id": "f3",
+            "label": "📊 View Sales Leads",
+            "actionQuery": "Show my sales leads",
+            "targetAgent": "Sales"
+          }
+        ],
+        "metadata": {
+          "thoughtSteps": [
+            {
+              "agent": "CEO",
+              "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for FINANCE_GET_OVERDUE_INVOICES",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Finance",
+              "action": "Routed request to Finance Agent",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Finance",
+              "action": "Retrieving overdue invoices from PostgreSQL ledger",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            }
+          ],
+          "requestId": "REQ-1794911572775-886",
+          "qualityScore": 1,
+          "toolExecutions": [
+            {
+              "toolName": "finance_get_invoices",
+              "inputParameters": {
+                "status": "OVERDUE"
+              },
+              "executionStatus": "SUCCESS",
+              "durationMs": 3,
+              "resultData": [
+                {
+                  "id": "INV-2026-002",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-002",
+                  "customerName": "TechCorp India",
+                  "customerEmail": "aarav.sharma@techcorp.in",
+                  "status": "OVERDUE",
+                  "subtotal": 200000,
+                  "tax": 36000,
+                  "discount": 0,
+                  "total": 236000,
+                  "dueDate": "2026-11-11T17:44:06.045Z",
+                  "createdAt": "2026-11-16T17:44:06.046Z",
+                  "updatedAt": "2026-11-17T08:19:30.003Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792925380026",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-885",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 150000,
+                  "tax": 27000,
+                  "discount": 0,
+                  "total": 177000,
+                  "dueDate": "2026-11-09T10:49:40.026Z",
+                  "createdAt": "2026-10-25T10:49:40.027Z",
+                  "updatedAt": "2026-10-25T10:49:40.027Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792925069068",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-795",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 150000,
+                  "tax": 27000,
+                  "discount": 0,
+                  "total": 177000,
+                  "dueDate": "2026-11-09T10:44:29.068Z",
+                  "createdAt": "2026-10-25T10:44:29.069Z",
+                  "updatedAt": "2026-10-25T10:44:29.069Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792925052248",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-655",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 150000,
+                  "tax": 27000,
+                  "discount": 0,
+                  "total": 177000,
+                  "dueDate": "2026-11-09T10:44:12.248Z",
+                  "createdAt": "2026-10-25T10:44:12.249Z",
+                  "updatedAt": "2026-10-25T10:44:12.249Z",
+                  "items": [],
+                  "payments": []
+                },
+                {
+                  "id": "INV-1792924988105",
+                  "organizationId": "ORG-01",
+                  "invoiceNumber": "INV-2026-386",
+                  "customerName": "Enterprise Customer",
+                  "customerEmail": "billing@customer.com",
+                  "createdById": "USER-ADMIN-01",
+                  "status": "PENDING",
+                  "subtotal": 100000,
+                  "tax": 18000,
+                  "discount": 0,
+                  "total": 118000,
+                  "dueDate": "2026-11-09T10:43:08.105Z",
+                  "createdAt": "2026-10-25T10:43:08.106Z",
+                  "updatedAt": "2026-10-25T10:43:08.106Z",
+                  "items": [],
+                  "payments": []
+                }
+              ]
+            }
+          ],
+          "reasoningMode": "LLM_REASONING",
+          "aiProvider": "GEMINI",
+          "aiModel": "gemini-flash-lite-latest"
+        }
+      }
+    }
+  },
+  "resC": {
+    "success": true,
+    "result": {
+      "targetAgent": "Sales",
+      "responseText": "### 🎯 Sales Pipeline Leads\n\nThe **Sales Agent** retrieved **33 prospect record(s)**:\n\n| Lead ID | Company Name | Contact | Deal Value | Stage | Score |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| `LEAD-1794911497031` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794911392035` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794911319136` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794911291550` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794908893014` | **Tata Motors** | Tata Motors Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794908506506` | **Tata Motors** | Tata Motors Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794903576147` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794903572384` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794903316152` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794903315671` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794853809243` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794853808283` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852997714` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852997231` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794852662565` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852661949` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794852636832` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794852585289` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852584437` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794851392272` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794851391423` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794851060386` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794851059355` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794851046082` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794850967258` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794850884925` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794850858154` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794847588779` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794656405242` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792925379941` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792925068879` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792925052043` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792924988031` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |",
+      "thoughtStream": [
+        {
+          "agent": "CEO",
+          "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for CRM_GET_LEADS",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Sales",
+          "action": "Routed request to Sales Agent",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Sales",
+          "action": "Querying leads from CRM pipeline",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "events": [
+        {
+          "id": "EVT-1794911579016-1",
+          "type": "request_received",
+          "agentId": "CEO",
+          "agentName": "CEO Agent",
+          "message": "Request received and context validated",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "id": "EVT-1794911579016-2",
+          "type": "intent_detected",
+          "agentId": "Sales",
+          "agentName": "Sales Agent",
+          "message": "Intent Identified: CRM_GET_LEADS",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "securityBlocked": false,
+      "intentAction": "CRM_GET_LEADS",
+      "suggestedActions": [
+        {
+          "id": "s1",
+          "label": "📊 Analyze Lead Conversions",
+          "actionQuery": "Which sales representative converted the most leads?",
+          "targetAgent": "Sales",
+          "primary": true
+        },
+        {
+          "id": "s2",
+          "label": "🔍 Check Stale Leads",
+          "actionQuery": "Which leads have not received follow-ups?",
+          "targetAgent": "Sales"
+        },
+        {
+          "id": "s3",
+          "label": "💳 View Overdue Invoices",
+          "actionQuery": "Which customers have overdue payments?",
+          "targetAgent": "Finance"
+        }
+      ],
+      "universalResponse": {
+        "agent": {
+          "id": "Sales",
+          "name": "Sales Agent"
+        },
+        "intent": {
+          "name": "CRM_GET_LEADS",
+          "confidenceLevel": "HIGH",
+          "missingFields": []
+        },
+        "response": {
+          "text": "### 🎯 Sales Pipeline Leads\n\nThe **Sales Agent** retrieved **33 prospect record(s)**:\n\n| Lead ID | Company Name | Contact | Deal Value | Stage | Score |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| `LEAD-1794911497031` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794911392035` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794911319136` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794911291550` | **Tata Motors** | Tata Motors Representative | ₹4,50,000 | `NEW` | 75/100 |\n| `LEAD-1794908893014` | **Tata Motors** | Tata Motors Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794908506506` | **Tata Motors** | Tata Motors Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794903576147` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794903572384` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794903316152` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794903315671` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794853809243` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794853808283` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852997714` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852997231` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794852662565` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852661949` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794852636832` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794852585289` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794852584437` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794851392272` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794851391423` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794851060386` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794851059355` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794851046082` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794850967258` | **ABC Technologies** | ABC Technologies Representative | ₹2,00,000 | `NEW` | 75/100 |\n| `LEAD-1794850884925` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794850858154` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794847588779` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1794656405242` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792925379941` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792925068879` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792925052043` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |\n| `LEAD-1792924988031` | **TechCorp India** | Priya Sharma | ₹2,00,000 | `CONTACTED` | 70/100 |"
+        },
+        "validation": {
+          "status": "VALID",
+          "missingFields": []
+        },
+        "approval": {
+          "required": false,
+          "status": "NOT_REQUIRED"
+        },
+        "risk": {
+          "level": "LOW",
+          "reason": "Operational task execution"
+        },
+        "suggestedActions": [
+          {
+            "id": "s1",
+            "label": "📊 Analyze Lead Conversions",
+            "actionQuery": "Which sales representative converted the most leads?",
+            "targetAgent": "Sales",
+            "primary": true
+          },
+          {
+            "id": "s2",
+            "label": "🔍 Check Stale Leads",
+            "actionQuery": "Which leads have not received follow-ups?",
+            "targetAgent": "Sales"
+          },
+          {
+            "id": "s3",
+            "label": "💳 View Overdue Invoices",
+            "actionQuery": "Which customers have overdue payments?",
+            "targetAgent": "Finance"
+          }
+        ],
+        "metadata": {
+          "thoughtSteps": [
+            {
+              "agent": "CEO",
+              "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for CRM_GET_LEADS",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Sales",
+              "action": "Routed request to Sales Agent",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Sales",
+              "action": "Querying leads from CRM pipeline",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            }
+          ],
+          "requestId": "REQ-1794911574300-948",
+          "qualityScore": 1,
+          "toolExecutions": [
+            {
+              "toolName": "crm_get_leads",
+              "inputParameters": {},
+              "executionStatus": "SUCCESS",
+              "durationMs": 2,
+              "resultData": [
+                {
+                  "id": "LEAD-1794911497031",
+                  "organizationId": "ORG-01",
+                  "name": "Tata Motors Representative",
+                  "email": "contact@tatamotors.com",
+                  "company": "Tata Motors",
+                  "source": "OUTBOUND",
+                  "ownerId": "USR-0001",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 450000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T10:31:37.031Z",
+                  "updatedAt": "2026-11-17T10:31:37.031Z"
+                },
+                {
+                  "id": "LEAD-1794911392035",
+                  "organizationId": "ORG-01",
+                  "name": "Tata Motors Representative",
+                  "email": "contact@tatamotors.com",
+                  "company": "Tata Motors",
+                  "source": "OUTBOUND",
+                  "ownerId": "USR-0001",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 450000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T10:29:52.036Z",
+                  "updatedAt": "2026-11-17T10:29:52.036Z"
+                },
+                {
+                  "id": "LEAD-1794911319136",
+                  "organizationId": "ORG-01",
+                  "name": "Tata Motors Representative",
+                  "email": "contact@tatamotors.com",
+                  "company": "Tata Motors",
+                  "source": "OUTBOUND",
+                  "ownerId": "USR-0001",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 450000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T10:28:39.137Z",
+                  "updatedAt": "2026-11-17T10:28:39.137Z"
+                },
+                {
+                  "id": "LEAD-1794911291550",
+                  "organizationId": "ORG-01",
+                  "name": "Tata Motors Representative",
+                  "email": "contact@tatamotors.com",
+                  "company": "Tata Motors",
+                  "source": "OUTBOUND",
+                  "ownerId": "USR-0001",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 450000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T10:28:11.553Z",
+                  "updatedAt": "2026-11-17T10:28:11.553Z"
+                },
+                {
+                  "id": "LEAD-1794908893014",
+                  "organizationId": "ORG-01",
+                  "name": "Tata Motors Representative",
+                  "email": "contact@tatamotors.com",
+                  "company": "Tata Motors",
+                  "source": "OUTBOUND",
+                  "ownerId": "USR-0001",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T09:48:13.015Z",
+                  "updatedAt": "2026-11-17T09:48:13.015Z"
+                },
+                {
+                  "id": "LEAD-1794908506506",
+                  "organizationId": "ORG-01",
+                  "name": "Tata Motors Representative",
+                  "email": "contact@tatamotors.com",
+                  "company": "Tata Motors",
+                  "source": "OUTBOUND",
+                  "ownerId": "USR-0001",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T09:41:46.511Z",
+                  "updatedAt": "2026-11-17T09:41:46.511Z"
+                },
+                {
+                  "id": "LEAD-1794903576147",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-17T08:19:36.203Z",
+                  "updatedAt": "2026-11-17T08:19:36.231Z"
+                },
+                {
+                  "id": "LEAD-1794903572384",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T08:19:32.387Z",
+                  "updatedAt": "2026-11-17T08:19:32.387Z"
+                },
+                {
+                  "id": "LEAD-1794903316152",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-17T08:15:16.154Z",
+                  "updatedAt": "2026-11-17T08:15:16.154Z"
+                },
+                {
+                  "id": "LEAD-1794903315671",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-17T08:15:15.700Z",
+                  "updatedAt": "2026-11-17T08:15:15.749Z"
+                },
+                {
+                  "id": "LEAD-1794853809243",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T18:30:09.244Z",
+                  "updatedAt": "2026-11-16T18:30:09.244Z"
+                },
+                {
+                  "id": "LEAD-1794853808283",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T18:30:08.313Z",
+                  "updatedAt": "2026-11-16T18:30:08.341Z"
+                },
+                {
+                  "id": "LEAD-1794852997714",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T18:16:37.851Z",
+                  "updatedAt": "2026-11-16T18:16:37.857Z"
+                },
+                {
+                  "id": "LEAD-1794852997231",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T18:16:37.233Z",
+                  "updatedAt": "2026-11-16T18:16:37.233Z"
+                },
+                {
+                  "id": "LEAD-1794852662565",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T18:11:02.594Z",
+                  "updatedAt": "2026-11-16T18:11:02.600Z"
+                },
+                {
+                  "id": "LEAD-1794852661949",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T18:11:01.950Z",
+                  "updatedAt": "2026-11-16T18:11:01.950Z"
+                },
+                {
+                  "id": "LEAD-1794852636832",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T18:10:36.834Z",
+                  "updatedAt": "2026-11-16T18:10:36.834Z"
+                },
+                {
+                  "id": "LEAD-1794852585289",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T18:09:45.319Z",
+                  "updatedAt": "2026-11-16T18:09:45.324Z"
+                },
+                {
+                  "id": "LEAD-1794852584437",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T18:09:44.439Z",
+                  "updatedAt": "2026-11-16T18:09:44.439Z"
+                },
+                {
+                  "id": "LEAD-1794851392272",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T17:49:52.299Z",
+                  "updatedAt": "2026-11-16T17:49:52.304Z"
+                },
+                {
+                  "id": "LEAD-1794851391423",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T17:49:51.424Z",
+                  "updatedAt": "2026-11-16T17:49:51.424Z"
+                },
+                {
+                  "id": "LEAD-1794851060386",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T17:44:20.415Z",
+                  "updatedAt": "2026-11-16T17:44:20.419Z"
+                },
+                {
+                  "id": "LEAD-1794851059355",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T17:44:19.356Z",
+                  "updatedAt": "2026-11-16T17:44:19.356Z"
+                },
+                {
+                  "id": "LEAD-1794851046082",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T17:44:06.083Z",
+                  "updatedAt": "2026-11-16T17:44:06.083Z"
+                },
+                {
+                  "id": "LEAD-1794850967258",
+                  "organizationId": "ORG-01",
+                  "name": "ABC Technologies Representative",
+                  "email": "contact@abctechnologies.com",
+                  "company": "ABC Technologies",
+                  "source": "OUTBOUND",
+                  "ownerId": "usr-real-test-01",
+                  "stage": "NEW",
+                  "status": "ACTIVE",
+                  "score": 75,
+                  "value": 200000,
+                  "tags": [
+                    "AI Prospect"
+                  ],
+                  "createdAt": "2026-11-16T17:42:47.260Z",
+                  "updatedAt": "2026-11-16T17:42:47.260Z"
+                },
+                {
+                  "id": "LEAD-1794850884925",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T17:41:24.953Z",
+                  "updatedAt": "2026-11-16T17:41:24.957Z"
+                },
+                {
+                  "id": "LEAD-1794850858154",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T17:40:58.184Z",
+                  "updatedAt": "2026-11-16T17:40:58.189Z"
+                },
+                {
+                  "id": "LEAD-1794847588779",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-16T16:46:28.908Z",
+                  "updatedAt": "2026-11-16T16:46:28.913Z"
+                },
+                {
+                  "id": "LEAD-1794656405242",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-11-14T11:40:06.247Z",
+                  "updatedAt": "2026-11-14T11:40:06.344Z"
+                },
+                {
+                  "id": "LEAD-1792925379941",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-10-25T10:49:39.984Z",
+                  "updatedAt": "2026-10-25T10:49:40.013Z"
+                },
+                {
+                  "id": "LEAD-1792925068879",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-10-25T10:44:29.029Z",
+                  "updatedAt": "2026-10-25T10:44:29.056Z"
+                },
+                {
+                  "id": "LEAD-1792925052043",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-10-25T10:44:12.213Z",
+                  "updatedAt": "2026-10-25T10:44:12.238Z"
+                },
+                {
+                  "id": "LEAD-1792924988031",
+                  "organizationId": "ORG-01",
+                  "name": "Priya Sharma",
+                  "email": "priya.sharma@techcorp.in",
+                  "company": "TechCorp India",
+                  "source": "WEBSITE",
+                  "ownerId": "USER-ADMIN-01",
+                  "stage": "CONTACTED",
+                  "status": "ACTIVE",
+                  "score": 70,
+                  "value": 200000,
+                  "tags": [
+                    "Inbound"
+                  ],
+                  "createdAt": "2026-10-25T10:43:08.066Z",
+                  "updatedAt": "2026-10-25T10:43:08.094Z"
+                }
+              ]
+            }
+          ],
+          "reasoningMode": "LLM_REASONING",
+          "aiProvider": "GEMINI",
+          "aiModel": "gemini-flash-lite-latest"
+        }
+      }
+    }
+  },
+  "resD": {
+    "success": true,
+    "result": {
+      "targetAgent": "Support",
+      "responseText": "### 🎫 Unresolved High-Priority Support Tickets\n\nThe **Customer Support Agent** flagged **1 high-priority ticket(s)** requiring urgent resolution:\n\n| Ticket # | Customer Name | Issue Title | Priority | Status | Created Date |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| `TICK-101` | **TechCorp India** | DAG Workflow Node Retry Policy Delay | 🔴 **HIGH** | `IN_PROGRESS` | 16/11/2026 |",
+      "thoughtStream": [
+        {
+          "agent": "CEO",
+          "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for SUPPORT_GET_HIGH_PRIORITY_TICKETS",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Support",
+          "action": "Routed request to Support Agent",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Support",
+          "action": "Querying high-priority unresolved customer tickets",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "events": [
+        {
+          "id": "EVT-1794911584176-1",
+          "type": "request_received",
+          "agentId": "CEO",
+          "agentName": "CEO Agent",
+          "message": "Request received and context validated",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        },
+        {
+          "id": "EVT-1794911584176-2",
+          "type": "intent_detected",
+          "agentId": "Support",
+          "agentName": "Support Agent",
+          "message": "Intent Identified: SUPPORT_GET_HIGH_PRIORITY_TICKETS",
+          "timestamp": "04:02 pm",
+          "status": "DONE"
+        }
+      ],
+      "securityBlocked": false,
+      "intentAction": "SUPPORT_GET_HIGH_PRIORITY_TICKETS",
+      "suggestedActions": [
+        {
+          "id": "sp1",
+          "label": "🚨 View High Priority Tickets",
+          "actionQuery": "List unresolved high-priority support tickets",
+          "targetAgent": "Support",
+          "primary": true
+        },
+        {
+          "id": "sp2",
+          "label": "👥 Customer 360 View",
+          "actionQuery": "Show me customers who have both overdue invoices and unresolved support tickets",
+          "targetAgent": "CEO"
+        }
+      ],
+      "universalResponse": {
+        "agent": {
+          "id": "Support",
+          "name": "Support Agent"
+        },
+        "intent": {
+          "name": "SUPPORT_GET_HIGH_PRIORITY_TICKETS",
+          "confidenceLevel": "HIGH",
+          "missingFields": []
+        },
+        "response": {
+          "text": "### 🎫 Unresolved High-Priority Support Tickets\n\nThe **Customer Support Agent** flagged **1 high-priority ticket(s)** requiring urgent resolution:\n\n| Ticket # | Customer Name | Issue Title | Priority | Status | Created Date |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| `TICK-101` | **TechCorp India** | DAG Workflow Node Retry Policy Delay | 🔴 **HIGH** | `IN_PROGRESS` | 16/11/2026 |"
+        },
+        "validation": {
+          "status": "VALID",
+          "missingFields": []
+        },
+        "approval": {
+          "required": false,
+          "status": "NOT_REQUIRED"
+        },
+        "risk": {
+          "level": "LOW",
+          "reason": "Operational task execution"
+        },
+        "suggestedActions": [
+          {
+            "id": "sp1",
+            "label": "🚨 View High Priority Tickets",
+            "actionQuery": "List unresolved high-priority support tickets",
+            "targetAgent": "Support",
+            "primary": true
+          },
+          {
+            "id": "sp2",
+            "label": "👥 Customer 360 View",
+            "actionQuery": "Show me customers who have both overdue invoices and unresolved support tickets",
+            "targetAgent": "CEO"
+          }
+        ],
+        "metadata": {
+          "thoughtSteps": [
+            {
+              "agent": "CEO",
+              "action": "AI Reasoning Engine (GEMINI - gemini-flash-lite-latest): Plan formulated for SUPPORT_GET_HIGH_PRIORITY_TICKETS",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Support",
+              "action": "Routed request to Support Agent",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Support",
+              "action": "Querying high-priority unresolved customer tickets",
+              "timestamp": "04:02 pm",
+              "status": "DONE"
+            }
+          ],
+          "requestId": "REQ-1794911579022-779",
+          "qualityScore": 1,
+          "toolExecutions": [
+            {
+              "toolName": "support_get_tickets",
+              "inputParameters": {
+                "priority": "HIGH",
+                "statusFilter": "UNRESOLVED"
+              },
+              "executionStatus": "SUCCESS",
+              "durationMs": 1,
+              "resultData": [
+                {
+                  "id": "TICK-101",
+                  "organizationId": "ORG-01",
+                  "ticketNumber": "TICK-101",
+                  "customerName": "TechCorp India",
+                  "title": "DAG Workflow Node Retry Policy Delay",
+                  "description": "Condition node in high-frequency DAG pipeline experiences 1.5s delay during peak traffic.",
+                  "priority": "HIGH",
+                  "status": "IN_PROGRESS",
+                  "category": "TECHNICAL",
+                  "createdAt": "2026-11-16T17:44:06.049Z",
+                  "updatedAt": "2026-11-17T08:19:30.012Z",
+                  "notes": []
+                }
+              ]
+            }
+          ],
+          "reasoningMode": "LLM_REASONING",
+          "aiProvider": "GEMINI",
+          "aiModel": "gemini-flash-lite-latest"
+        }
+      }
+    }
+  },
+  "resE": {
+    "success": true,
+    "result": {
+      "targetAgent": "CEO",
+      "responseText": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts\n\nThe **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-reference customer ledgers with active technical incidents.\n\nWe identified **1 customer account(s)** with both outstanding overdue invoices and unresolved support tickets:\n\n| Customer Company | Overdue Invoice | Overdue Amount | Open Ticket | Issue Summary | Priority | Risk Level |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| **TechCorp India** | `INV-2026-002` | ₹2,36,000 | `TICK-101` | DAG Workflow Node Retry Policy Delay | **HIGH** | 🔴 CRITICAL |\n\n**Strategic Follow-Up Plan:**\n1. **Priority Support Resolution:** Have the Support Lead resolve ticket `TICK-101` immediately before escalating billing collection.\n2. **Empathetic Billing Outreach:** Dispatch payment reminder with executive waiver of late fees once the ticket is verified resolved.\n3. **Account Review:** Schedule a cross-departmental sync with the assigned Sales Director.",
+      "thoughtStream": [
+        {
+          "agent": "CEO",
+          "action": "Deterministic Operational Engine: Verified rules binding for CROSS_DOMAIN_OVERDUE_AND_SUPPORT",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "CEO",
+          "action": "Routed request to CEO Agent",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Finance",
+          "action": "Querying overdue customer invoices from ledger",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "Support",
+          "action": "Querying open technical support tickets",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        },
+        {
+          "agent": "CEO",
+          "action": "Correlating risk accounts across Finance and Support by customer entity",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        }
+      ],
+      "events": [
+        {
+          "id": "EVT-1794911584971-1",
+          "type": "request_received",
+          "agentId": "CEO",
+          "agentName": "CEO Agent",
+          "message": "Request received and context validated",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        },
+        {
+          "id": "EVT-1794911584971-2",
+          "type": "intent_detected",
+          "agentId": "CEO",
+          "agentName": "CEO Agent",
+          "message": "Intent Identified: CROSS_DOMAIN_OVERDUE_AND_SUPPORT",
+          "timestamp": "04:03 pm",
+          "status": "DONE"
+        }
+      ],
+      "securityBlocked": false,
+      "intentAction": "CROSS_DOMAIN_OVERDUE_AND_SUPPORT",
+      "suggestedActions": [
+        {
+          "id": "act-support-escalate",
+          "label": "Escalate High-Priority Ticket",
+          "actionQuery": "Escalate open ticket TICK-101 to Engineering",
+          "targetAgent": "Support",
+          "primary": true
+        },
+        {
+          "id": "act-invoice-reminder",
+          "label": "Send Invoice Reminder Draft",
+          "actionQuery": "Send payment reminder draft to TechCorp India",
+          "targetAgent": "Finance"
+        }
+      ],
+      "universalResponse": {
+        "agent": {
+          "id": "CEO",
+          "name": "CEO Agent"
+        },
+        "intent": {
+          "name": "CROSS_DOMAIN_OVERDUE_AND_SUPPORT",
+          "confidenceLevel": "HIGH",
+          "missingFields": []
+        },
+        "response": {
+          "text": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts\n\nThe **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-reference customer ledgers with active technical incidents.\n\nWe identified **1 customer account(s)** with both outstanding overdue invoices and unresolved support tickets:\n\n| Customer Company | Overdue Invoice | Overdue Amount | Open Ticket | Issue Summary | Priority | Risk Level |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| **TechCorp India** | `INV-2026-002` | ₹2,36,000 | `TICK-101` | DAG Workflow Node Retry Policy Delay | **HIGH** | 🔴 CRITICAL |\n\n**Strategic Follow-Up Plan:**\n1. **Priority Support Resolution:** Have the Support Lead resolve ticket `TICK-101` immediately before escalating billing collection.\n2. **Empathetic Billing Outreach:** Dispatch payment reminder with executive waiver of late fees once the ticket is verified resolved.\n3. **Account Review:** Schedule a cross-departmental sync with the assigned Sales Director."
+        },
+        "validation": {
+          "status": "VALID",
+          "missingFields": []
+        },
+        "approval": {
+          "required": false,
+          "status": "NOT_REQUIRED"
+        },
+        "risk": {
+          "level": "MEDIUM",
+          "reason": "Cross-departmental risk evaluation"
+        },
+        "suggestedActions": [
+          {
+            "id": "act-support-escalate",
+            "label": "Escalate High-Priority Ticket",
+            "actionQuery": "Escalate open ticket TICK-101 to Engineering",
+            "targetAgent": "Support",
+            "primary": true
+          },
+          {
+            "id": "act-invoice-reminder",
+            "label": "Send Invoice Reminder Draft",
+            "actionQuery": "Send payment reminder draft to TechCorp India",
+            "targetAgent": "Finance"
+          }
+        ],
+        "metadata": {
+          "thoughtSteps": [
+            {
+              "agent": "CEO",
+              "action": "Deterministic Operational Engine: Verified rules binding for CROSS_DOMAIN_OVERDUE_AND_SUPPORT",
+              "timestamp": "04:03 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "CEO",
+              "action": "Routed request to CEO Agent",
+              "timestamp": "04:03 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Finance",
+              "action": "Querying overdue customer invoices from ledger",
+              "timestamp": "04:03 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "Support",
+              "action": "Querying open technical support tickets",
+              "timestamp": "04:03 pm",
+              "status": "DONE"
+            },
+            {
+              "agent": "CEO",
+              "action": "Correlating risk accounts across Finance and Support by customer entity",
+              "timestamp": "04:03 pm",
+              "status": "DONE"
+            }
+          ],
+          "tableData": [
+            {
+              "customerName": "TechCorp India",
+              "overdueAmount": 236000,
+              "invoiceNumber": "INV-2026-002",
+              "ticketNumber": "TICK-101",
+              "ticketTitle": "DAG Workflow Node Retry Policy Delay",
+              "ticketPriority": "HIGH",
+              "riskSeverity": "CRITICAL"
+            }
+          ],
+          "riskAccounts": [
+            {
+              "customerName": "TechCorp India",
+              "overdueAmount": 236000,
+              "invoiceNumber": "INV-2026-002",
+              "ticketNumber": "TICK-101",
+              "ticketTitle": "DAG Workflow Node Retry Policy Delay",
+              "ticketPriority": "HIGH",
+              "riskSeverity": "CRITICAL"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1405 @@
+{
+  "timestamp": "2026-11-18T18:17:11.575Z",
+  "totalMatrixTests": 90,
+  "passedMatrixTests": 90,
+  "matrixPassRate": "100%",
+  "matrixResults": [
+    {
+      "testNum": 1,
+      "agent": "CEO",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Provide an executive summary of risk accounts with overdue balances and open support tickets.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r",
+      "elapsedMs": 13
+    },
+    {
+      "testNum": 2,
+      "agent": "CEO",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "अतिदेय शेष और खुली सहायता टिकट वाले जोखिम खातों का कार्यकारी सारांश प्रदान करें।",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r",
+      "elapsedMs": 11
+    },
+    {
+      "testNum": 3,
+      "agent": "CEO",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "బకాయి బ్యాలెన్స్‌లు మరియు తెరిచి ఉన్న సపోర్ట్ టిక్కెట్‌లతో కూడిన రిస్క్ ఖాతాల కార్యనిర్వాహక సారాంశాన్ని అందించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r",
+      "elapsedMs": 11
+    },
+    {
+      "testNum": 4,
+      "agent": "CEO",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "நிலுவைத் தொகை மற்றும் திறந்த ஆதரவு டிக்கெட்டுகளைக் கொண்ட ஆபத்து கணக்குகளின் நிர்வாக சுருக்கத்தை வழங்கவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 5,
+      "agent": "CEO",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಬಾಕಿ ಮೊತ್ತ ಮತ್ತು ಮುಕ್ತ ಬೆಂಬಲ ಟಿಕೆಟ್‌ಗಳನ್ನು ಹೊಂದಿರುವ ಅಪಾಯದ ಖಾತೆಗಳ ಕಾರ್ಯನಿರ್ವಾಹಕ ಸಾರಾಂಶವನ್ನು ಒದಗಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 6,
+      "agent": "CEO",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "കുടിശ്ശികയുള്ള ബാലൻസുകളും ഓപ്പൺ സപ്പോർട്ട് ടിക്കറ്റുകളുമുള്ള റിസ്ക് അക്കൗണ്ടുകളുടെ എക്സിക്യൂട്ടീവ് സംഗ്രഹം നൽകുക.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### സാമ്പത്തിക അവലോകനം (Financial Overview)  **ധനകാര്യ ഏജന്റ് (Finance Agent)** നമ്മുടെ പോസ്റ്റ്ഗ്രെഎസ്ക്യുഎൽ ലെഡ്ജർ ഓഡിറ്റ് ചെയ്യുകയും **കാലഹരണപ്പെട്",
+      "elapsedMs": 11
+    },
+    {
+      "testNum": 7,
+      "agent": "Sales",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Show me all active sales deals, their stages and total pipeline value.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "crm_get_leads",
+      "responseSample": "### Sales Pipeline Overview  The **Sales Agent** evaluated **52 active opportunities** in our CRM pipeline totaling **₹97,00,000**:  ### Pipeline Brea",
+      "elapsedMs": 11
+    },
+    {
+      "testNum": 8,
+      "agent": "Sales",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "मेरे सभी सक्रिय बिक्री सौदे दिखाइए। उनके चरण और कुल बिक्री मूल्य भी बताइए।",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "crm_get_leads",
+      "responseSample": "### बिक्री पाइपलाइन अवलोकन (Sales Pipeline Overview)  **सेल्स एजेंट (Sales Agent)** ने हमारे CRM पाइपलाइन में कुल **₹97,00,000** मूल्य वाले **52 सक्रि",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 9,
+      "agent": "Sales",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "నా యాక్టివ్ సేల్స్ డీల్స్, వాటి దశలు మరియు మొత్తం పైప్‌లైన్ విలువను చూపించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "crm_get_leads",
+      "responseSample": "### అమ్మకాల పైప్‌లైన్ అవలోకనం (Sales Pipeline Overview)  **సేల్స్ ఏజెంట్ (Sales Agent)** మన CRM పైప్‌లైన్‌లో మొత్తం **₹97,00,000** విలువైన **52 క్రియా",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 10,
+      "agent": "Sales",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "எனது செயலில் உள்ள விற்பனை ஒப்பந்தங்கள், அவற்றின் நிலைகள் மற்றும் மொத்த பைப்லைன் மதிப்பைக் காட்டுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "crm_get_leads",
+      "responseSample": "### விற்பனை பைப்லைன் கண்ணோட்டம் (Sales Pipeline Overview)  **விற்பனை முகவர் (Sales Agent)** நமது CRM பைப்லைனில் மொத்தம் **₹97,00,000** மதிப்புள்ள **52",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 11,
+      "agent": "Sales",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ನನ್ನ ಎಲ್ಲಾ ಸಕ್ರಿಯ ಮಾರಾಟ ಡೀಲ್‌ಗಳು, ಅವುಗಳ ಹಂತಗಳು ಮತ್ತು ಒಟ್ಟು ಪೈಪ್‌ಲೈನ್ ಮೌಲ್ಯವನ್ನು ತೋರಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "crm_get_leads",
+      "responseSample": "### ಮಾರಾಟ ಪೈಪ್‌ಲೈನ್ ಅವಲೋಕನ (Sales Pipeline Overview)  **ಮಾರಾಟ ಏಜೆಂಟ್ (Sales Agent)** ನಮ್ಮ CRM ಪೈಪ್‌ಲೈನ್‌ನಲ್ಲಿ ಒಟ್ಟು **₹97,00,000** ಮೌಲ್ಯದ **52 ಸಕ್ರಿಯ ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 12,
+      "agent": "Sales",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "എന്റെ എല്ലാ സജീവ വിൽപ്പന ഡീലുകളും അവയുടെ ഘട്ടങ്ങളും ആകെ പൈപ്പ്‌ലൈൻ മൂല്യവും കാണിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "crm_get_leads",
+      "responseSample": "### വിൽപ്പന പൈപ്പ്‌ലൈൻ അവലോകനം (Sales Pipeline Overview)  **സെയിൽസ് ഏജന്റ് (Sales Agent)** നമ്മുടെ CRM പൈപ്പ്‌ലൈനിൽ ആകെ **₹97,00,000** മൂല്യമുള്ള **52",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 13,
+      "agent": "Finance",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Show me all overdue invoices and calculate total outstanding balance.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Financial Overview  The **Finance Agent** audited our PostgreSQL ledger and identified **Overdue Customer Invoices** across **5 overdue invoice(s)",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 14,
+      "agent": "Finance",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "सभी अतिदेय चालान और कुल बकाया राशि दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### वित्तीय समीक्षा (Financial Overview)  **वित्त एजेंट (Finance Agent)** ने हमारे पोस्टग्रेएसक्यूएल लेज़र का ऑडिट किया और **अतिदेय ग्राहक चालान (Over",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 15,
+      "agent": "Finance",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "అన్ని గడువు ముగిసిన ఇన్వాయిస్‌లు మరియు మొత్తం బకాయి మొత్తాన్ని చూపించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### ఆర్థిక సమీక్ష (Financial Overview)  **ఫైనాన్స్ ఏజెంట్ (Finance Agent)** మన పోస్ట్‌గ్రేఎస్క్యూఎల్ లెడ్జర్‌ను ఆడిట్ చేసి **గడువు ముగిసిన కస్టమర్ ఇన్",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 16,
+      "agent": "Finance",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "காலாவதியான அனைத்து விலைப்பட்டியல்களையும் மொத்த நிலுவைத் தொகையையும் காட்டுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### நிதி கண்ணோட்டம் (Financial Overview)  **நிதி முகவர் (Finance Agent)** நமது போஸ்ட்கிரெஸ்கியூஎல் லெட்ஜரை தணிக்கை செய்து **காலாவதியான வாடிக்கையாளர் வ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 17,
+      "agent": "Finance",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಎಲ್ಲಾ ಅವಧಿ ಮೀರಿದ ಇನ್‌ವಾಯ್ಸ್‌ಗಳು ಮತ್ತು ಒಟ್ಟು ಬಾಕಿ ಮೊತ್ತವನ್ನು ತೋರಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### ಹಣಕಾಸು ಅವಲೋಕನ (Financial Overview)  **ಹಣಕಾಸು ಏಜೆಂಟ್ (Finance Agent)** ನಮ್ಮ ಪೋಸ್ಟ್‌ಗ್ರೆಸ್‌ಕ್ಯೂಎಲ್ ಲೆಡ್ಜರ್ ಅನ್ನು ಆಡಿಟ್ ಮಾಡಿದ್ದಾರೆ ಮತ್ತು **ಅವಧಿ ಮೀರಿದ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 18,
+      "agent": "Finance",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "എല്ലാ കുടിശ്ശികയുള്ള ഇൻവോയ്സുകളും ആകെ കുടിശ്ശിക തുകയും കാണിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### സാമ്പത്തിക അവലോകനം (Financial Overview)  **ധനകാര്യ ഏജന്റ് (Finance Agent)** നമ്മുടെ പോസ്റ്റ്ഗ്രെഎസ്ക്യുഎൽ ലെഡ്ജർ ഓഡിറ്റ് ചെയ്യുകയും **കാലഹരണപ്പെട്",
+      "elapsedMs": 12
+    },
+    {
+      "testNum": 19,
+      "agent": "HR",
+      "lang": "en",
+      "languageName": "English",
+      "query": "List all employees currently on leave and check pending leave requests.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_leaves"
+      ],
+      "expectedTool": "hr_get_leaves",
+      "responseSample": "### Workforce Directory & Team Status  The **HR Agent** checked our employee attendance and identified **Employees Currently on Leave** across active ",
+      "elapsedMs": 11
+    },
+    {
+      "testNum": 20,
+      "agent": "HR",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "वर्तमान में छुट्टी पर मौजूद सभी कर्मचारियों की सूची और लंबित अवकाश अनुरोध दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_leaves"
+      ],
+      "expectedTool": "hr_get_leaves",
+      "responseSample": "### Workforce Directory & Team Status  The **HR Agent** checked our employee attendance and identified **Employees Currently on Leave** across active ",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 21,
+      "agent": "HR",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "ప్రస్తుతం సెలవులో ఉన్న ఉద్యోగుల జాబితా మరియు పెండింగ్ సెలవు అభ్యర్థనలను చూపించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "hr_get_leaves",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 22,
+      "agent": "HR",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "தற்போது விடுப்பில் உள்ள அனைத்து ஊழியர்களின் பட்டியல் மற்றும் நிலுவையில் உள்ள விடுப்பு கோரிக்கைகளைக் காட்டுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "hr_get_leaves",
+      "responseSample": "### நிதி கண்ணோட்டம் (Financial Overview)  **நிதி முகவர் (Finance Agent)** நமது போஸ்ட்கிரெஸ்கியூஎல் லெட்ஜரை தணிக்கை செய்து **காலாவதியான வாடிக்கையாளர் வ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 23,
+      "agent": "HR",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಪ್ರಸ್ತುತ ರಜೆಯಲ್ಲಿರುವ ಎಲ್ಲಾ ಉದ್ಯೋಗಿಗಳ ಪಟ್ಟಿ ಮತ್ತು ಬಾಕಿ ಇರುವ ರಜೆ ವಿನಂತಿಗಳನ್ನು ತೋರಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "hr_get_leaves",
+      "responseSample": "### ಹಣಕಾಸು ಅವಲೋಕನ (Financial Overview)  **ಹಣಕಾಸು ಏಜೆಂಟ್ (Finance Agent)** ನಮ್ಮ ಪೋಸ್ಟ್‌ಗ್ರೆಸ್‌ಕ್ಯೂಎಲ್ ಲೆಡ್ಜರ್ ಅನ್ನು ಆಡಿಟ್ ಮಾಡಿದ್ದಾರೆ ಮತ್ತು **ಅವಧಿ ಮೀರಿದ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 24,
+      "agent": "HR",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "നിലവിൽ അവധിയിലുള്ള എല്ലാ ജീവനക്കാരുടെയും ലിസ്റ്റും തീർപ്പാക്കാത്ത അവധി അപേക്ഷകളും കാണിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "hr_get_leaves",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 25,
+      "agent": "Database",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Show all products with low stock levels below reorder threshold.",
+      "passed": true,
+      "toolsUsed": [
+        "inventory_get_products"
+      ],
+      "expectedTool": "inventory_get_products",
+      "responseSample": "### Inventory & Database Health Report  The **Database Agent** audited live warehouse records and triggered an **Inventory Threshold Alert** across **",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 26,
+      "agent": "Database",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "पुनः ऑर्डर सीमा से कम स्टॉक वाले सभी उत्पाद दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "inventory_get_products"
+      ],
+      "expectedTool": "inventory_get_products",
+      "responseSample": "### Inventory & Database Health Report  The **Database Agent** audited live warehouse records and triggered an **Inventory Threshold Alert** across **",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 27,
+      "agent": "Database",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "రీఆర్డర్ పరిమితి కంటే తక్కువ స్టాక్ ఉన్న అన్ని ఉత్పత్తులను చూపించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "inventory_get_products"
+      ],
+      "expectedTool": "inventory_get_products",
+      "responseSample": "### Inventory & Database Health Report  The **Database Agent** audited live warehouse records and triggered an **Inventory Threshold Alert** across **",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 28,
+      "agent": "Database",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "மறுவரிசை வரம்பிற்குக் கீழே குறைந்த இருப்பு உள்ள அனைத்து பொருட்களையும் காட்டுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "expectedTool": "inventory_get_products",
+      "responseSample": "### 📊 Tax & GST Financial Analysis  The **Finance Agent** analyzed financial ledgers across **60 invoice(s)**:  - **Total Gross Invoiced Revenue:** ₹",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 29,
+      "agent": "Database",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಮರುಆರ್ಡರ್ ಮಿತಿಗಿಂತ ಕಡಿಮೆ ದಾಸ್ತಾನು ಇರುವ ಎಲ್ಲಾ ಉತ್ಪನ್ನಗಳನ್ನು ತೋರಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "inventory_get_products"
+      ],
+      "expectedTool": "inventory_get_products",
+      "responseSample": "### Inventory & Database Health Report  The **Database Agent** audited live warehouse records and triggered an **Inventory Threshold Alert** across **",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 30,
+      "agent": "Database",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "റീഓർഡർ പരിധിക്ക് താഴെയുള്ള കുറഞ്ഞ സ്റ്റോക്ക് ഉള്ള എല്ലാ ഉൽപ്പന്നങ്ങളും കാണിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "inventory_get_products"
+      ],
+      "expectedTool": "inventory_get_products",
+      "responseSample": "### Inventory & Database Health Report  The **Database Agent** audited live warehouse records and triggered an **Inventory Threshold Alert** across **",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 31,
+      "agent": "Support",
+      "lang": "en",
+      "languageName": "English",
+      "query": "List all unresolved high-priority customer support tickets.",
+      "passed": true,
+      "toolsUsed": [
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### Support Ticket Summary  The **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priorit",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 32,
+      "agent": "Support",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "सभी अनसुलझे उच्च प्राथमिकता वाले ग्राहक सहायता टिकटों की सूची दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### Support Ticket Summary  The **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priorit",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 33,
+      "agent": "Support",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "పరిష్కారం కాని అధిక ప్రాధాన్యత కలిగిన కస్టమర్ సపోర్ట్ టిక్కెట్లను జాబితా చేయండి.",
+      "passed": true,
+      "toolsUsed": [
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### Support Ticket Summary  The **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priorit",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 34,
+      "agent": "Support",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "தீர்க்கப்படாத உயர் முன்னுரிமை வாடிக்கையாளர் ஆதரவு டிக்கெட்டுகளை பட்டியலிடுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### Support Ticket Summary  The **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priorit",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 35,
+      "agent": "Support",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಬಗೆಹರಿಯದ ಹೆಚ್ಚಿನ ಆದ್ಯತೆಯ ಗ್ರಾಹಕ ಬೆಂಬಲ ಟಿಕೆಟ್‌ಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### Support Ticket Summary  The **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priorit",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 36,
+      "agent": "Support",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "പരിഹരിക്കപ്പെടാത്ത ഉയർന്ന മുൻഗണനയുള്ള കസ്റ്റമർ സപ്പോർട്ട് ടിക്കറ്റുകൾ ലിസ്റ്റ് ചെയ്യുക.",
+      "passed": true,
+      "toolsUsed": [
+        "support_get_tickets"
+      ],
+      "expectedTool": "support_get_tickets",
+      "responseSample": "### Support Ticket Summary  The **Customer Support Agent** flagged **1 high-priority ticket(s)** for immediate intervention (**Unresolved High-Priorit",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 37,
+      "agent": "Analytics",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Show our operational performance metrics, conversion rates, and revenue trends.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads",
+        "finance_get_invoices"
+      ],
+      "expectedTool": "analytics_query",
+      "responseSample": "### Business Intelligence Summary  The **Analytics Agent** aggregated real-time operational metrics across live business ledgers:  - **Sales Pipeline ",
+      "elapsedMs": 15
+    },
+    {
+      "testNum": 38,
+      "agent": "Analytics",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "हमारे परिचालन प्रदर्शन मेट्रिक्स, रूपांतरण दरें और राजस्व रुझान दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads",
+        "finance_get_invoices"
+      ],
+      "expectedTool": "analytics_query",
+      "responseSample": "### Business Intelligence Summary  The **Analytics Agent** aggregated real-time operational metrics across live business ledgers:  - **Sales Pipeline ",
+      "elapsedMs": 11
+    },
+    {
+      "testNum": 39,
+      "agent": "Analytics",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "మా కార్యాచరణ పనితీరు కొలమానాలు, మార్పిడి రేట్లు మరియు రాబడి ధోరణులను చూపించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads",
+        "finance_get_invoices"
+      ],
+      "expectedTool": "analytics_query",
+      "responseSample": "### Business Intelligence Summary  The **Analytics Agent** aggregated real-time operational metrics across live business ledgers:  - **Sales Pipeline ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 40,
+      "agent": "Analytics",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "எங்கள் செயல்பாட்டு செயல்திறன் அளவீடுகள், மாற்று விகிதங்கள் மற்றும் வருவாய் போக்குகளைக் காட்டுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads",
+        "finance_get_invoices"
+      ],
+      "expectedTool": "analytics_query",
+      "responseSample": "### Business Intelligence Summary  The **Analytics Agent** aggregated real-time operational metrics across live business ledgers:  - **Sales Pipeline ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 41,
+      "agent": "Analytics",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ನಮ್ಮ ಕಾರ್ಯಾಚರಣೆಯ ಕಾರ್ಯಕ್ಷಮತೆಯ ಮೆಟ್ರಿಕ್‌ಗಳು, ಪರಿವರ್ತನೆ ದರಗಳು ಮತ್ತು ಆದಾಯದ ಟ್ರೆಂಡ್‌ಗಳನ್ನು ತೋರಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads",
+        "finance_get_invoices"
+      ],
+      "expectedTool": "analytics_query",
+      "responseSample": "### Business Intelligence Summary  The **Analytics Agent** aggregated real-time operational metrics across live business ledgers:  - **Sales Pipeline ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 42,
+      "agent": "Analytics",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "ഞങ്ങളുടെ പ്രവർത്തന പ്രകടന മെട്രിക്‌സ്, പരിവർത്തന നിരക്കുകൾ, വരുമാന പ്രവണതകൾ എന്നിവ കാണിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads",
+        "finance_get_invoices"
+      ],
+      "expectedTool": "analytics_query",
+      "responseSample": "### Business Intelligence Summary  The **Analytics Agent** aggregated real-time operational metrics across live business ledgers:  - **Sales Pipeline ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 43,
+      "agent": "Marketing",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Draft an email marketing outreach campaign for enterprise clients.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "marketing_generate_campaign",
+      "responseSample": "### Campaign Overview & Objectives  The **Marketing Agent** formulated a targeted omnichannel campaign strategy grounded in your current pipeline (52 ",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 44,
+      "agent": "Marketing",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "एंटरप्राइज ग्राहकों के लिए एक ईमेल मार्केटिंग आउटरीच अभियान का मसौदा तैयार करें।",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "marketing_generate_campaign",
+      "responseSample": "### बिक्री पाइपलाइन अवलोकन (Sales Pipeline Overview)  **सेल्स एजेंट (Sales Agent)** ने हमारे CRM पाइपलाइन में कुल **₹97,00,000** मूल्य वाले **52 सक्रि",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 45,
+      "agent": "Marketing",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "ఎంటర్‌ప్రైజ్ క్లయింట్‌ల కోసం ఇమెయిల్ మార్కెటింగ్ ఔట్‌రీచ్ ప్రచారాన్ని రూపొందించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "marketing_generate_campaign",
+      "responseSample": "### Campaign Overview & Objectives  The **Marketing Agent** formulated a targeted omnichannel campaign strategy grounded in your current pipeline (52 ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 46,
+      "agent": "Marketing",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "நிறுவன வாடிக்கையாளர்களுக்கான மின்னஞ்சல் சந்தைப்படுத்தல் பிரச்சாரத்தை வரைவு செய்யவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "marketing_generate_campaign",
+      "responseSample": "### Campaign Overview & Objectives  The **Marketing Agent** formulated a targeted omnichannel campaign strategy grounded in your current pipeline (52 ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 47,
+      "agent": "Marketing",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಎಂಟರ್‌ಪ್ರೈಸ್ ಗ್ರಾಹಕರಿಗೆ ಇಮೇಲ್ ಮಾರ್ಕೆಟಿಂಗ್ ಪ್ರಚಾರದ ಕರಡನ್ನು ಸಿದ್ಧಪಡಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "marketing_generate_campaign",
+      "responseSample": "### Campaign Overview & Objectives  The **Marketing Agent** formulated a targeted omnichannel campaign strategy grounded in your current pipeline (52 ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 48,
+      "agent": "Marketing",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "എന്റർപ്രൈസ് ക്ലയന്റുകൾക്കായി ഒരു ഇമെയിൽ മാർക്കറ്റിംഗ് കാമ്പെയ്ൻ തയ്യാറാക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "marketing_generate_campaign",
+      "responseSample": "### Campaign Overview & Objectives  The **Marketing Agent** formulated a targeted omnichannel campaign strategy grounded in your current pipeline (52 ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 49,
+      "agent": "Workflow",
+      "lang": "en",
+      "languageName": "English",
+      "query": "List all active workflows, DAG pipelines, and automated processes.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_list"
+      ],
+      "expectedTool": "workflow_list",
+      "responseSample": "### Workflow DAG Topology & Status  Found **48 workflow(s)** registered in PostgreSQL (**Workflows Retrieved**):  #### `WF-1795025007786`: Scheduled M",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 50,
+      "agent": "Workflow",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "सभी सक्रिय वर्कफ़्लो, डीएजी पाइपलाइन और स्वचालित प्रक्रियाएं दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "workflow_list",
+      "responseSample": "### बिक्री पाइपलाइन अवलोकन (Sales Pipeline Overview)  **सेल्स एजेंट (Sales Agent)** ने हमारे CRM पाइपलाइन में कुल **₹97,00,000** मूल्य वाले **52 सक्रि",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 51,
+      "agent": "Workflow",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "అన్ని క్రియాశీల వర్క్‌ఫ్లోలు, డిఎజి పైప్‌లైన్‌లు మరియు ఆటోమేటెడ్ ప్రక్రియలను జాబితా చేయండి.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "workflow_list",
+      "responseSample": "### అమ్మకాల పైప్‌లైన్ అవలోకనం (Sales Pipeline Overview)  **సేల్స్ ఏజెంట్ (Sales Agent)** మన CRM పైప్‌లైన్‌లో మొత్తం **₹97,00,000** విలువైన **52 క్రియా",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 52,
+      "agent": "Workflow",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "செயலில் உள்ள அனைத்து பணிப்பாய்வுகள், டிஏஜி பைப்லைன்கள் மற்றும் தானியங்கி செயல்முறைகளை பட்டியலிடுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "workflow_list",
+      "responseSample": "### விற்பனை பைப்லைன் கண்ணோட்டம் (Sales Pipeline Overview)  **விற்பனை முகவர் (Sales Agent)** நமது CRM பைப்லைனில் மொத்தம் **₹97,00,000** மதிப்புள்ள **52",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 53,
+      "agent": "Workflow",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಎಲ್ಲಾ ಸಕ್ರಿಯ ವರ್ಕ್‌ಫ್ಲೋಗಳು, ಡಿಎಜಿ ಪೈಪ್‌ಲೈನ್‌ಗಳು ಮತ್ತು ಸ್ವಯಂಚಾಲಿತ ಪ್ರಕ್ರಿಯೆಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "workflow_list",
+      "responseSample": "### ಮಾರಾಟ ಪೈಪ್‌ಲೈನ್ ಅವಲೋಕನ (Sales Pipeline Overview)  **ಮಾರಾಟ ಏಜೆಂಟ್ (Sales Agent)** ನಮ್ಮ CRM ಪೈಪ್‌ಲೈನ್‌ನಲ್ಲಿ ಒಟ್ಟು **₹97,00,000** ಮೌಲ್ಯದ **52 ಸಕ್ರಿಯ ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 54,
+      "agent": "Workflow",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "എല്ലാ സജീവ വർക്ക്ഫ്ലോകളും ഡിഎജി പൈപ്പ്‌ലൈനുകളും ഓട്ടോമേറ്റഡ് പ്രക്രിയകളും ലിസ്റ്റ് ചെയ്യുക.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_list"
+      ],
+      "expectedTool": "workflow_list",
+      "responseSample": "### Workflow DAG Topology & Status  Found **48 workflow(s)** registered in PostgreSQL (**Workflows Retrieved**):  #### `WF-1795025007786`: Scheduled M",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 55,
+      "agent": "Scheduler",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Show all scheduled recurring jobs, calendar appointments, and execution timelines.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_get_scheduled"
+      ],
+      "expectedTool": "workflow_get_scheduled",
+      "responseSample": "### Calendar & Task Schedule Summary  Found **16 scheduled task(s) and meeting(s)** (**Scheduled Automations Retrieved**):  #### **Scheduled Meeting: ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 56,
+      "agent": "Scheduler",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "सभी निर्धारित आवर्ती कार्य, कैलेंडर नियुक्तियां और निष्पादन समयसीमा दिखाइए।",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_get_scheduled"
+      ],
+      "expectedTool": "workflow_get_scheduled",
+      "responseSample": "### Calendar & Task Schedule Summary  Found **16 scheduled task(s) and meeting(s)** (**Scheduled Automations Retrieved**):  #### **Scheduled Meeting: ",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 57,
+      "agent": "Scheduler",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "షెడ్యూల్ చేయబడిన పునరావృత పనులు, క్యాలెండర్ అపాయింట్‌మెంట్‌లు మరియు సమయపాలనలను చూపించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_get_scheduled"
+      ],
+      "expectedTool": "workflow_get_scheduled",
+      "responseSample": "### Calendar & Task Schedule Summary  Found **16 scheduled task(s) and meeting(s)** (**Scheduled Automations Retrieved**):  #### **Scheduled Meeting: ",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 58,
+      "agent": "Scheduler",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "திட்டமிடப்பட்ட தொடர்ச்சியான வேலைகள், காலண்டர் சந்திப்புகள் மற்றும் செயல்படுத்தல் காலக்கெடுவைக் காட்டுங்கள்.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_get_scheduled"
+      ],
+      "expectedTool": "workflow_get_scheduled",
+      "responseSample": "### Calendar & Task Schedule Summary  Found **16 scheduled task(s) and meeting(s)** (**Scheduled Automations Retrieved**):  #### **Scheduled Meeting: ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 59,
+      "agent": "Scheduler",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ನಿಗದಿತ ಮರುಕಳಿಸುವ ಉದ್ಯೋಗಗಳು, ಕ್ಯಾಲೆಂಡರ್ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು ಮತ್ತು ಸಮಯಾವಧಿಗಳನ್ನು ತೋರಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_get_scheduled"
+      ],
+      "expectedTool": "workflow_get_scheduled",
+      "responseSample": "### Calendar & Task Schedule Summary  Found **16 scheduled task(s) and meeting(s)** (**Scheduled Automations Retrieved**):  #### **Scheduled Meeting: ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 60,
+      "agent": "Scheduler",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "ഷെഡ്യൂൾ ചെയ്ത ആവർത്തന ജോലികൾ, കലണ്ടർ അപ്പോയിന്റ്മെന്റുകൾ, നിർവ്വഹണ സമയക്രമങ്ങൾ എന്നിവ കാണിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "workflow_get_scheduled"
+      ],
+      "expectedTool": "workflow_get_scheduled",
+      "responseSample": "### Calendar & Task Schedule Summary  Found **16 scheduled task(s) and meeting(s)** (**Scheduled Automations Retrieved**):  #### **Scheduled Meeting: ",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 61,
+      "agent": "Document",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Generate an executive operations summary report document.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads"
+      ],
+      "expectedTool": "document_create_artifact",
+      "responseSample": "### Document Generation Artifact Summary  The **Document Agent** compiled the official enterprise document artifact across Finance (60 invoices) and S",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 62,
+      "agent": "Document",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "एक कार्यकारी परिचालन सारांश रिपोर्ट दस्तावेज़ तैयार करें।",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads"
+      ],
+      "expectedTool": "document_create_artifact",
+      "responseSample": "### Document Generation Artifact Summary  The **Document Agent** compiled the official enterprise document artifact across Finance (60 invoices) and S",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 63,
+      "agent": "Document",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "ఎగ్జిక్యూటివ్ కార్యకలాపాల సారాంశ నివేదిక పత్రాన్ని రూపొందించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads"
+      ],
+      "expectedTool": "document_create_artifact",
+      "responseSample": "### Document Generation Artifact Summary  The **Document Agent** compiled the official enterprise document artifact across Finance (60 invoices) and S",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 64,
+      "agent": "Document",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "நிர்வாக செயல்பாட்டு சுருக்க அறிக்கை ஆவணத்தை உருவாக்கவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads"
+      ],
+      "expectedTool": "document_create_artifact",
+      "responseSample": "### Document Generation Artifact Summary  The **Document Agent** compiled the official enterprise document artifact across Finance (60 invoices) and S",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 65,
+      "agent": "Document",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಕಾರ್ಯನಿರ್ವಾಹಕ ಕಾರ್ಯಾಚರಣೆಗಳ ಸಾರಾಂಶ ವರದಿ ದಾಖಲೆಯನ್ನು ರಚಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads"
+      ],
+      "expectedTool": "document_create_artifact",
+      "responseSample": "### Document Generation Artifact Summary  The **Document Agent** compiled the official enterprise document artifact across Finance (60 invoices) and S",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 66,
+      "agent": "Document",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "ഒരു എക്സിക്യൂട്ടീവ് പ്രവർത്തന സംഗ്രഹ റിപ്പോർട്ട് പ്രമാണം തയ്യാറാക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads"
+      ],
+      "expectedTool": "document_create_artifact",
+      "responseSample": "### Document Generation Artifact Summary  The **Document Agent** compiled the official enterprise document artifact across Finance (60 invoices) and S",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 67,
+      "agent": "Email",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Draft a formal invitation email for the quarterly business review meeting.",
+      "passed": true,
+      "toolsUsed": [
+        "email_generate_invite"
+      ],
+      "expectedTool": "email_generate_invite",
+      "responseSample": "### Calendar & Task Schedule Summary  The **Scheduler Agent** registered a durable meeting schedule in PostgreSQL (**Meeting Invitation Prepared & Per",
+      "elapsedMs": 21
+    },
+    {
+      "testNum": 68,
+      "agent": "Email",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "त्रैमासिक व्यावसायिक समीक्षा बैठक के लिए एक औपचारिक निमंत्रण ईमेल का मसौदा तैयार करें।",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "expectedTool": "email_generate_invite",
+      "responseSample": "### बिक्री पाइपलाइन अवलोकन (Sales Pipeline Overview)  **सेल्स एजेंट (Sales Agent)** ने हमारे CRM पाइपलाइन में कुल **₹97,00,000** मूल्य वाले **52 सक्रि",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 69,
+      "agent": "Email",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "త్రైమాసిక వ్యాపార సమీక్ష సమావేశం కోసం అధికారిక ఆహ్వాన ఇమెయిల్‌ను రూపొందించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "email_generate_invite"
+      ],
+      "expectedTool": "email_generate_invite",
+      "responseSample": "### Calendar & Task Schedule Summary  The **Scheduler Agent** registered a durable meeting schedule in PostgreSQL (**Meeting Invitation Prepared & Per",
+      "elapsedMs": 10
+    },
+    {
+      "testNum": 70,
+      "agent": "Email",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "காலாண்டு வணிக மதிப்பாய்வுக் கூட்டத்திற்கான முறையான அழைப்பு மின்னஞ்சலை வரைவு செய்யவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "email_generate_invite"
+      ],
+      "expectedTool": "email_generate_invite",
+      "responseSample": "### Email Communication Draft  The **Email Agent** prepared an official communication draft:  > **Subject:** Urgent: Account Statement & Outstanding I",
+      "elapsedMs": 5
+    },
+    {
+      "testNum": 71,
+      "agent": "Email",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ತ್ರೈಮಾಸಿಕ ವ್ಯವಹಾರ ಪರಿಶೀಲನಾ ಸಭೆಗೆ ಔಪಚಾರಿಕ ಆಹ್ವಾನ ಇಮೇಲ್ ಕರಡನ್ನು ಸಿದ್ಧಪಡಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "email_generate_invite"
+      ],
+      "expectedTool": "email_generate_invite",
+      "responseSample": "### Calendar & Task Schedule Summary  The **Scheduler Agent** registered a durable meeting schedule in PostgreSQL (**Meeting Invitation Prepared & Per",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 72,
+      "agent": "Email",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "ത്രൈമാസ ബിസിനസ്സ് അവലോകന മീറ്റിംഗിനായി ഒരു ഔദ്യോഗിക ക്ഷണ ഇമെയിൽ തയ്യാറാക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "email_generate_invite"
+      ],
+      "expectedTool": "email_generate_invite",
+      "responseSample": "### Email Communication Draft  The **Email Agent** prepared an official communication draft:  > **Subject:** Urgent: Account Statement & Outstanding I",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 73,
+      "agent": "Knowledge",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Search our knowledge base for company leave policy and remote work guidelines.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "knowledge_query",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 5
+    },
+    {
+      "testNum": 74,
+      "agent": "Knowledge",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "कंपनी की अवकाश नीति और रिमोट वर्क दिशानिर्देशों के लिए ज्ञानकोष में खोजें।",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "knowledge_query",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 5
+    },
+    {
+      "testNum": 75,
+      "agent": "Knowledge",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "కంపెనీ సెలవు విధానం మరియు రిమోట్ పని మార్గదర్శకాల కోసం నాలెడ్జ్ బేస్‌ను శోధించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "knowledge_query",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 76,
+      "agent": "Knowledge",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "நிறுவன விடுப்புக் கொள்கை மற்றும் தொலைதூர பணி வழிகாட்டுதல்களுக்கு அறிவுத் தளத்தில் தேடவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "knowledge_query",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 77,
+      "agent": "Knowledge",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಕಂಪನಿಯ ರಜೆ ನೀತಿ ಮತ್ತು ದೂರಸ್ಥ ಕೆಲಸದ ಮಾರ್ಗಸೂಚಿಗಳಿಗಾಗಿ ಜ್ಞಾನ ಭಂಡಾರದಲ್ಲಿ ಹುಡುಕಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "knowledge_query",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 7
+    },
+    {
+      "testNum": 78,
+      "agent": "Knowledge",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "കമ്പനി അവധി നയത്തിനും വിദൂര ജോലി മാർഗ്ഗനിർദ്ദേശങ്ങൾക്കുമായി നോളജ് ബേസ് തിരയുക.",
+      "passed": true,
+      "toolsUsed": [
+        "hr_get_employees"
+      ],
+      "expectedTool": "knowledge_query",
+      "responseSample": "### 👥 Employee Workforce Directory  The **HR Agent** retrieved **3 active employee record(s)** with role-based field masking (ADMIN permissions):  | ",
+      "elapsedMs": 5
+    },
+    {
+      "testNum": 79,
+      "agent": "Reporting",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Generate a comprehensive regulatory compliance and operations audit report.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads",
+        "hr_get_employees"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Compliance & Audit Report  The **Reporting Agent** compiled an executive operations and compliance audit summary:  - **Finance Audit:** 60 active ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 80,
+      "agent": "Reporting",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "एक व्यापक विनियामक अनुपालन और परिचालन ऑडिट रिपोर्ट तैयार करें।",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads",
+        "hr_get_employees"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Compliance & Audit Report  The **Reporting Agent** compiled an executive operations and compliance audit summary:  - **Finance Audit:** 60 active ",
+      "elapsedMs": 14
+    },
+    {
+      "testNum": 81,
+      "agent": "Reporting",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "సమగ్ర నియంత్రణ సమ్మతి మరియు కార్యకలాపాల ఆడిట్ నివేదికను రూపొందించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads",
+        "hr_get_employees"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Compliance & Audit Report  The **Reporting Agent** compiled an executive operations and compliance audit summary:  - **Finance Audit:** 60 active ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 82,
+      "agent": "Reporting",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "விரிவான ஒழுங்குமுறை இணக்கம் மற்றும் செயல்பாட்டு தணிக்கை அறிக்கையை உருவாக்கவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads",
+        "hr_get_employees"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Compliance & Audit Report  The **Reporting Agent** compiled an executive operations and compliance audit summary:  - **Finance Audit:** 60 active ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 83,
+      "agent": "Reporting",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಸಮಗ್ರ ನಿಯಂತ್ರಕ ಅನುಸರಣೆ ಮತ್ತು ಕಾರ್ಯಾಚರಣೆಗಳ ಆಡಿಟ್ ವರದಿಯನ್ನು ರಚಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads",
+        "hr_get_employees"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Compliance & Audit Report  The **Reporting Agent** compiled an executive operations and compliance audit summary:  - **Finance Audit:** 60 active ",
+      "elapsedMs": 9
+    },
+    {
+      "testNum": 84,
+      "agent": "Reporting",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "ഒരു സമഗ്രമായ നിയന്ത്രണ വിധേയത്വവും പ്രവർത്തന ഓഡിറ്റ് റിപ്പോർട്ടും തയ്യാറാക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices",
+        "crm_get_leads",
+        "hr_get_employees"
+      ],
+      "expectedTool": "finance_get_invoices",
+      "responseSample": "### Compliance & Audit Report  The **Reporting Agent** compiled an executive operations and compliance audit summary:  - **Finance Audit:** 60 active ",
+      "elapsedMs": 8
+    },
+    {
+      "testNum": 85,
+      "agent": "Security",
+      "lang": "en",
+      "languageName": "English",
+      "query": "Inspect system security status, role-based access logs, and active safeguards.",
+      "passed": true,
+      "toolsUsed": [
+        "security_inspect_logs"
+      ],
+      "expectedTool": "security_inspect_logs",
+      "responseSample": "### Security & RBAC Policy Audit  The **Security Agent** audited access control policies and cryptographic defenses:  - **Active Organization:** `ORG-",
+      "elapsedMs": 4
+    },
+    {
+      "testNum": 86,
+      "agent": "Security",
+      "lang": "hi",
+      "languageName": "Hindi",
+      "query": "सिस्टम सुरक्षा स्थिति, भूमिका-आधारित पहुंच लॉग और सक्रिय सुरक्षा उपायों का निरीक्षण करें।",
+      "passed": true,
+      "toolsUsed": [
+        "security_inspect_logs"
+      ],
+      "expectedTool": "security_inspect_logs",
+      "responseSample": "### Security & RBAC Policy Audit  The **Security Agent** audited access control policies and cryptographic defenses:  - **Active Organization:** `ORG-",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 87,
+      "agent": "Security",
+      "lang": "te",
+      "languageName": "Telugu",
+      "query": "సిస్టమ్ భద్రతా స్థితి, రోల్-ఆధారిత యాక్సెస్ లాగ్‌లు మరియు రక్షణలను పరిశీలించండి.",
+      "passed": true,
+      "toolsUsed": [
+        "security_inspect_logs"
+      ],
+      "expectedTool": "security_inspect_logs",
+      "responseSample": "### Security & RBAC Policy Audit  The **Security Agent** audited access control policies and cryptographic defenses:  - **Active Organization:** `ORG-",
+      "elapsedMs": 5
+    },
+    {
+      "testNum": 88,
+      "agent": "Security",
+      "lang": "ta",
+      "languageName": "Tamil",
+      "query": "கணினி பாதுகாப்பு நிலை, பங்கு அடிப்படையிலான அணுகல் பதிவுகள் மற்றும் பாதுகாப்புகளை ஆய்வு செய்யவும்.",
+      "passed": true,
+      "toolsUsed": [
+        "security_inspect_logs"
+      ],
+      "expectedTool": "security_inspect_logs",
+      "responseSample": "### Security & RBAC Policy Audit  The **Security Agent** audited access control policies and cryptographic defenses:  - **Active Organization:** `ORG-",
+      "elapsedMs": 5
+    },
+    {
+      "testNum": 89,
+      "agent": "Security",
+      "lang": "kn",
+      "languageName": "Kannada",
+      "query": "ಸಿಸ್ಟಮ್ ಭದ್ರತಾ ಸ್ಥಿತಿ, ಪಾತ್ರ-ಆಧಾರಿತ ಪ್ರವೇಶ ಲಾಗ್‌ಗಳು ಮತ್ತು ಸಕ್ರಿಯ ರಕ್ಷಣೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+      "passed": true,
+      "toolsUsed": [
+        "security_inspect_logs"
+      ],
+      "expectedTool": "security_inspect_logs",
+      "responseSample": "### Security & RBAC Policy Audit  The **Security Agent** audited access control policies and cryptographic defenses:  - **Active Organization:** `ORG-",
+      "elapsedMs": 6
+    },
+    {
+      "testNum": 90,
+      "agent": "Security",
+      "lang": "ml",
+      "languageName": "Malayalam",
+      "query": "സിസ്റ്റം സുരക്ഷാ നില, റോൾ അടിസ്ഥാനമാക്കിയുള്ള ആക്സസ് ലോഗുകൾ, സജീവ സുരക്ഷാ മുൻകരുതലുകൾ എന്നിവ പരിശോധിക്കുക.",
+      "passed": true,
+      "toolsUsed": [
+        "security_inspect_logs"
+      ],
+      "expectedTool": "security_inspect_logs",
+      "responseSample": "### Security & RBAC Policy Audit  The **Security Agent** audited access control policies and cryptographic defenses:  - **Active Organization:** `ORG-",
+      "elapsedMs": 7
+    }
+  ],
+  "romanizedResults": [
+    {
+      "agent": "Sales",
+      "lang": "hi",
+      "name": "Hinglish (Hindi Romanized)",
+      "query": "Mere saare active sales deals, unke stages aur total pipeline value dikhao.",
+      "expectedTool": "crm_get_leads",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "elapsedMs": 7,
+      "responseSample": "### बिक्री पाइपलाइन अवलोकन (Sales Pipeline Overview)  **सेल्स एजेंट (Sales Agent)** ने हमारे CRM पाइपलाइन में कुल **₹97,00,000** मूल्य वाले **52 सक्रि"
+    },
+    {
+      "agent": "Finance",
+      "lang": "hi",
+      "name": "Hinglish (Hindi Romanized)",
+      "query": "Saare overdue invoices aur total outstanding balance dikhao.",
+      "expectedTool": "finance_get_invoices",
+      "passed": true,
+      "toolsUsed": [
+        "finance_get_invoices"
+      ],
+      "elapsedMs": 8,
+      "responseSample": "### वित्तीय समीक्षा (Financial Overview)  **वित्त एजेंट (Finance Agent)** ने हमारे पोस्टग्रेएसक्यूएल लेज़र का ऑडिट किया और **अतिदेय ग्राहक चालान (Over"
+    },
+    {
+      "agent": "Sales",
+      "lang": "te",
+      "name": "Telugu Romanized",
+      "query": "Naa active sales deals mariyu pipeline value chupinchandi.",
+      "expectedTool": "crm_get_leads",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "elapsedMs": 8,
+      "responseSample": "### అమ్మకాల పైప్‌లైన్ అవలోకనం (Sales Pipeline Overview)  **సేల్స్ ఏజెంట్ (Sales Agent)** మన CRM పైప్‌లైన్‌లో మొత్తం **₹97,00,000** విలువైన **52 క్రియా"
+    },
+    {
+      "agent": "Sales",
+      "lang": "ta",
+      "name": "Tamil Romanized",
+      "query": "Ennudaya active sales deals matrum pipeline value kaattunga.",
+      "expectedTool": "crm_get_leads",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "elapsedMs": 7,
+      "responseSample": "### விற்பனை பைப்லைன் கண்ணோட்டம் (Sales Pipeline Overview)  **விற்பனை முகவர் (Sales Agent)** நமது CRM பைப்லைனில் மொத்தம் **₹97,00,000** மதிப்புள்ள **52"
+    },
+    {
+      "agent": "Sales",
+      "lang": "kn",
+      "name": "Kannada Romanized",
+      "query": "Nanna active sales deals mattu pipeline value torisi.",
+      "expectedTool": "crm_get_leads",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "elapsedMs": 7,
+      "responseSample": "### ಮಾರಾಟ ಪೈಪ್‌ಲೈನ್ ಅವಲೋಕನ (Sales Pipeline Overview)  **ಮಾರಾಟ ಏಜೆಂಟ್ (Sales Agent)** ನಮ್ಮ CRM ಪೈಪ್‌ಲೈನ್‌ನಲ್ಲಿ ಒಟ್ಟು **₹97,00,000** ಮೌಲ್ಯದ **52 ಸಕ್ರಿಯ "
+    },
+    {
+      "agent": "Sales",
+      "lang": "ml",
+      "name": "Malayalam Romanized",
+      "query": "Ente active sales deals koodathe pipeline value kanikku.",
+      "expectedTool": "crm_get_leads",
+      "passed": true,
+      "toolsUsed": [
+        "crm_get_leads"
+      ],
+      "elapsedMs": 7,
+      "responseSample": "### വിൽപ്പന പൈപ്പ്‌ലൈൻ അവലോകനം (Sales Pipeline Overview)  **സെയിൽസ് ഏജന്റ് (Sales Agent)** നമ്മുടെ CRM പൈപ്പ്‌ലൈനിൽ ആകെ **₹97,00,000** മൂല്യമുള്ള **52"
+    }
+  ],
+  "crossAgentResults": [
+    {
+      "fromAgent": "Sales",
+      "targetAgent": "CEO",
+      "lang": "hi",
+      "query": "हमारे शीर्ष अतिदेय ग्राहक कौन से हैं और उनके लिए सहायता टिकट क्या हैं?",
+      "expectedTools": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "passed": true,
+      "elapsedMs": 14,
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r"
+    },
+    {
+      "fromAgent": "Support",
+      "targetAgent": "CEO",
+      "lang": "te",
+      "query": "బకాయి ఉన్న ఖాతాలు మరియు వాటి సపోర్ట్ టిక్కెట్ల వివరాలను సమన్వయం చేయండి.",
+      "expectedTools": [
+        "finance_get_invoices",
+        "support_get_tickets"
+      ],
+      "passed": true,
+      "elapsedMs": 8,
+      "responseSample": "### ⚠️ Multi-Domain Risk Analysis: At-Risk Accounts  The **CEO Orchestrator** synchronized with the **Finance Agent** and **Support Agent** to cross-r"
+    }
+  ]
+}

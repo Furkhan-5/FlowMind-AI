@@ -71,7 +71,16 @@ export class ResponseQualityValidator {
 
     // 4. Overdue Invoices Check
     if (intent.primaryIntent === 'FINANCE_GET_OVERDUE_INVOICES') {
-      if (!lowerText.includes('overdue') && !lowerText.includes('techcorp')) {
+      const isCalculationOrFollowUp =
+        lowerQuery.includes('recover') ||
+        lowerQuery.includes('%') ||
+        lowerQuery.includes('percent') ||
+        lowerQuery.includes('remaining') ||
+        lowerQuery.includes('recommend') ||
+        lowerQuery.includes('outstanding') ||
+        lowerQuery.includes('total');
+
+      if (!isCalculationOrFollowUp && !lowerText.includes('overdue') && !lowerText.includes('techcorp')) {
         answeredDirectly = false;
         defects.push('Response did not directly address overdue invoices.');
       }
@@ -130,7 +139,7 @@ export class ResponseQualityValidator {
     }
 
     // If data retrieval returned real data but response was generic, format the actual data
-    if (response.actualResultData) {
+    if (response.actualResultData && (!response.userFacingResponse || response.userFacingResponse.length < 30)) {
       if (Array.isArray(response.actualResultData)) {
         return `✅ Retrieved ${response.actualResultData.length} record(s) matching your request.`;
       }

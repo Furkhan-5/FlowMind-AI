@@ -155,7 +155,7 @@ export default function HrModulePage() {
               <span className="text-xs text-slate-300">/</span>
               <span className="text-xs font-bold text-indigo-700">HR & Workforce</span>
             </div>
-            <h1 className="text-2xl font-black text-bloom-dark tracking-tight flex items-center gap-2">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               <Users className="w-6 h-6 text-indigo-600" />
               HR & People Operations Suite
             </h1>
@@ -189,7 +189,7 @@ export default function HrModulePage() {
         {/* Staff Directory Table */}
         <section className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-bloom space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-extrabold text-bloom-dark">Employee Directory ({employees.length})</h2>
+            <h2 className="text-base font-extrabold text-slate-900">Employee Directory ({employees.length})</h2>
             {user.role !== 'EMPLOYEE' && (
               <Button onClick={handleCalculatePayroll} variant="dark" size="sm" className="bg-slate-900 hover:bg-slate-800 text-xs font-bold">
                 <DollarSign className="w-3.5 h-3.5 mr-1 text-emerald-400" /> Run 2026-10 Payroll Engine
@@ -214,7 +214,7 @@ export default function HrModulePage() {
                 {employees.map((emp) => (
                   <tr key={emp.id} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="p-3 font-mono font-bold text-indigo-700">{emp.employeeCode}</td>
-                    <td className="p-3 font-bold text-bloom-dark">{emp.name}</td>
+                    <td className="p-3 font-bold text-slate-900">{emp.name}</td>
                     <td className="p-3 text-slate-600">{emp.department}</td>
                     <td className="p-3 text-slate-600">{emp.designation}</td>
                     <td className="p-3"><Badge variant="success">{emp.employmentStatus}</Badge></td>
@@ -284,11 +284,11 @@ export default function HrModulePage() {
         {/* Employee 360 Drawer Modal */}
         {selectedEmp && emp360 && (
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-white text-bloom-textDark w-full max-w-3xl rounded-[28px] border border-slate-200 shadow-2xl p-6 space-y-4">
+            <div className="bg-white text-slate-900 w-full max-w-3xl rounded-[28px] border border-slate-200 shadow-2xl p-6 space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <Badge variant="purple">Employee 360</Badge>
-                  <h3 className="text-base font-extrabold text-bloom-dark">{emp360.employee.name}</h3>
+                  <h3 className="text-base font-extrabold text-slate-900">{emp360.employee.name}</h3>
                 </div>
                 <button onClick={() => setSelectedEmp(null)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
@@ -314,7 +314,7 @@ export default function HrModulePage() {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
             <form onSubmit={handleCreateEmployee} className="bg-white w-full max-w-md rounded-[28px] border border-slate-200 p-6 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <h3 className="text-base font-extrabold text-bloom-dark">Add New Staff Member</h3>
+                <h3 className="text-base font-extrabold text-slate-900">Add New Staff Member</h3>
                 <button type="button" onClick={() => setShowAddEmpModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -329,7 +329,7 @@ export default function HrModulePage() {
                     value={empName}
                     onChange={(e) => setEmpName(e.target.value)}
                     placeholder="e.g. Kavya Nair"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -340,7 +340,7 @@ export default function HrModulePage() {
                     value={empEmail}
                     onChange={(e) => setEmpEmail(e.target.value)}
                     placeholder="kavya@flowmind.ai"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -349,7 +349,7 @@ export default function HrModulePage() {
                     type="text"
                     value={empDept}
                     onChange={(e) => setEmpDept(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -358,7 +358,7 @@ export default function HrModulePage() {
                     type="number"
                     value={empSalary}
                     onChange={(e) => setEmpSalary(Number(e.target.value))}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
               </div>
@@ -376,7 +376,7 @@ export default function HrModulePage() {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
             <form onSubmit={handleLeaveSubmit} className="bg-white w-full max-w-md rounded-[28px] border border-slate-200 p-6 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <h3 className="text-base font-extrabold text-bloom-dark">Submit Leave Request</h3>
+                <h3 className="text-base font-extrabold text-slate-900">Submit Leave Request</h3>
                 <button type="button" onClick={() => setShowLeaveModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -388,7 +388,7 @@ export default function HrModulePage() {
                   <select
                     value={leaveType}
                     onChange={(e) => setLeaveType(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-semibold mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold mt-1"
                   >
                     <option value="CASUAL">Casual Leave</option>
                     <option value="SICK">Sick Leave</option>
@@ -402,7 +402,7 @@ export default function HrModulePage() {
                     value={leaveReason}
                     onChange={(e) => setLeaveReason(e.target.value)}
                     placeholder="Reason for leave request..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1 h-20"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 h-20 placeholder:text-slate-400"
                   />
                 </div>
               </div>

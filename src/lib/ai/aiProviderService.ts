@@ -1,5 +1,6 @@
 import { aiProviderConfigService, AiProviderType, PROVIDER_ALLOWLISTS } from '@/lib/services/aiProviderConfigService';
 import { auditLogger } from '@/lib/security/auditLogger';
+import { prisma } from '@/lib/prisma';
 import { modelCapabilityRegistry, TaskCategory } from './modelCapabilityRegistry';
 
 export type CapabilityTimeoutType =
@@ -197,6 +198,7 @@ class AIProviderService {
           ? runtime.preferredModel
           : allowlist.defaultModel;
       }
+      modelToUse = this.normalizeModel(targetProvider, modelToUse);
 
       // 2. Dispatch with Bounded Retries & Jitter
       let attempt = 0;
@@ -237,6 +239,26 @@ class AIProviderService {
           this.recordSuccess(targetProvider, latencyMs);
           this.recordProviderSuccess(targetProvider);
 
+          try {
+            prisma.auditLog
+              .create({
+                data: {
+                  organizationId: orgId,
+                  action: 'AI_PROVIDER_DISPATCH',
+                  resourceType: 'AI_MODEL',
+                  resourceId: targetProvider,
+                  details: {
+                    model: modelToUse,
+                    provider: targetProvider,
+                    latencyMs,
+                    success: true,
+                    requestId,
+                  },
+                },
+              })
+              .catch(() => {});
+          } catch {}
+
           return {
             content: result.content,
             provider: targetProvider,
@@ -270,6 +292,27 @@ class AIProviderService {
       const latencyMs = Date.now() - startTime;
       this.telemetry.failedRequests++;
       this.updateAvgLatency(latencyMs);
+
+      try {
+        prisma.auditLog
+          .create({
+            data: {
+              organizationId: orgId,
+              action: 'AI_PROVIDER_DISPATCH',
+              resourceType: 'AI_MODEL',
+              resourceId: targetProvider || 'FALLBACK',
+              details: {
+                model: modelToUse || 'fallback',
+                provider: targetProvider || 'DETERMINISTIC_FALLBACK',
+                latencyMs,
+                success: false,
+                error: lastError,
+                requestId,
+              },
+            },
+          })
+          .catch(() => {});
+      } catch {}
 
       return {
         content: options.fallbackText || 'FlowMind AI operational engine executed safely with fallback.',
@@ -311,6 +354,25 @@ class AIProviderService {
     }
   }
 
+  private normalizeModel(provider: AiProviderType, model: string): string {
+    if (provider === 'GEMINI') {
+      if (
+        !model ||
+        model === 'gemini-1.5-flash' ||
+        model === 'gemini-2.5-flash' ||
+        model === 'gemini-flash' ||
+        model === 'gemini-flash-latest' ||
+        model === 'gemini-flash-lite-latest' ||
+        model === 'gemini-1.5-pro' ||
+        model === 'gemini-pro' ||
+        model === 'gemini-pro-latest'
+      ) {
+        return 'gemini-3.1-flash-lite';
+      }
+    }
+    return model;
+  }
+
   // --- Provider Adapters ---
 
   private async callGemini(args: {
@@ -326,7 +388,8 @@ class AIProviderService {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), args.timeoutMs);
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${args.model}:generateContent?key=${encodeURIComponent(
+    const effectiveModel = this.normalizeModel('GEMINI', args.model);
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${effectiveModel}:generateContent?key=${encodeURIComponent(
       args.apiKey
     )}`;
 
@@ -347,12 +410,28 @@ class AIProviderService {
         body.generationConfig.responseMimeType = 'application/json';
       }
 
-      const response = await fetch(endpoint, {
+      let response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
         signal: controller.signal,
       });
+
+      // Automatic fallback if requested model hit 503 (high demand), 429 (quota), or 404
+      if ((response.status === 503 || response.status === 429 || response.status === 404) && effectiveModel !== 'gemini-3.1-flash-lite') {
+        const fallbackEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${encodeURIComponent(
+          args.apiKey
+        )}`;
+        const fallbackRes = await fetch(fallbackEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: controller.signal,
+        });
+        if (fallbackRes.ok) {
+          response = fallbackRes;
+        }
+      }
 
       clearTimeout(timeoutId);
 
@@ -509,7 +588,7 @@ class AIProviderService {
     status.lastFailureMessage = message;
     status.lastFailureAt = new Date().toISOString();
 
-    if (status.consecutiveFailures >= 3) {
+    if (status.consecutiveFailures >= 5) {
       status.state = 'CIRCUIT_OPEN';
       status.circuitOpenedAt = Date.now();
     } else {

@@ -21,7 +21,6 @@ import {
   Volume2,
 } from 'lucide-react';
 import { detectLanguageScript, speakTextInNativeAccent, startSpeechRecognition } from '@/lib/i18n/indicEngine';
-import { agentOrchestrator } from '@/lib/ai/agentOrchestrator';
 import { VoiceSpectrum } from '@/components/chat/VoiceSpectrum';
 import { AgentLogo } from '@/components/ui/AgentLogo';
 
@@ -112,12 +111,29 @@ export const RobotAssistant: React.FC = () => {
     setIsProcessing(true);
 
     try {
-      const result = await agentOrchestrator.processRequest(query, {
-        user,
-        language: targetLang,
-        selectedAgentOverride: (!selectedAgent || selectedAgent === 'CEO') ? null : selectedAgent,
-        messageHistory: messages,
+      const res = await fetch('/api/agent/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          language: targetLang,
+          selectedAgentOverride: (!selectedAgent || selectedAgent === 'CEO') ? null : selectedAgent,
+          messageHistory: messages,
+        }),
+        credentials: 'include',
       });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server responded with status ${res.status}`);
+      }
+
+      const data = await res.json();
+      if (!data.success || !data.result) {
+        throw new Error(data.error || 'Server failed to process request');
+      }
+
+      const result = data.result;
 
       setSelectedAgentState(result.targetAgent);
       setActiveAgent(result.targetAgent);
@@ -148,10 +164,13 @@ export const RobotAssistant: React.FC = () => {
       speakTextInNativeAccent(result.responseText, targetLang);
     } catch (err: any) {
       console.error('Robot Assistant Orchestration error:', err);
+      const displayError = err?.message
+        ? (err.message.startsWith('[') ? err.message : `[QUERY_EXECUTION_ERROR] ${err.message}`)
+        : '[QUERY_EXECUTION_ERROR] An unexpected error occurred while executing the query.';
       addMessage({
         sender: 'AGENT',
         activeAgent: selectedAgent || 'CEO',
-        content: 'An error occurred while executing the query.',
+        content: displayError,
         language: targetLang,
       });
     } finally {

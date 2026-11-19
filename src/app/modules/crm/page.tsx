@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { businessService } from '@/lib/services/businessService';
 import { Lead, LeadStage, LeadStageHistory, Customer360 } from '@/types';
+import { useTranslation } from '@/lib/i18n/useTranslation';
 import {
   Building2,
   Plus,
@@ -39,6 +40,7 @@ const STAGES: { id: LeadStage; label: string; color: string }[] = [
 
 export default function CrmModulePage() {
   const { user, addToast } = useAppStore();
+  const { t, formatCurrency } = useTranslation();
 
   const [leads, setLeads] = useState<Lead[]>([]);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -130,23 +132,23 @@ export default function CrmModulePage() {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Link href="/modules" className="text-xs font-bold text-slate-500 hover:text-purple-700 flex items-center gap-1">
-                <ArrowLeft className="w-3.5 h-3.5" /> Modules
+                <ArrowLeft className="w-3.5 h-3.5" /> {t('navigation.modules')}
               </Link>
               <span className="text-xs text-slate-300">/</span>
-              <span className="text-xs font-bold text-purple-700">CRM Suite</span>
+              <span className="text-xs font-bold text-purple-700">{t('crm.title')}</span>
             </div>
-            <h1 className="text-2xl font-black text-bloom-dark tracking-tight flex items-center gap-2">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               <Building2 className="w-6 h-6 text-purple-600" />
-              CRM & Pipeline Command Center
+              {t('crm.title')}
             </h1>
           </div>
 
           <div className="flex items-center gap-3">
             <Button onClick={handleExportCSV} variant="outline" size="sm" className="border border-slate-200 text-xs font-bold">
-              <Download className="w-3.5 h-3.5 mr-1" /> Export CSV
+              <Download className="w-3.5 h-3.5 mr-1" /> {t('common.export')} CSV
             </Button>
             <Button onClick={() => setShowAddModal(true)} variant="dark" size="sm" className="bg-purple-600 hover:bg-purple-500 font-bold text-xs">
-              <Plus className="w-4 h-4 mr-1" /> Add Lead
+              <Plus className="w-4 h-4 mr-1" /> {t('crm.addLead')}
             </Button>
           </div>
         </div>
@@ -154,16 +156,16 @@ export default function CrmModulePage() {
         {/* Pipeline Metrics Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <GlassCard variant="white" className="p-4 border-l-4 border-l-purple-600">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Pipeline Value</span>
-            <div className="text-xl font-black text-bloom-dark mt-1">₹{totalValue.toLocaleString()}</div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t('crm.pipelineValue')}</span>
+            <div className="text-xl font-black text-slate-900 mt-1">{formatCurrency(totalValue)}</div>
           </GlassCard>
           <GlassCard variant="white" className="p-4 border-l-4 border-l-emerald-600">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Closed Won Revenue</span>
-            <div className="text-xl font-black text-emerald-600 mt-1">₹{wonValue.toLocaleString()}</div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t('crm.won')}</span>
+            <div className="text-xl font-black text-emerald-600 mt-1">{formatCurrency(wonValue)}</div>
           </GlassCard>
           <GlassCard variant="white" className="p-4 border-l-4 border-l-indigo-600">
-            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Active Deals</span>
-            <div className="text-xl font-black text-bloom-dark mt-1">{leads.length} Prospects</div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t('crm.totalLeads')}</span>
+            <div className="text-xl font-black text-slate-900 mt-1">{leads.length}</div>
           </GlassCard>
         </div>
 
@@ -188,7 +190,7 @@ export default function CrmModulePage() {
                         className="bg-white border border-slate-200 hover:border-purple-400 rounded-xl p-3 shadow-sm hover:shadow-md transition-all cursor-pointer space-y-2 group"
                       >
                         <div className="flex items-center justify-between">
-                          <h4 className="text-xs font-bold text-bloom-dark group-hover:text-purple-700 transition-colors truncate">{lead.company}</h4>
+                          <h4 className="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition-colors truncate">{lead.company}</h4>
                           <Badge variant="purple">{lead.score} pts</Badge>
                         </div>
                         <p className="text-[11px] text-slate-500 truncate">{lead.name}</p>
@@ -217,11 +219,11 @@ export default function CrmModulePage() {
         {/* Lead Detail & Customer 360 Modal Drawer */}
         {selectedLead && customer360 && (
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-white text-bloom-textDark w-full max-w-4xl max-h-[85vh] rounded-[28px] border border-slate-200 shadow-2xl overflow-hidden flex flex-col">
+            <div className="bg-white text-slate-900 w-full max-w-4xl max-h-[85vh] rounded-[28px] border border-slate-200 shadow-2xl overflow-hidden flex flex-col">
               <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Badge variant="purple">Customer 360 View</Badge>
-                  <h3 className="text-base font-extrabold text-bloom-dark">{customer360.customerName}</h3>
+                  <h3 className="text-base font-extrabold text-slate-900">{customer360.customerName}</h3>
                 </div>
                 <button onClick={() => setSelectedLead(null)} className="p-1 rounded-full hover:bg-slate-200 text-slate-500">
                   <X className="w-5 h-5" />
@@ -237,7 +239,7 @@ export default function CrmModulePage() {
                 {/* Related Invoices & Tickets Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <GlassCard variant="white" className="space-y-2 p-4">
-                    <h4 className="text-xs font-bold text-bloom-dark uppercase tracking-wider">Related Invoices ({customer360.invoices.length})</h4>
+                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Related Invoices ({customer360.invoices.length})</h4>
                     {customer360.invoices.map((inv) => (
                       <div key={inv.id} className="flex items-center justify-between text-xs p-2 bg-slate-50 rounded-xl border border-slate-100">
                         <span className="font-mono font-bold text-purple-700">{inv.invoiceNumber}</span>
@@ -248,7 +250,7 @@ export default function CrmModulePage() {
                   </GlassCard>
 
                   <GlassCard variant="white" className="space-y-2 p-4">
-                    <h4 className="text-xs font-bold text-bloom-dark uppercase tracking-wider">Related Support Tickets ({customer360.tickets.length})</h4>
+                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Related Support Tickets ({customer360.tickets.length})</h4>
                     {customer360.tickets.map((t) => (
                       <div key={t.id} className="flex items-center justify-between text-xs p-2 bg-slate-50 rounded-xl border border-slate-100">
                         <span className="font-mono font-bold text-cyan-700">{t.ticketNumber}</span>
@@ -268,7 +270,7 @@ export default function CrmModulePage() {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
             <form onSubmit={handleCreateLead} className="bg-white w-full max-w-md rounded-[28px] border border-slate-200 p-6 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <h3 className="text-base font-extrabold text-bloom-dark">Create New CRM Lead</h3>
+                <h3 className="text-base font-extrabold text-slate-900">Create New CRM Lead</h3>
                 <button type="button" onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -283,7 +285,7 @@ export default function CrmModulePage() {
                     value={newLeadName}
                     onChange={(e) => setNewLeadName(e.target.value)}
                     placeholder="e.g. Ramesh Kumar"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -294,7 +296,7 @@ export default function CrmModulePage() {
                     value={newLeadCompany}
                     onChange={(e) => setNewLeadCompany(e.target.value)}
                     placeholder="e.g. Reliance Tech Solutions"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -304,7 +306,7 @@ export default function CrmModulePage() {
                     value={newLeadEmail}
                     onChange={(e) => setNewLeadEmail(e.target.value)}
                     placeholder="ramesh@company.in"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -313,7 +315,7 @@ export default function CrmModulePage() {
                     type="number"
                     value={newLeadValue}
                     onChange={(e) => setNewLeadValue(Number(e.target.value))}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
               </div>

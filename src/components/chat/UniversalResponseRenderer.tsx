@@ -1,37 +1,65 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChatMessage } from '@/types';
 import { SuggestedAction, ArtifactRef } from '@/types/universalAgent';
 import { ThoughtStream } from './ThoughtStream';
 import { ActionCard } from './ActionCard';
 import { AgentLogo } from '@/components/ui/AgentLogo';
 import { artifactManager } from '@/lib/ai/artifactManager';
-import { Download, RefreshCw, AlertCircle, FileText, CheckCircle } from 'lucide-react';
-import { useAppStore } from '@/lib/store/useAppStore';
+import { MarkdownContent } from './MarkdownContent';
+import { Download, RefreshCw, FileText, Copy, Check, RotateCcw } from 'lucide-react';
 
 interface UniversalResponseRendererProps {
   message: ChatMessage;
   onSendSuggestedAction?: (query: string) => void;
+  onRetry?: () => void;
 }
 
 export const UniversalResponseRenderer: React.FC<UniversalResponseRendererProps> = ({
   message,
   onSendSuggestedAction,
+  onRetry,
 }) => {
   const isUser = message.sender === 'USER';
   const isSystem = message.sender === 'SYSTEM';
   const activeAgent = message.activeAgent || 'CEO';
+  const [copied, setCopied] = useState(false);
 
   const handleDownloadArtifact = (art: ArtifactRef) => {
     artifactManager.downloadArtifact(art);
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const formattedTime = message.timestamp
+    ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : '';
+
+  const isErrorMessage =
+    message.content.includes('error occurred') ||
+    message.content.includes('timed out') ||
+    message.content.includes('failed to respond');
+
   if (isUser) {
     return (
-      <div className="flex justify-end my-2">
+      <div className="flex flex-col items-end my-2 group">
+        <div className="flex items-center gap-1.5 mb-1 text-[10px] text-slate-400">
+          {formattedTime && <span>{formattedTime}</span>}
+          <button
+            onClick={handleCopy}
+            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-slate-200"
+            title="Copy message"
+          >
+            {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+          </button>
+        </div>
         <div className="max-w-[80%] p-3.5 rounded-2xl bg-purple-600 text-white shadow-lg text-xs leading-relaxed font-medium rounded-tr-none">
-          {message.content}
+          <p className="whitespace-pre-wrap">{message.content}</p>
         </div>
       </div>
     );
@@ -48,7 +76,7 @@ export const UniversalResponseRenderer: React.FC<UniversalResponseRendererProps>
   }
 
   return (
-    <div className="flex items-start gap-3 my-3 max-w-[95%] text-white">
+    <div className="flex items-start gap-3 my-3 max-w-[96%] text-white group">
       <AgentLogo agentId={activeAgent} size="md" glow />
 
       <div className="flex-1 space-y-2">
@@ -59,20 +87,31 @@ export const UniversalResponseRenderer: React.FC<UniversalResponseRendererProps>
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-950/80 border border-purple-800/50 text-purple-300 font-mono">
               Universal Agent Mesh
             </span>
+            {formattedTime && <span className="text-[10px] text-slate-400 font-mono">{formattedTime}</span>}
           </div>
-          {message.confidenceLevel && (
-            <span
-              className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-full border ${
-                message.confidenceLevel === 'HIGH'
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                  : message.confidenceLevel === 'MEDIUM'
-                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                  : 'bg-red-500/10 text-red-400 border-red-500/30'
-              }`}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleCopy}
+              className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-all text-[11px] flex items-center gap-1"
+              title="Copy response"
             >
-              CONFIDENCE: {message.confidenceLevel}
-            </span>
-          )}
+              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              <span className="hidden sm:inline text-[10px]">{copied ? 'Copied' : 'Copy'}</span>
+            </button>
+            {message.confidenceLevel && (
+              <span
+                className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-full border ${
+                  message.confidenceLevel === 'HIGH'
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                    : message.confidenceLevel === 'MEDIUM'
+                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                    : 'bg-red-500/10 text-red-400 border-red-500/30'
+                }`}
+              >
+                CONFIDENCE: {message.confidenceLevel}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Inter-Agent Handoff Banner */}
@@ -93,9 +132,20 @@ export const UniversalResponseRenderer: React.FC<UniversalResponseRendererProps>
           <ThoughtStream steps={message.thoughtStream} />
         )}
 
-        {/* Response Text Box */}
-        <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800/80 shadow-md text-xs text-slate-200 leading-relaxed font-sans rounded-tl-none space-y-2">
-          <p className="whitespace-pre-wrap">{message.content}</p>
+        {/* Structured Markdown Response Text Box */}
+        <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800/80 shadow-md text-xs text-slate-200 leading-relaxed font-sans rounded-tl-none">
+          <MarkdownContent content={message.content} />
+          {isErrorMessage && onRetry && (
+            <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-end">
+              <button
+                onClick={onRetry}
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Retry Request</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Action Card */}

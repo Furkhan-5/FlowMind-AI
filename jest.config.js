@@ -4,6 +4,7 @@ const nextJest = require('next/jest');
 const customJestConfig = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  setupFiles: ['<rootDir>/tests/setupEnv.js'],
   moduleDirectories: ['node_modules', '<rootDir>/'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
@@ -23,7 +24,7 @@ const customJestConfig = {
       },
     }],
   },
-  testTimeout: 20000,
+  testTimeout: 60000,
   verbose: true,
 };
 

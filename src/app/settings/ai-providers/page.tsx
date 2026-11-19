@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAppStore } from '@/lib/store/useAppStore';
+import { Navbar } from '@/components/layout/Navbar';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -215,8 +216,9 @@ export default function AiProvidersSettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-6 sm:p-10 font-sans">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans pb-16">
+      <Navbar />
+      <div className="max-w-6xl mx-auto px-6 sm:px-10 pt-6 space-y-8">
         {/* Navigation & Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
           <div>
@@ -287,7 +289,7 @@ export default function AiProvidersSettingsPage() {
             <p className="text-2xl font-black text-emerald-400">
               {telemetry && telemetry.totalRequests > 0
                 ? `${Math.round((telemetry.successfulRequests / telemetry.totalRequests) * 100)}%`
-                : '100%'}
+                : 'NO DATA'}
             </p>
             <p className="text-[10px] text-slate-400 mt-1">Zero raw prompt leaks</p>
           </GlassCard>

@@ -8,6 +8,7 @@ import { useAppStore } from '@/lib/store/useAppStore';
 import { ShieldAlert, CheckCircle2, XCircle, Edit3, Save, X, Download, FileText, Activity, AlertTriangle, ArrowRight } from 'lucide-react';
 import { AgentLogo } from '@/components/ui/AgentLogo';
 import { downloadInvoiceFile, openInvoicePreview } from '@/lib/utils/invoiceGenerator';
+import { useTranslation } from '@/lib/i18n/useTranslation';
 
 interface ActionCardProps {
   data: ActionCardData;
@@ -15,6 +16,7 @@ interface ActionCardProps {
 
 export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
   const { approveActionCard, editActionCard, cancelActionCard, addToast } = useAppStore();
+  const { t } = useTranslation();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Record<string, any>>({ ...data.details });
@@ -222,7 +224,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
               onClick={() => approveActionCard(data.id)}
               icon={<CheckCircle2 className="w-3.5 h-3.5" />}
             >
-              {data.confirmLabel || 'Approve & Execute'}
+              {data.confirmLabel || t('common.approveAndExecute') || 'Approve & Execute'}
             </Button>
 
             <Button
@@ -232,7 +234,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
               onClick={() => setIsEditing(true)}
               icon={<Edit3 className="w-3.5 h-3.5" />}
             >
-              Edit
+              {t('common.edit')}
             </Button>
 
             <Button
@@ -242,7 +244,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ data }) => {
               onClick={() => cancelActionCard(data.id)}
               icon={<XCircle className="w-3.5 h-3.5" />}
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
           </div>
 

@@ -37,6 +37,11 @@ export class MultiAgentCoordinatorService {
     for (const inv of overdueInvoices) {
       const invCust = (inv.customerName || '').toLowerCase().trim();
       const matchedTicket = openTickets.find((t) => {
+        // 1. Stable database identifier match (Primary)
+        if (inv.customerId && t.customerId && inv.customerId === t.customerId) {
+          return true;
+        }
+        // 2. Entity name normalization match (Secondary)
         const ticketCust = (t.customerName || '').toLowerCase().trim();
         return (
           ticketCust.includes(invCust) ||

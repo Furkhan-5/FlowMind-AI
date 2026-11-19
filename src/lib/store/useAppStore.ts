@@ -12,6 +12,7 @@ import {
 } from '@/types';
 import { MOCK_AGENTS, MOCK_LEADS, MOCK_INVOICES, MOCK_WORKFLOWS, MOCK_ALERTS } from '@/lib/mockData';
 import { UI_TRANSLATIONS } from '@/lib/i18n/translations';
+import { persistLanguage, getPersistedLanguage } from '@/lib/i18n/languageContextService';
 import { auditLogger } from '@/lib/security/auditLogger';
 
 interface AppState {
@@ -187,17 +188,18 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
   },
 
-  language: 'en',
+  language: typeof window !== 'undefined' ? getPersistedLanguage() : 'en',
   setLanguage: (lang) => {
+    persistLanguage(lang);
     const t = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS.en;
     set((state) => ({
       language: lang,
       messages: state.messages.map((m) => {
         if (m.id === 'MSG-01') {
-          return { ...m, content: t.welcomeSystemMsg || m.content, language: lang };
+          return { ...m, content: t['common.tagline'] || t.subTitle || m.content, language: lang };
         }
         if (m.id === 'MSG-02') {
-          return { ...m, content: t.welcomeCeoMsg || m.content, language: lang };
+          return { ...m, content: t['agents.ceo.desc'] || m.content, language: lang };
         }
         return m;
       }),

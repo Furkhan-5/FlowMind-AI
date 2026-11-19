@@ -93,7 +93,7 @@ export default function SupportModulePage() {
               <span className="text-xs text-slate-300">/</span>
               <span className="text-xs font-bold text-cyan-700">Support Helpdesk</span>
             </div>
-            <h1 className="text-2xl font-black text-bloom-dark tracking-tight flex items-center gap-2">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               <LifeBuoy className="w-6 h-6 text-cyan-600" />
               Customer Support & SLA Desk
             </h1>
@@ -111,7 +111,7 @@ export default function SupportModulePage() {
 
         {/* Tickets Queue Table */}
         <section className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-bloom space-y-4">
-          <h2 className="text-base font-extrabold text-bloom-dark">Active Support Tickets Queue ({tickets.length})</h2>
+          <h2 className="text-base font-extrabold text-slate-900">Active Support Tickets Queue ({tickets.length})</h2>
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
@@ -129,7 +129,7 @@ export default function SupportModulePage() {
                 {tickets.map((t) => (
                   <tr key={t.id} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="p-3 font-mono font-bold text-cyan-700">{t.ticketNumber}</td>
-                    <td className="p-3 font-bold text-bloom-dark">{t.customerName}</td>
+                    <td className="p-3 font-bold text-slate-900">{t.customerName}</td>
                     <td className="p-3 text-slate-700 font-semibold">{t.title}</td>
                     <td className="p-3">
                       <Badge variant={t.priority === 'CRITICAL' || t.priority === 'HIGH' ? 'warning' : 'purple'}>
@@ -156,11 +156,11 @@ export default function SupportModulePage() {
         {/* Ticket Detail Drawer Modal */}
         {selectedTicket && (
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-white text-bloom-textDark w-full max-w-2xl rounded-[28px] border border-slate-200 shadow-2xl p-6 space-y-4">
+            <div className="bg-white text-slate-900 w-full max-w-2xl rounded-[28px] border border-slate-200 shadow-2xl p-6 space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <Badge variant="cyan">{selectedTicket.ticketNumber}</Badge>
-                  <h3 className="text-base font-extrabold text-bloom-dark">{selectedTicket.title}</h3>
+                  <h3 className="text-base font-extrabold text-slate-900">{selectedTicket.title}</h3>
                 </div>
                 <button onClick={() => setSelectedTicket(null)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
@@ -185,7 +185,7 @@ export default function SupportModulePage() {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
             <form onSubmit={handleCreateTicket} className="bg-white w-full max-w-md rounded-[28px] border border-slate-200 p-6 shadow-2xl space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <h3 className="text-base font-extrabold text-bloom-dark">File New Support Ticket</h3>
+                <h3 className="text-base font-extrabold text-slate-900">File New Support Ticket</h3>
                 <button type="button" onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -200,7 +200,7 @@ export default function SupportModulePage() {
                     value={custName}
                     onChange={(e) => setCustName(e.target.value)}
                     placeholder="e.g. Acme FinTech"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -211,7 +211,7 @@ export default function SupportModulePage() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g. DAG Node Webhook Timeout"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 placeholder:text-slate-400"
                   />
                 </div>
                 <div>
@@ -219,7 +219,7 @@ export default function SupportModulePage() {
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-semibold mt-1"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold mt-1"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -234,7 +234,7 @@ export default function SupportModulePage() {
                     value={desc}
                     onChange={(e) => setDesc(e.target.value)}
                     placeholder="Describe issue symptoms..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-bloom-dark font-medium mt-1 h-20"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-medium mt-1 h-20 placeholder:text-slate-400"
                   />
                 </div>
               </div>

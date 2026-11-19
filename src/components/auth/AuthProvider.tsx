@@ -42,11 +42,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             <span>FlowMind AI Operating System</span>
           </div>
 
-          <h3 className="text-xl font-black text-slate-900 tracking-tight">
+          <h3 className="text-xl font-black text-white tracking-tight">
             {isAuthChecking ? 'Authenticating Session...' : 'Redirecting to Login...'}
           </h3>
 
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
             <Loader2 className="w-4 h-4 text-purple-600 animate-spin" />
             <span>Validating enterprise 256-bit JWT credentials...</span>
           </div>

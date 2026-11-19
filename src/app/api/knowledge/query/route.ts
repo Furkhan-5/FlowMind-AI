@@ -3,6 +3,9 @@ import { ragService } from '@/lib/services/ragService';
 import { getCurrentUserFromSession } from '@/lib/auth/session';
 import { User, UserRole } from '@/types';
 
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getCurrentUserFromSession();

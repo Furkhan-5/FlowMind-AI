@@ -20,7 +20,7 @@ function ResetPasswordForm() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    const queryToken = searchParams.get('token');
+    const queryToken = searchParams?.get('token');
     if (queryToken) {
       setToken(queryToken);
     }
